@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Diagnostics;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 characterPosition;
     private List<Vector3> pathFindingList;
     private Boolean isMoving;
+    public Animator animator;
     void Start()
     {
         isMoving = false;
@@ -50,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     {
         pathFindingList = null;
         isMoving = false;
+        animator.SetFloat("Speed", 0);
     }
 
     void FixedUpdate()
@@ -60,6 +63,11 @@ public class PlayerMovement : MonoBehaviour
             targetPosition = new Vector3(tempTargetPosition.x, tempTargetPosition.y, GetPositon().z);
             if (GetPositon() != targetPosition)
             {
+                Vector3 moveDir = (targetPosition - transform.parent.position).normalized;
+                Vector2 moveDirV2 = moveDir;
+                animator.SetFloat("Horizontal", moveDir.x);
+                animator.SetFloat("Vertical", moveDir.y);
+                animator.SetFloat("Speed", moveDirV2.sqrMagnitude);
                 transform.parent.position = Vector3.MoveTowards(transform.parent.position, targetPosition, moveSpeed * Time.deltaTime);
             }
             else
