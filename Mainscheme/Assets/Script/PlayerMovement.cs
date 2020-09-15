@@ -1,5 +1,4 @@
-﻿using CodeMonkey.Utils;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && (isMoving == false))
         {
-            SetCharacterPosition(UtilsClass.GetMouseWorldPosition());
+            SetCharacterPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
     }
 
