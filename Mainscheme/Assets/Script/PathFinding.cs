@@ -24,7 +24,7 @@ public class PathFinding
         grid = new Grid<PathNode>(width, height, cellSize, (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, int movementCost)
+    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, int movementCost = -1)
     {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
@@ -51,7 +51,7 @@ public class PathFinding
         }
     }
 
-    public List<PathNode> FindPath(int startX, int startY, int endX, int endY, int movementCost)
+    public List<PathNode> FindPath(int startX, int startY, int endX, int endY, int movementCost = -1)
     {
         PathNode startNode = grid.GetGridObject(startX, startY);
         PathNode endNode = grid.GetGridObject(endX, endY);
@@ -147,7 +147,7 @@ public class PathFinding
         return grid;
     }
 
-    private List<PathNode> CalculatePathNodes(PathNode endNode, int movementCost)
+    private List<PathNode> CalculatePathNodes(PathNode endNode, int movementCost = -1)
     {
         List<PathNode> finalPath = new List<PathNode>();
         finalPath.Add(endNode);
@@ -155,15 +155,19 @@ public class PathFinding
         while (currentNode.cameFromNode != null)
         {
             finalPath.Add(currentNode.cameFromNode);
-            movementCost -= currentNode.tileValue;
+            if (movementCost != -1)
+            {
+                movementCost -= currentNode.tileValue;
+            }
             currentNode = currentNode.cameFromNode;
         }
-        if (movementCost < 0)
+        if (movementCost < 0 && movementCost != -1)
         {
             Debug.Log("Out of movement cost...");
             return null;
         }
-        Debug.Log("Remaining Movement Cost: " + movementCost);
+        if (movementCost != -1)
+            Debug.Log("Remaining Movement Cost: " + movementCost);
 
         finalPath.Reverse();
         return finalPath;
