@@ -14,7 +14,7 @@ public class BaseGrid : MonoBehaviour
     private PathFinding pathfinding;
     private BoundsInt bounds;
     public static BaseGrid Instance { get; private set; }
-    private void Awake()
+    private void Start()
     {
         Instance = this;
         tilemap = GetComponent<Tilemap>();

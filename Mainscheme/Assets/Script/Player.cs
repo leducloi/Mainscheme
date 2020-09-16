@@ -14,9 +14,13 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && (player.GetIsMoving() == false))
+        if (GameManager.instance.playerPhase)
         {
-            player.SetCharacterPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            if (Input.GetMouseButtonDown(0) && (player.GetIsMoving() == false))
+            {
+                player.SetCharacterPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            }
         }
+        
     }
 }

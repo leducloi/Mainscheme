@@ -19,7 +19,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        pathFinding = BaseGrid.Instance.GetPathFinding();
+        pathFinding = GameManager.instance.grid.GetPathFinding();
         isMoving = false;
         characterPosition = transform.parent.position;
         targetPosition = new Vector3(characterPosition.x, characterPosition.y);
