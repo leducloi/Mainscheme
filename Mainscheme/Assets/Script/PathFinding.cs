@@ -24,13 +24,13 @@ public class PathFinding
         grid = new Grid<PathNode>(width, height, cellSize, (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
+    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, int movementCost)
     {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
         if (endX >= 0 && endY >= 0 && endX < width && endY < height)
         {
-            List<PathNode> path = FindPath(startX, startY, endX, endY);
+            List<PathNode> path = FindPath(startX, startY, endX, endY, movementCost);
             if (path == null)
             {
                 return null;
@@ -51,7 +51,7 @@ public class PathFinding
         }
     }
 
-    public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+    public List<PathNode> FindPath(int startX, int startY, int endX, int endY, int movementCost)
     {
         PathNode startNode = grid.GetGridObject(startX, startY);
         PathNode endNode = grid.GetGridObject(endX, endY);
@@ -69,7 +69,11 @@ public class PathFinding
             PathNode currentNode = GetLowestFCostNode(openList);
             if (currentNode == endNode)
             {
-                return CalculatePathNodes(endNode);
+                List<PathNode> tempPath = CalculatePathNodes(endNode, movementCost);
+                if (tempPath != null)
+                {
+                    return tempPath;
+                }
             }
 
             openList.Remove(currentNode);
@@ -82,7 +86,8 @@ public class PathFinding
                 {
                     if (!neighbor.isBlocked)
                     {
-                        int newGCost = currentNode.gCost + CalculateDistance(currentNode, neighbor);
+                        int newGCost = currentNode.gCost + CalculateGDistance(currentNode, neighbor);
+                         
                         if (newGCost < neighbor.gCost)
                         {
                             neighbor.cameFromNode = currentNode;
@@ -142,7 +147,7 @@ public class PathFinding
         return grid;
     }
 
-    private List<PathNode> CalculatePathNodes(PathNode endNode)
+    private List<PathNode> CalculatePathNodes(PathNode endNode, int movementCost)
     {
         List<PathNode> finalPath = new List<PathNode>();
         finalPath.Add(endNode);
@@ -150,8 +155,15 @@ public class PathFinding
         while (currentNode.cameFromNode != null)
         {
             finalPath.Add(currentNode.cameFromNode);
+            movementCost -= currentNode.tileValue;
             currentNode = currentNode.cameFromNode;
         }
+        if (movementCost < 0)
+        {
+            Debug.Log("Out of movement cost...");
+            return null;
+        }
+        Debug.Log("Remaining Movement Cost: " + movementCost);
 
         finalPath.Reverse();
         return finalPath;
@@ -176,6 +188,23 @@ public class PathFinding
         int xDistance = Mathf.Abs(start.x - end.x);
         int yDistance = Mathf.Abs(start.y - end.y);
         int cost = MOVE_STRAIGHT_COST * (xDistance + yDistance);
+        return cost;
+    }
+
+    private int CalculateGDistance(PathNode start, PathNode end)
+    {
+        int xDistance = Mathf.Abs(start.x - end.x);
+        int yDistance = Mathf.Abs(start.y - end.y);
+        int cost;
+        if (end.tileValue != 1)
+        {
+            cost = MOVE_STRAIGHT_COST * (xDistance + yDistance + end.tileValue);
+        }
+        else
+        {
+            cost = MOVE_STRAIGHT_COST * (xDistance + yDistance);
+        }
+        
         return cost;
     }
 

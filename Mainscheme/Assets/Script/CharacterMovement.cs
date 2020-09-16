@@ -5,30 +5,34 @@ using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.EventSystems;
 
-public class PlayerMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviour
 {
     public float moveSpeed = 10f;
     Vector3 targetPosition;
     private int currentIndex;
     private Vector3 characterPosition;
     private List<Vector3> pathFindingList;
+    private PathFinding pathFinding;
     private Boolean isMoving;
     public Animator animator;
+    private int movementCost;
+
     void Start()
     {
+        pathFinding = BaseGrid.Instance.GetPathFinding();
         isMoving = false;
         characterPosition = transform.parent.position;
         targetPosition = new Vector3(characterPosition.x, characterPosition.y);
         Debug.Log(transform.position.x + " " + transform.position.y);
     }
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && (isMoving == false))
-        {
-            SetCharacterPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetMouseButtonDown(0) && (isMoving == false))
+    //    {
+    //        SetCharacterPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+    //    }
+    //}
 
     public Vector3 GetPositon()
     {
@@ -39,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     {
         currentIndex = 0;
         targetPosition = toPosition;
-        pathFindingList = PathFinding.Instance.FindPath(GetPositon(), targetPosition);
+        pathFindingList = PathFinding.Instance.FindPath(GetPositon(), targetPosition, movementCost);
         if (pathFindingList != null && pathFindingList.Count > 1)
         {
             isMoving = true;
@@ -47,11 +51,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetMovementCost(int movementCost)
+    {
+        this.movementCost = movementCost;
+    }
+
     private void StopMovement()
     {
         pathFindingList = null;
         isMoving = false;
         animator.SetFloat("Speed", 0);
+    }
+
+    public bool GetIsMoving()
+    {
+        return isMoving;
     }
 
     void FixedUpdate()

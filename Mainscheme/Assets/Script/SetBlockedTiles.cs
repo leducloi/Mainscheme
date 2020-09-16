@@ -11,6 +11,7 @@ public static class SetBlockedTiles
     {
         allNOTBlockedTiles = new List<String>();
         allNOTBlockedTiles.Add("grass_tile_1");
+        allNOTBlockedTiles.Add("sand_tile");
     }
 
     public static Boolean CheckBlockedTile(String checkTileName)

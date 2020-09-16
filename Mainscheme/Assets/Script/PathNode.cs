@@ -15,6 +15,7 @@ public class PathNode
 
     public PathNode cameFromNode;
     public Boolean isBlocked;
+    public int tileValue;
 
     public PathNode(Grid<PathNode> grid, int x, int y)
     {
@@ -22,17 +23,27 @@ public class PathNode
         this.x = x;
         this.y = y;
         this.isBlocked = false;
+        this.tileValue = 1;
     }
 
-    public void CalculateFCost()
+    public PathNode CalculateFCost()
     {
         fCost = gCost + hCost;
+        return this;
     }
 
-    public void SetIsBlocked(Boolean isBlocked)
+    public PathNode SetIsBlocked(Boolean isBlocked)
     {
         this.isBlocked = isBlocked;
         grid.TriggerGridObjectChanged(x, y);
+        return this;
+    }
+
+    public PathNode SetTileValueNode(int tileValue)
+    {
+        this.tileValue = tileValue;
+        grid.TriggerGridObjectChanged(x, y);
+        return this;
     }
 
     public override string ToString()

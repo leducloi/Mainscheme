@@ -13,8 +13,10 @@ public class BaseGrid : MonoBehaviour
     TileBase[] allTiles;
     private PathFinding pathfinding;
     private BoundsInt bounds;
+    public static BaseGrid Instance { get; private set; }
     private void Awake()
     {
+        Instance = this;
         tilemap = GetComponent<Tilemap>();
 
         bounds = tilemap.cellBounds;
@@ -39,9 +41,14 @@ public class BaseGrid : MonoBehaviour
                 if (tile != null)
                 {
                     Boolean isBlocked = SetBlockedTiles.CheckBlockedTile(tile.name);
+                    PathNode node = pathfinding.GetNode(x, y);
                     if (SetBlockedTiles.CheckBlockedTile(tile.name))
                     {
-                        pathfinding.GetNode(x, y).SetIsBlocked(isBlocked);
+                        node.SetIsBlocked(isBlocked);
+                    }
+                    else
+                    {
+                        node.SetTileValueNode(TileValue.GetTileValue(tile.name));
                     }
                 }
                 else
