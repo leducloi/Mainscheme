@@ -24,7 +24,7 @@ public class PathFinding
         grid = new Grid<PathNode>(width, height, cellSize, (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, int movementCost = -1)
+    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, int? movementCost = null)
     {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
@@ -51,7 +51,7 @@ public class PathFinding
         }
     }
 
-    public List<PathNode> FindPath(int startX, int startY, int endX, int endY, int movementCost = -1)
+    public List<PathNode> FindPath(int startX, int startY, int endX, int endY, int? movementCost = null)
     {
         PathNode startNode = grid.GetGridObject(startX, startY);
         PathNode endNode = grid.GetGridObject(endX, endY);
@@ -147,7 +147,7 @@ public class PathFinding
         return grid;
     }
 
-    private List<PathNode> CalculatePathNodes(PathNode endNode, int movementCost = -1)
+    private List<PathNode> CalculatePathNodes(PathNode endNode, int? movementCost = null)
     {
         List<PathNode> finalPath = new List<PathNode>();
         finalPath.Add(endNode);
@@ -155,19 +155,17 @@ public class PathFinding
         while (currentNode.cameFromNode != null)
         {
             finalPath.Add(currentNode.cameFromNode);
-            if (movementCost != -1)
-            {
+            if (movementCost != null)
                 movementCost -= currentNode.tileValue;
-            }
             currentNode = currentNode.cameFromNode;
         }
-        if (movementCost < 0 && movementCost != -1)
+        if (movementCost < 0 && movementCost != null)
         {
-            Debug.Log("Out of movement cost...");
+            //Debug.Log("Out of movement cost...");
             return null;
         }
-        if (movementCost != -1)
-            Debug.Log("Remaining Movement Cost: " + movementCost);
+        //if (movementCost != null)
+        //    Debug.Log("Remaining Movement Cost: " + movementCost);
 
         finalPath.Reverse();
         return finalPath;

@@ -16,6 +16,7 @@ public class CharacterMovement : MonoBehaviour
     private Boolean isMoving;
     public Animator animator;
     private int movementCost;
+    private Vector2 faceDirection;
 
     void Start()
     {
@@ -23,7 +24,7 @@ public class CharacterMovement : MonoBehaviour
         isMoving = false;
         characterPosition = transform.parent.position;
         targetPosition = new Vector3(characterPosition.x, characterPosition.y);
-        Debug.Log(transform.position.x + " " + transform.position.y);
+        //Debug.Log(transform.position.x + " " + transform.position.y);
     }
 
     //void Update()
@@ -78,6 +79,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 Vector3 moveDir = (targetPosition - transform.parent.position).normalized;
                 Vector2 moveDirV2 = moveDir;
+                faceDirection = moveDirV2;
                 animator.SetFloat("Horizontal", moveDir.x);
                 animator.SetFloat("Vertical", moveDir.y);
                 animator.SetFloat("Speed", moveDirV2.sqrMagnitude);
@@ -92,5 +94,10 @@ public class CharacterMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Vector2 GetFaceDirection()
+    {
+        return faceDirection;
     }
 }
