@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private CharacterMovement player;
     public int movementCost = 10;
+    private bool isDetected = false;
 
     private void Start()
     {
@@ -18,5 +19,10 @@ public class Player : MonoBehaviour
         {
             player.SetCharacterPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
+    }
+
+    public void SetDetected(bool isDetected)
+    {
+        this.isDetected = isDetected;
     }
 }

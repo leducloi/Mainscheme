@@ -8,7 +8,7 @@ public class WorldMap : MonoBehaviour
     private BaseGrid baseGrid;
     private void Start()
     {
-        //pathFinding = baseGrid.GetPathFinding();
+
     }
 
     private void Update()

@@ -63,4 +63,9 @@ public class BaseGrid : MonoBehaviour
     {
         return pathfinding;
     }
+
+    public float GetCellSize()
+    {
+        return cellSize;
+    }
 }
