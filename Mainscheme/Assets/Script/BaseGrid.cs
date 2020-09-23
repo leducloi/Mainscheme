@@ -59,6 +59,13 @@ public class BaseGrid : MonoBehaviour
         }
     }
 
+    public void GetXY(Vector3 worldPosition, out int x, out int y)
+    {
+        x = Mathf.FloorToInt(worldPosition.x / cellSize);
+        y = Mathf.FloorToInt(worldPosition.y / cellSize);
+        
+    }
+
     public PathFinding GetPathFinding()
     {
         return pathfinding;
@@ -67,5 +74,15 @@ public class BaseGrid : MonoBehaviour
     public float GetCellSize()
     {
         return cellSize;
+    }
+
+    public float GetHeight()
+    {
+        return height;
+    }
+
+    public float GetWidth()
+    {
+        return width;
     }
 }

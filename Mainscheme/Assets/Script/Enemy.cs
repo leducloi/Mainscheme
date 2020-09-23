@@ -36,7 +36,6 @@ public class Enemy : MonoBehaviour
         enemy.SetMovementCost(movementCost);
         realCastDistance = castDistance * BaseGrid.Instance.GetCellSize() + BaseGrid.Instance.GetCellSize()/2;
         allPlayers = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log(realCastDistance);
         if (!staticEnemy)
         {
             numberOfPatternChild = patternParentObject.transform.childCount;
@@ -57,11 +56,6 @@ public class Enemy : MonoBehaviour
         {
             BackToDefault();
         }
-    }
-
-    private void FixedUpdate()
-    {
-        
     }
 
     private void TriggerDetectPlayer()
