@@ -14,8 +14,6 @@ public class MapManager : MonoBehaviour
 {
     //Contains all the maps of the game
     public GameObject[] mapList;
-    public GameObject[] playerUnits;
-    public GameObject[] enemyUnits;
 
     //Called by GameManager to load in a new map
     public void loadMap(int mapNumber)

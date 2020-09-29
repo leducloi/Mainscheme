@@ -75,6 +75,7 @@ public class MapBehavior : MonoBehaviour
         return null;
     }
 
+    //TODO - Mark tiles with enemies on them as impassible
     private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int movementLeft, List<CollisionTile> currentPath)
     {
         //If our destination is invalid, just return out

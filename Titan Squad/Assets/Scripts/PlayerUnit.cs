@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class PlayerUnit : Unit
 {
-    private Animator animator;
     private bool canMove;
     private int movement;
     private float moveSpeed = 5f;
 
-
-    public Transform movePoint;
-
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        movePoint.SetParent(null);
-        animator = GetComponent<Animator>();
         movement = 5;
         canMove = false;
+        base.Start();
     }
 
     //Trigger to detect when a player is clicked
@@ -43,17 +38,26 @@ public class PlayerUnit : Unit
     // Update is called once per frame
     void Update()
     {
+        //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
+        if (GameManager.instance.enemyPhase)
+            hasTurn = true;
+        hasTurn = true;
         //We always want the character to be moving towards the spot they're supposed to be at, represented by the movePoint
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
-        //If we're allowed to move, on a mouse click we move to that position
-        if (canMove)
+        if (GameManager.instance.playerPhase && hasTurn)
         {
-            if (Input.GetMouseButtonDown(0))
+            //If we're allowed to move, on a mouse click we move to that position
+            if (canMove)
             {
-                move();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    move();
+                }
+                
             }
         }
+        
     }
 
     override
@@ -69,6 +73,7 @@ public class PlayerUnit : Unit
         StartCoroutine(moveAlongPath(path));
     }
 
+    //This coroutine is to move the movePoint along the path for the sprite to follow
     private IEnumerator moveAlongPath(CollisionTile[] path)
     {
         int index = 0;
@@ -91,8 +96,11 @@ public class PlayerUnit : Unit
             //So we don't infinite loop, we pause this coroutine at the end of each iteration
             yield return null;
         }
+        while (Vector3.Distance(transform.position, movePoint.position) != 0)
+            yield return null;
         //Once we've moved, we stop the moving animation
         animator.SetTrigger("Stopped");
+        hasTurn = false;
         yield return null;
     }
 
