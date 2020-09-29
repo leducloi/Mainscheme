@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class PlayerUnit : Unit
 {
-    private Animator animator;
     private bool canMove;
     private int movement;
     private float moveSpeed = 5f;
 
-
-    public Transform movePoint;
-
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        movePoint.SetParent(null);
-        animator = GetComponent<Animator>();
         movement = 5;
         canMove = false;
+        base.Start();
     }
 
     //Trigger to detect when a player is clicked

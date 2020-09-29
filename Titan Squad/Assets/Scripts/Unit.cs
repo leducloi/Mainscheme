@@ -4,11 +4,14 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    protected Vector3 coordinates;
+    protected Animator animator;
+    public Transform movePoint;
+
     // Start is called before the first frame update
-    void Start()
+    virtual protected void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        movePoint.SetParent(null);
     }
 
     // Update is called once per frame
