@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerUnit : Unit
 {
     private bool canMove;
+    [SerializeField]
     private int movement;
     private float moveSpeed = 5f;
 
