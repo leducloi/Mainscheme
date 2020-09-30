@@ -21,8 +21,18 @@ public class CollisionTile
     public int tileCost;
     //Tile Dodge: This is the bonus the tile gives to an occupying unit's dodge chance
     public int tileDodge;
+    //Tile isWalkable: By default, every tile is walkable
+    public bool isWalkable = true;
     //X: The x and y coordinates of the tile
     public Vector3 coordinate;
+
+    //Use for A* algorithm
+    public int gCost;
+    public int fCost;
+    public int hCost;
+    //Connect a tile to the previous tile where it is from
+    public CollisionTile cameFromTile;
+
 
     //These static variables hold the names of tiles that occupy the same categorical tile type
     private static string[] grassTiles = {"TilesetExample_6", "TilesetExample_7", "TilesetExample_15", "TilesetExample_16",
@@ -62,8 +72,15 @@ public class CollisionTile
 
         //Tiles not in a category are simply marked impassible.
         tileType = "Impassible";
+        isWalkable = false;
         tileCost = 99;
         tileDodge = 0;
+    }
+
+    public CollisionTile calculateFCost()
+    {
+        fCost = hCost + gCost;
+        return this;
     }
 
     public string toString()
