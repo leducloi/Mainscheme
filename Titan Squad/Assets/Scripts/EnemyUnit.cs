@@ -62,9 +62,15 @@ public class EnemyUnit : Unit
     //WIP - Will move a unit along a patrol path
     IEnumerator moveAlongPatrol()
     {
+        //Grab the start of our move
+        Vector3 start = transform.position;
+
         animator.SetTrigger("Walking");
         yield return new WaitForSeconds(1f);
         animator.SetTrigger("Stopped");
+
+        //Update tiles for collision
+        MapBehavior.instance.unitMoved(start, transform.position);
         hasTurn = false;
     }
 

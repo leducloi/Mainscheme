@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.WebSockets;
+using System.Xml.XPath;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,7 +22,7 @@ public class MapBehavior : MonoBehaviour
     private CollisionMap map;
     public static MapBehavior instance = null;
     public Grid grid;
-    
+    private const int MOVE_STRAIGHT_COST = 10;
     private Vector3 coordOffset;
 
     // Start is called before the first frame update
@@ -55,18 +57,24 @@ public class MapBehavior : MonoBehaviour
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
     }
 
+    //Call this method at the end of every move command
+    public void unitMoved(Vector3 start, Vector3 destination)
+    {
+        map.updateUnitLocation(start, destination, GameManager.instance.playerPhase);
+    }
+
     public CollisionTile[] getPathTo(Vector3 currPos, Vector3 tile, int movement)
     {
         //Get the start and destination tiles
-        CollisionTile destination = getTileAtPos(tile, true);
-        CollisionTile start = getTileAtPos(currPos, true);
+        CollisionTile destination = getTileAtPos(tile);
+        CollisionTile start = getTileAtPos(currPos);
 
         //Our variable to hold our created path
         //We use a List here since it is easier to add to it
         List<CollisionTile> path = new List<CollisionTile>();
         
         //Call our recursive pathfinding method
-        path = getPath(ref start, ref destination, movement, path);
+        path = getPath(ref start, ref destination, movement);
 
         //If the path we created was valid, turn it into an array and return it
         if (path != null)
@@ -76,121 +84,182 @@ public class MapBehavior : MonoBehaviour
     }
 
     //TODO - Mark tiles with enemies on them as impassible
-    private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int movementLeft, List<CollisionTile> currentPath)
+    private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null)
     {
-        //If our destination is invalid, just return out
-        if (destination == null)
+        //check if destination is a valid, unoccupied tile
+        if (destination == null || destination.hasEnemy || destination.hasPlayer || !destination.passable)
+        {
             return null;
-
-        //Add the current tile to the path
-        currentPath.Add(currPos);
-        //If we didn't have enough movement to get here, this is not a valid path
-        if (movementLeft < 0)
-            return null;
-        //If we've reached our destination, return our path
-        if (currPos.Equals(destination))
-            return currentPath;
-        //If we've run out of movement instead, then return null for a failed path
-        if (movementLeft == 0)
-            return null;
-
-        //Set up our possible paths
-        List<CollisionTile> path1 = null;
-        List<CollisionTile> path2 = null;
-        List<CollisionTile> path3 = null;
-        List<CollisionTile> path4 = null;
-
-        //If we're here, we still have movement and we've not reached our destination. We must now check all adjacent tiles
-        CollisionTile E = getTileAtPos(currPos.coordinate + new Vector3(1, 0, 0), false); //Tile to the East
-        CollisionTile W = getTileAtPos(currPos.coordinate + new Vector3(-1, 0, 0), false); //Tile to the West
-        CollisionTile N = getTileAtPos(currPos.coordinate + new Vector3(0, 1, 0), false); //Tile to the North
-        CollisionTile S = getTileAtPos(currPos.coordinate + new Vector3(0, -1, 0), false); //Tile to the South
-
-        //If the tile is non-null, traverse along the path
-        if (E != null)
-        {
-            //Get how much movement is remaining
-            int remainder = movementLeft - E.tileCost;
-            //We need to create a new list identical to currentPath so that other paths don't add to the same list
-            //Instead of setting a new pointer to the list, copy the contents
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
-            //Have path1 store the results of the first created path
-            path1 = getPath(ref E, ref destination, remainder, temp);
-        }
-        if (W != null)
-        {
-            int remainder = movementLeft - W.tileCost;
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
-            path2 = getPath(ref W, ref destination, remainder, temp);
-        }
-        if (N != null)
-        {
-            int remainder = movementLeft - N.tileCost;
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
-            path3 = getPath(ref N, ref destination, remainder, temp);
-        }
-        if (S != null)
-        {
-            int remainder = movementLeft - S.tileCost;
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
-            path4 = getPath(ref S, ref destination, remainder, temp);
         }
 
-        //Now we need to find which is the shortest path
-        int path1Len = 99, path2Len = 99, path3Len = 99, path4Len = 99;
-        //Get the cost of each path
-        if (path1 != null)
+        //openList is List of tiles that is actively being looked for path
+        //closeList is List of tiles that has already been checked 
+        List<CollisionTile> openList = new List<CollisionTile>();
+        List<CollisionTile> closeList = new List<CollisionTile>();
+
+        initializeAllCollisionTiles();
+
+        //initialize starting tile and ending tile;
+        CollisionTile startTile = currPos;
+        CollisionTile endTile = destination;
+        openList.Add(startTile);
+
+        //starting tile will have gCost of 0 => Find hCost and fCost
+        startTile.gCost = 0;
+        startTile.hCost = calculateDistance(startTile, endTile);
+        startTile.calculateFCost();
+
+        //finding shortest path using A* algorithm
+        while (openList.Count > 0)
         {
-            path1Len = 0;
-            foreach (CollisionTile tile in path1)
-                path1Len += tile.tileCost;
-        }
-        if (path2 != null)
-        {
-            path2Len = 0;
-            foreach (CollisionTile tile in path2)
-                path2Len += tile.tileCost;
-        }
-        if (path3 != null)
-        {
-            path3Len = 0;
-            foreach (CollisionTile tile in path3)
-                path3Len += tile.tileCost;
-        }
-        if (path4 != null)
-        {
-            path4Len = 0;
-            foreach (CollisionTile tile in path4)
-                path4Len += tile.tileCost;
+            //get tile that has lowest fCost (the closet to the end tile)
+            CollisionTile currentTile = getLowestFCost(openList);
+            //when the current tile is the end tile => end the method
+            if (currentTile == endTile)
+            {
+                List<CollisionTile> path = calculatePath(endTile, movementCost);
+                return path;
+            }
+
+            //tile is already checked => Remove from openList and Add to closeList
+            openList.Remove(currentTile);
+            closeList.Add(currentTile);
+
+            //find all neighbors of current tile
+            List<CollisionTile> allNeighborTiles = findNeighborTiles(currentTile);
+            foreach(CollisionTile eachNeighbor in allNeighborTiles)
+            {
+                //check if the tile is already checked out
+                if (!closeList.Contains(eachNeighbor))
+                {
+                    int newGCost = currentTile.gCost + calculateGCostDistance(currentTile, eachNeighbor);
+                    //check if tile is walkable
+                    if (eachNeighbor.isWalkable())
+                    {
+                        Debug.Log(eachNeighbor.toString() + " is walkable");
+                        if (newGCost < eachNeighbor.gCost)
+                        {
+                            //this tile is potentially closer to the end tile
+                            eachNeighbor.cameFromTile = currentTile;
+                            eachNeighbor.gCost = newGCost;
+                            eachNeighbor.hCost = calculateDistance(eachNeighbor, endTile);
+                            eachNeighbor.calculateFCost();
+                            if (!openList.Contains(eachNeighbor))
+                            {
+                                //check in the tile
+                                openList.Add(eachNeighbor);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //check out the tile
+                        closeList.Add(eachNeighbor);
+                    }
+                }
+            }
         }
 
-        //Retrieve the length of the shortest path
-        int shortestPathLength = Mathf.Min(path1Len, path2Len); ;
-        shortestPathLength = Mathf.Min(shortestPathLength, path3Len);
-        shortestPathLength = Mathf.Min(shortestPathLength, path4Len);
-
-        //Return the path that has the shortest length
-        if (path1 != null && path1Len == shortestPathLength)
-            return path1;
-        if (path2 != null && path2Len == shortestPathLength)
-            return path2;
-        if (path3 != null && path3Len == shortestPathLength)
-            return path3;
-        //If all paths are either null or not the shortest path, even if path4 is null it is the returned path
-        //Returning null here means no path is valid
-        return path4;
+        return null;
 
     }
 
-    public CollisionTile getTileAtPos(Vector3 coord, bool isMouse)
+    private int calculateDistance(CollisionTile startTile, CollisionTile endTile)
+    {
+        //guessing distance from a tile to another
+        int xDistance = (int)Mathf.Abs(startTile.coordinate.x - endTile.coordinate.x);
+        int yDistance = (int)Mathf.Abs(startTile.coordinate.y - endTile.coordinate.y);
+        int cost = MOVE_STRAIGHT_COST * (xDistance + yDistance);
+        return cost;
+    }
+
+    private int calculateGCostDistance(CollisionTile startTile, CollisionTile endTile)
+    {
+        //calculate gCost when tile has tile cost
+        int xDistance = (int)Mathf.Abs(startTile.coordinate.x - endTile.coordinate.x);
+        int yDistance = (int)Mathf.Abs(startTile.coordinate.y - endTile.coordinate.y);
+        int cost = MOVE_STRAIGHT_COST * (xDistance + yDistance);
+        if (endTile.tileCost != 1)
+        {
+            cost = MOVE_STRAIGHT_COST * (xDistance + yDistance + endTile.tileCost);
+        }
+        return cost;
+    }
+
+    private List<CollisionTile> findNeighborTiles(CollisionTile currentTile)
+    {
+        //Getting neighbors of a tile and add into a list of all neighbors
+        List<CollisionTile> allNeighborTiles = new List<CollisionTile>();
+        CollisionTile E = getTileAtPos(currentTile.coordinate + new Vector3(1, 0, 0)); //Tile to the East
+        CollisionTile W = getTileAtPos(currentTile.coordinate + new Vector3(-1, 0, 0)); //Tile to the West
+        CollisionTile N = getTileAtPos(currentTile.coordinate + new Vector3(0, 1, 0)); //Tile to the North
+        CollisionTile S = getTileAtPos(currentTile.coordinate + new Vector3(0, -1, 0)); //Tile to the South
+        if (E != null)
+            allNeighborTiles.Add(E);
+        if (W != null)
+            allNeighborTiles.Add(W);
+        if (N != null)
+            allNeighborTiles.Add(N);
+        if (S != null)
+            allNeighborTiles.Add(S);
+        return allNeighborTiles;
+    }
+
+    private void initializeAllCollisionTiles()
+    {
+        //Set all tiles with infinite value of gCost
+        CollisionTile[] allTiles = map.map;
+        for (int i = 0; i < allTiles.Length; i++)
+        {
+            CollisionTile eachTile = allTiles[i];
+            eachTile.gCost = int.MaxValue;
+            eachTile.calculateFCost();
+            eachTile.cameFromTile = null;
+        }
+    }
+
+    private List<CollisionTile> calculatePath(CollisionTile endTile, int? movementCost = null)
+    {
+        //Trace the path using cameFromTile, each tile connected to previous node.
+        List<CollisionTile> finalPath = new List<CollisionTile>();
+        finalPath.Add(endTile);
+        CollisionTile currentTile = endTile;
+        while(currentTile.cameFromTile != null)
+        {
+            finalPath.Add(currentTile.cameFromTile);
+            //Reduce movement cost by tile cost
+            if (movementCost != null)
+            {
+                movementCost -= currentTile.tileCost;
+            }
+            currentTile = currentTile.cameFromTile;
+        }
+        //when out of movement cost
+        if (movementCost < 0 && movementCost != null)
+            return null; 
+        finalPath.Reverse();
+        return finalPath;
+    }
+
+    private CollisionTile getLowestFCost(List<CollisionTile> checkCollisionTiles)
+    {
+        //Basic finiding lowest number in a List
+        int lowestFCost = checkCollisionTiles[0].fCost;
+        CollisionTile lowestFCostTile = checkCollisionTiles[0];
+        for (int i = 1; i < checkCollisionTiles.Count; i++)
+        {
+            int currentFCost = checkCollisionTiles[i].fCost;
+            if (currentFCost < lowestFCost)
+            {
+                lowestFCost = currentFCost;
+                lowestFCostTile = checkCollisionTiles[i];
+            }
+        }
+
+        return lowestFCostTile;
+    }
+
+    public CollisionTile getTileAtPos(Vector3 coord)
     {
         //Grab the true position in reference to the grid
         Vector3 truePos = grid.WorldToCell(coord);

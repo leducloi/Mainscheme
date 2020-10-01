@@ -24,6 +24,21 @@ public class CollisionTile
     //X: The x and y coordinates of the tile
     public Vector3 coordinate;
 
+    //Bools to track what tiles contain units
+    public bool hasEnemy;
+    public bool hasPlayer;
+
+    //Bool to track if the tile can be walked on - default true
+    public bool passable = true;
+
+    //Use for A* algorithm
+    public int gCost;
+    public int fCost;
+    public int hCost;
+    //Connect a tile to the previous tile where it is from
+    public CollisionTile cameFromTile;
+
+
     //These static variables hold the names of tiles that occupy the same categorical tile type
     private static string[] grassTiles = {"TilesetExample_6", "TilesetExample_7", "TilesetExample_15", "TilesetExample_16",
                                             "TilesetExample_38"};
@@ -35,6 +50,8 @@ public class CollisionTile
     public CollisionTile(string tileName, float tileX, float tileY)
     {
         coordinate = new Vector3(tileX, tileY, 0);
+        hasEnemy = false;
+        hasPlayer = false;
 
         //If the tile is a Grasslands tile, set its statistics to that of grasslands
         foreach (string name in grassTiles)
@@ -62,8 +79,27 @@ public class CollisionTile
 
         //Tiles not in a category are simply marked impassible.
         tileType = "Impassible";
+        passable = false;
         tileCost = 99;
         tileDodge = 0;
+    }
+
+    public bool isWalkable()
+    {
+        if (passable)
+        {
+            if (GameManager.instance.enemyPhase)
+                return !hasPlayer;
+            if (GameManager.instance.playerPhase)
+                return !hasEnemy;
+        }
+        return false;        
+    }
+
+    public CollisionTile calculateFCost()
+    {
+        fCost = hCost + gCost;
+        return this;
     }
 
     public string toString()
