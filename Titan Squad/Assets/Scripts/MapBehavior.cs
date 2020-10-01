@@ -57,11 +57,17 @@ public class MapBehavior : MonoBehaviour
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
     }
 
+    //Call this method at the end of every move command
+    public void unitMoved(Vector3 start, Vector3 destination)
+    {
+        map.updateUnitLocation(start, destination, GameManager.instance.playerPhase);
+    }
+
     public CollisionTile[] getPathTo(Vector3 currPos, Vector3 tile, int movement)
     {
         //Get the start and destination tiles
-        CollisionTile destination = getTileAtPos(tile, true);
-        CollisionTile start = getTileAtPos(currPos, true);
+        CollisionTile destination = getTileAtPos(tile);
+        CollisionTile start = getTileAtPos(currPos);
 
         //Our variable to hold our created path
         //We use a List here since it is easier to add to it
@@ -80,24 +86,29 @@ public class MapBehavior : MonoBehaviour
     //TODO - Mark tiles with enemies on them as impassible
     private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null)
     {
-        //check if destination is a valid tile
-        if (destination == null)
+        //check if destination is a valid, unoccupied tile
+        if (destination == null || destination.hasEnemy || destination.hasPlayer || !destination.passable)
         {
             return null;
         }
+
         //openList is List of tiles that is actively being looked for path
         //closeList is List of tiles that has already been checked 
         List<CollisionTile> openList = new List<CollisionTile>();
         List<CollisionTile> closeList = new List<CollisionTile>();
+
         initializeAllCollisionTiles();
+
         //initialize starting tile and ending tile;
         CollisionTile startTile = currPos;
         CollisionTile endTile = destination;
         openList.Add(startTile);
+
         //starting tile will have gCost of 0 => Find hCost and fCost
         startTile.gCost = 0;
         startTile.hCost = calculateDistance(startTile, endTile);
         startTile.calculateFCost();
+
         //finding shortest path using A* algorithm
         while (openList.Count > 0)
         {
@@ -113,6 +124,7 @@ public class MapBehavior : MonoBehaviour
             //tile is already checked => Remove from openList and Add to closeList
             openList.Remove(currentTile);
             closeList.Add(currentTile);
+
             //find all neighbors of current tile
             List<CollisionTile> allNeighborTiles = findNeighborTiles(currentTile);
             foreach(CollisionTile eachNeighbor in allNeighborTiles)
@@ -122,8 +134,9 @@ public class MapBehavior : MonoBehaviour
                 {
                     int newGCost = currentTile.gCost + calculateGCostDistance(currentTile, eachNeighbor);
                     //check if tile is walkable
-                    if (eachNeighbor.isWalkable)
+                    if (eachNeighbor.isWalkable())
                     {
+                        Debug.Log(eachNeighbor.toString() + " is walkable");
                         if (newGCost < eachNeighbor.gCost)
                         {
                             //this tile is potentially closer to the end tile
@@ -177,10 +190,10 @@ public class MapBehavior : MonoBehaviour
     {
         //Getting neighbors of a tile and add into a list of all neighbors
         List<CollisionTile> allNeighborTiles = new List<CollisionTile>();
-        CollisionTile E = getTileAtPos(currentTile.coordinate + new Vector3(1, 0, 0), false); //Tile to the East
-        CollisionTile W = getTileAtPos(currentTile.coordinate + new Vector3(-1, 0, 0), false); //Tile to the West
-        CollisionTile N = getTileAtPos(currentTile.coordinate + new Vector3(0, 1, 0), false); //Tile to the North
-        CollisionTile S = getTileAtPos(currentTile.coordinate + new Vector3(0, -1, 0), false); //Tile to the South
+        CollisionTile E = getTileAtPos(currentTile.coordinate + new Vector3(1, 0, 0)); //Tile to the East
+        CollisionTile W = getTileAtPos(currentTile.coordinate + new Vector3(-1, 0, 0)); //Tile to the West
+        CollisionTile N = getTileAtPos(currentTile.coordinate + new Vector3(0, 1, 0)); //Tile to the North
+        CollisionTile S = getTileAtPos(currentTile.coordinate + new Vector3(0, -1, 0)); //Tile to the South
         if (E != null)
             allNeighborTiles.Add(E);
         if (W != null)
@@ -246,7 +259,7 @@ public class MapBehavior : MonoBehaviour
         return lowestFCostTile;
     }
 
-    public CollisionTile getTileAtPos(Vector3 coord, bool isMouse)
+    public CollisionTile getTileAtPos(Vector3 coord)
     {
         //Grab the true position in reference to the grid
         Vector3 truePos = grid.WorldToCell(coord);

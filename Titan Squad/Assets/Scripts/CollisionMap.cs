@@ -39,6 +39,18 @@ public class CollisionMap
         }
     }
 
+    public void updateUnitLocation(Vector3 start, Vector3 destination, bool player)
+    {
+        if (player)
+        {
+            tileAt(start + new Vector3(-0.5f, -0.5f, 0)).hasPlayer = false;
+            tileAt(destination + new Vector3(-0.5f, -0.5f, 0)).hasPlayer = true;
+            return;
+        }
+        tileAt(start + new Vector3(-0.5f, -0.5f, 0)).hasEnemy = false;
+        tileAt(destination + new Vector3(-0.5f, -0.5f, 0)).hasEnemy = true;
+    }
+
     public CollisionTile tileAt(Vector3 location)
     {
         //If the location clicked on is outside of our tile range, return null

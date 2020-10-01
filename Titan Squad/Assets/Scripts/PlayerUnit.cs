@@ -58,7 +58,6 @@ public class PlayerUnit : Unit
                 
             }
         }
-        
     }
 
     override
@@ -85,7 +84,9 @@ public class PlayerUnit : Unit
         //Remove movement permission
         canMove = false;
 
-        
+        //Hold onto the start position
+        Vector3 start = transform.position;
+
         while (index < path.Length)
         {
             //We only want to move the movePoint when our character has made it to the point
@@ -99,9 +100,13 @@ public class PlayerUnit : Unit
         }
         while (Vector3.Distance(transform.position, movePoint.position) != 0)
             yield return null;
+
         //Once we've moved, we stop the moving animation
         animator.SetTrigger("Stopped");
         hasTurn = false;
+
+        //Update the tiles for collision
+        MapBehavior.instance.unitMoved(start, transform.position);
         yield return null;
     }
 

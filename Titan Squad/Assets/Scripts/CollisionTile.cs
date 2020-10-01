@@ -21,10 +21,15 @@ public class CollisionTile
     public int tileCost;
     //Tile Dodge: This is the bonus the tile gives to an occupying unit's dodge chance
     public int tileDodge;
-    //Tile isWalkable: By default, every tile is walkable
-    public bool isWalkable = true;
     //X: The x and y coordinates of the tile
     public Vector3 coordinate;
+
+    //Bools to track what tiles contain units
+    public bool hasEnemy;
+    public bool hasPlayer;
+
+    //Bool to track if the tile can be walked on - default true
+    public bool passable = true;
 
     //Use for A* algorithm
     public int gCost;
@@ -45,6 +50,8 @@ public class CollisionTile
     public CollisionTile(string tileName, float tileX, float tileY)
     {
         coordinate = new Vector3(tileX, tileY, 0);
+        hasEnemy = false;
+        hasPlayer = false;
 
         //If the tile is a Grasslands tile, set its statistics to that of grasslands
         foreach (string name in grassTiles)
@@ -72,9 +79,21 @@ public class CollisionTile
 
         //Tiles not in a category are simply marked impassible.
         tileType = "Impassible";
-        isWalkable = false;
+        passable = false;
         tileCost = 99;
         tileDodge = 0;
+    }
+
+    public bool isWalkable()
+    {
+        if (passable)
+        {
+            if (GameManager.instance.enemyPhase)
+                return !hasPlayer;
+            if (GameManager.instance.playerPhase)
+                return !hasEnemy;
+        }
+        return false;        
     }
 
     public CollisionTile calculateFCost()

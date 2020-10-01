@@ -10,14 +10,23 @@ using UnityEngine;
 
 public abstract class Level : MonoBehaviour
 {
+    public static Level instance = null;
     public Unit[] enemyUnits;
     public Unit[] playerUnits;
     public GameObject[] objectives;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        
+        //If there are no instances of Level, just set it to this
+        if (instance == null)
+            instance = this;
+        //If there is more than one instance of Level, destroy the copy and reset it
+        else if (instance != this)
+        {
+            Destroy(instance);
+            instance = this;
+        }
     }
 
     // Update is called once per frame
