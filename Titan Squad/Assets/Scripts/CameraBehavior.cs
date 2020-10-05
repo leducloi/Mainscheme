@@ -13,6 +13,7 @@ public class CameraBehavior : MonoBehaviour
     private float moveSpeed = 10f;
     //Controls the boundaries of our camera
     private int minX, minY, maxX, maxY;
+    
 
     public Transform movePoint;
 
@@ -24,10 +25,10 @@ public class CameraBehavior : MonoBehaviour
         movePoint.SetParent(null);
         int boundsX = MapBehavior.instance.tilemap.cellBounds.size.x;
         int boundsY = MapBehavior.instance.tilemap.cellBounds.size.y;
-        minX = 12;
-        minY = 6;
-        maxX = boundsX - 12;
-        maxY = boundsY - 6;
+        minX = Screen.width / 64 - 1;
+        minY = Screen.height / 64;
+        maxX = boundsX - minX;
+        maxY = boundsY - minY;
     }
 
     // Update is called once per frame
@@ -35,8 +36,14 @@ public class CameraBehavior : MonoBehaviour
     {
         //Always move the camera towards the move point, this handles camera panning
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
-        
+
         //This controls the movement of the camera
+        moveCamera();
+    }
+
+    //Moves the movePoint of the camera on certain criteria
+    private void moveCamera()
+    {
         if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
             //If there's a horizontal input, move the camera that amount horizontally (1 for right, -1 for left)
@@ -50,6 +57,32 @@ public class CameraBehavior : MonoBehaviour
             if (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
             {
                 Vector3 attempted = movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
+                if (inBounds(attempted))
+                    movePoint.position = attempted;
+            }
+
+            //Now, check for mouse position bounds
+            if (Input.mousePosition.x >= Screen.width - 48)
+            {
+                Vector3 attempted = movePoint.position + new Vector3(1f, 0f, 0f);
+                if (inBounds(attempted))
+                    movePoint.position = attempted;
+            }
+            if (Input.mousePosition.y >= Screen.height - 48)
+            {
+                Vector3 attempted = movePoint.position + new Vector3(0f, 1f, 0f);
+                if (inBounds(attempted))
+                    movePoint.position = attempted;
+            }
+            if (Input.mousePosition.x <= 48)
+            {
+                Vector3 attempted = movePoint.position + new Vector3(-1f, 0f, 0f);
+                if (inBounds(attempted))
+                    movePoint.position = attempted;
+            }
+            if (Input.mousePosition.y <= 48)
+            {
+                Vector3 attempted = movePoint.position + new Vector3(0f, -1f, 0f);
                 if (inBounds(attempted))
                     movePoint.position = attempted;
             }
