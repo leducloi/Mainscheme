@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerUnit : Unit
 {
     private bool canMove;
+    private bool canAttack;
+
     [SerializeField]
     private int movement;
     private float moveSpeed = 5f;
@@ -114,5 +116,17 @@ public class PlayerUnit : Unit
     public void attack(Unit enemy)
     {
         //TODO
+    }
+
+    //Used by the UI to tell the unit the player selected a move
+    public void moveSelected()
+    {
+        canMove = true;
+    }
+
+    //Used by the UI to tell the unit the player selected an attack
+    public void attackSelected()
+    {
+
     }
 }
