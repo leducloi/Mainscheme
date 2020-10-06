@@ -22,6 +22,7 @@ public class MapBehavior : MonoBehaviour
     private CollisionMap map;
     public static MapBehavior instance = null;
     public Grid grid;
+    private float gridCellSize;
     public Tilemap tilemap;
     private const int MOVE_STRAIGHT_COST = 10;
     private Vector3 coordOffset;
@@ -40,6 +41,8 @@ public class MapBehavior : MonoBehaviour
         }
         //Grab the grid component
         grid = GetComponentInParent<Grid>();
+        //Grab cellSize of Grid
+        gridCellSize = grid.cellSize.x;
 
         //Grab the tilemap component
         tilemap = GetComponent<Tilemap>();
@@ -268,5 +271,11 @@ public class MapBehavior : MonoBehaviour
         CollisionTile tile = map.tileAt(truePos);
 
         return tile;
+    }
+
+    //Get cellSize of Grid
+    public float getGridCellSize()
+    {
+        return gridCellSize;
     }
 }
