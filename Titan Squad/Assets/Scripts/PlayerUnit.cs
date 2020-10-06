@@ -8,13 +8,12 @@ public class PlayerUnit : Unit
     private bool canAttack;
 
     [SerializeField]
-    private int movement;
+    private int movement = 5;
     private float moveSpeed = 5f;
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        movement = 5;
         canMove = false;
         base.Start();
     }
@@ -94,7 +93,7 @@ public class PlayerUnit : Unit
             //We only want to move the movePoint when our character has made it to the point
             if (Vector3.Distance(transform.position, movePoint.position) == 0)
             {
-                movePoint.position = path[index].coordinate;
+                movePoint.position = new Vector3(path[index].coordinate.x, path[index].coordinate.y, movePoint.position.z);
                 index++;
             }
             //So we don't infinite loop, we pause this coroutine at the end of each iteration

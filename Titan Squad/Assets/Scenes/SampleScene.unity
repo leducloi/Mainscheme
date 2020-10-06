@@ -234,7 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f45dfd61b568546b4549540816e93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instance: {fileID: 0}
   movePoint: {fileID: 1596196266}
 --- !u!1 &1596196265
 GameObject:
