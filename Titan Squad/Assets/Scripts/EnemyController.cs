@@ -8,12 +8,6 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-<<<<<<< HEAD
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-=======
     public EnemyController instance = null;
 
     private bool controllingEnemies = false;
@@ -30,21 +24,11 @@ public class EnemyController : MonoBehaviour
             Destroy(instance);
             instance = this;
         }
->>>>>>> Ready-Jared
     }
 
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
-        
-    }
-
-    void updateUnitList()
-    {
-
-    }
-=======
         //We only want to start controlling enemies if we aren't already controlling enemies
         if (GameManager.instance.enemyPhase && !controllingEnemies)
         {
@@ -75,5 +59,4 @@ public class EnemyController : MonoBehaviour
         controllingEnemies = false;
     }
     
->>>>>>> Ready-Jared
 }
