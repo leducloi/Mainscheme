@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public bool enemyPhase;
     //Tracker to keep track of what map we are on
     public int currMap = 0;
+   
 
     void Awake()
     {
@@ -45,18 +46,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 start = new Vector3(1, 1, 0);
-            CollisionTile[] path = MapBehavior.instance.getPathTo(start, Camera.main.ScreenToWorldPoint(Input.mousePosition), 5);
-            if (path == null)
-                Debug.Log("No valid path");
-            else
-                foreach (CollisionTile tile in path)
-                    Debug.Log(tile.toString());
-        }
-        */
+
     }
 
     //Called to end the player's turn

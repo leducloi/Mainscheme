@@ -22,6 +22,7 @@ public class MapBehavior : MonoBehaviour
     private CollisionMap map;
     public static MapBehavior instance = null;
     public Grid grid;
+    public Tilemap tilemap;
     private const int MOVE_STRAIGHT_COST = 10;
     private Vector3 coordOffset;
 
@@ -41,7 +42,7 @@ public class MapBehavior : MonoBehaviour
         grid = GetComponentInParent<Grid>();
 
         //Grab the tilemap component
-        Tilemap tilemap = GetComponent<Tilemap>();
+        tilemap = GetComponent<Tilemap>();
 
         //Compress the bounds to the map edges
         tilemap.CompressBounds();
@@ -136,7 +137,6 @@ public class MapBehavior : MonoBehaviour
                     //check if tile is walkable
                     if (eachNeighbor.isWalkable())
                     {
-                        Debug.Log(eachNeighbor.toString() + " is walkable");
                         if (newGCost < eachNeighbor.gCost)
                         {
                             //this tile is potentially closer to the end tile

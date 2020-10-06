@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyUnit : Unit
 {
     //Boolean to tell the unit if it has control
-    private bool hasControl;
+    public bool hasControl;
     //Boolean to only try to move while it can still move
     private bool canMove;
 
@@ -18,7 +18,7 @@ public class EnemyUnit : Unit
     // Start is called before the first frame update
     protected override void Start()
     {
-        hasControl = true;
+        hasControl = false;
         base.Start();
     }
 
@@ -72,6 +72,7 @@ public class EnemyUnit : Unit
         //Update tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
         hasTurn = false;
+        hasControl = false;
     }
 
     //WIP - Used to have a unit attack an enemy
