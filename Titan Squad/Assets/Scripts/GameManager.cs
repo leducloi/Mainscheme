@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     public bool enemyPhase;
     //Tracker to keep track of what map we are on
     public int currMap = 0;
+<<<<<<< HEAD
+=======
+   
+>>>>>>> Ready-Jared
 
     void Awake()
     {
@@ -45,6 +49,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         /*
         if (Input.GetMouseButtonDown(0))
         {
@@ -57,6 +62,9 @@ public class GameManager : MonoBehaviour
                     Debug.Log(tile.toString());
         }
         */
+=======
+
+>>>>>>> Ready-Jared
     }
 
     //Called to end the player's turn

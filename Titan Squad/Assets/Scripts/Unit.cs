@@ -8,6 +8,12 @@ public abstract class Unit : MonoBehaviour
     public Transform movePoint;
     protected bool hasTurn;
 
+<<<<<<< HEAD
+=======
+    public int hpMax;
+    public int hpRemaining;
+
+>>>>>>> Ready-Jared
     // Start is called before the first frame update
     virtual protected void Start()
     {

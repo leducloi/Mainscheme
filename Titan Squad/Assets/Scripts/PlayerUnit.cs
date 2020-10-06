@@ -5,6 +5,11 @@ using UnityEngine;
 public class PlayerUnit : Unit
 {
     private bool canMove;
+<<<<<<< HEAD
+=======
+    private bool canAttack;
+
+>>>>>>> Ready-Jared
     [SerializeField]
     private int movement;
     private float moveSpeed = 5f;
@@ -15,13 +20,21 @@ public class PlayerUnit : Unit
         movement = 5;
         canMove = false;
         base.Start();
+<<<<<<< HEAD
+=======
+        hasTurn = true;
+>>>>>>> Ready-Jared
     }
 
     //Trigger to detect when a player is clicked
     void OnMouseDown()
     {
         //If it's the player phase, then we select the unit
+<<<<<<< HEAD
         if (GameManager.instance.playerPhase)
+=======
+        if (GameManager.instance.playerPhase && hasTurn)
+>>>>>>> Ready-Jared
         {
             //Right now, all we do is enable them to walk. In the future this will pull open the selection menu
             animator.SetTrigger("Walking");
@@ -42,7 +55,10 @@ public class PlayerUnit : Unit
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (GameManager.instance.enemyPhase)
             hasTurn = true;
+<<<<<<< HEAD
         hasTurn = true;
+=======
+>>>>>>> Ready-Jared
         //We always want the character to be moving towards the spot they're supposed to be at, represented by the movePoint
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
@@ -115,4 +131,19 @@ public class PlayerUnit : Unit
     {
         //TODO
     }
+<<<<<<< HEAD
+=======
+
+    //Used by the UI to tell the unit the player selected a move
+    public void moveSelected()
+    {
+        canMove = true;
+    }
+
+    //Used by the UI to tell the unit the player selected an attack
+    public void attackSelected()
+    {
+
+    }
+>>>>>>> Ready-Jared
 }

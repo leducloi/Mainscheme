@@ -11,6 +11,10 @@ using UnityEngine;
 public abstract class Level : MonoBehaviour
 {
     public static Level instance = null;
+<<<<<<< HEAD
+=======
+    public EnemyController enemyController;
+>>>>>>> Ready-Jared
     public Unit[] enemyUnits;
     public Unit[] playerUnits;
     public GameObject[] objectives;
@@ -27,6 +31,10 @@ public abstract class Level : MonoBehaviour
             Destroy(instance);
             instance = this;
         }
+<<<<<<< HEAD
+=======
+        Instantiate(enemyController);
+>>>>>>> Ready-Jared
     }
 
     // Update is called once per frame
@@ -45,7 +53,11 @@ public abstract class Level : MonoBehaviour
         //If each unit in the player team has acted, the turn is over
         foreach (Unit unit in playerUnits)
         {
+<<<<<<< HEAD
             if (!unit.hasMoved())
+=======
+            if (unit != null && !unit.hasMoved())
+>>>>>>> Ready-Jared
                 return;
         }
         GameManager.instance.endPlayerTurn();
@@ -57,7 +69,11 @@ public abstract class Level : MonoBehaviour
         //If each unit in the enemy team has acted, the turn is over
         foreach (Unit unit in enemyUnits)
         {
+<<<<<<< HEAD
             if (!unit.hasMoved())
+=======
+            if (unit != null && !unit.hasMoved())
+>>>>>>> Ready-Jared
                 return;
         }
         GameManager.instance.endEnemyTurn();
