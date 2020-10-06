@@ -6,24 +6,29 @@ public class PlayerUnit : Unit
 {
     private bool canMove;
     private bool canAttack;
+    private bool selected;
 
     [SerializeField]
-    private int movement = 5;
+    private int movement;
     private float moveSpeed = 5f;
 
     // Start is called before the first frame update
     protected override void Start()
     {
+        movement = 5;
         canMove = false;
+        selected = false;
         base.Start();
+        hasTurn = true;
     }
 
     //Trigger to detect when a player is clicked
     void OnMouseDown()
     {
         //If it's the player phase, then we select the unit
-        if (GameManager.instance.playerPhase)
+        if (GameManager.instance.playerPhase && hasTurn && !selected)
         {
+            selected = true;
             //Right now, all we do is enable them to walk. In the future this will pull open the selection menu
             animator.SetTrigger("Walking");
             StartCoroutine(wait());
@@ -43,7 +48,6 @@ public class PlayerUnit : Unit
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (GameManager.instance.enemyPhase)
             hasTurn = true;
-        hasTurn = true;
         //We always want the character to be moving towards the spot they're supposed to be at, represented by the movePoint
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
@@ -93,7 +97,7 @@ public class PlayerUnit : Unit
             //We only want to move the movePoint when our character has made it to the point
             if (Vector3.Distance(transform.position, movePoint.position) == 0)
             {
-                movePoint.position = new Vector3(path[index].coordinate.x, path[index].coordinate.y, movePoint.position.z);
+                movePoint.position = path[index].coordinate;
                 index++;
             }
             //So we don't infinite loop, we pause this coroutine at the end of each iteration
@@ -105,6 +109,7 @@ public class PlayerUnit : Unit
         //Once we've moved, we stop the moving animation
         animator.SetTrigger("Stopped");
         hasTurn = false;
+        selected = false;
 
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);

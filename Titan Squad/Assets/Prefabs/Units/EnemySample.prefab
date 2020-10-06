@@ -131,6 +131,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePoint: {fileID: 8512540594155461777}
+  hpMax: 0
+  hpRemaining: 0
+  hasControl: 0
+  mode: Patrol
 --- !u!1 &4083967039868778455
 GameObject:
   m_ObjectHideFlags: 0

@@ -140,7 +140,6 @@ public class MapBehavior : MonoBehaviour
                     //check if tile is walkable
                     if (eachNeighbor.isWalkable())
                     {
-                        Debug.Log(eachNeighbor.toString() + " is walkable");
                         if (newGCost < eachNeighbor.gCost)
                         {
                             //this tile is potentially closer to the end tile
