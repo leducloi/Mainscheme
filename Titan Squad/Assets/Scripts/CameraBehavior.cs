@@ -10,100 +10,112 @@ using UnityEngine;
 public class CameraBehavior : MonoBehaviour
 {
     public static CameraBehavior instance = null;
-    private float moveSpeed = 10f;
+    [SerializeField]
+    private float moveSpeed = 5f;
+    private float moveUnit = 1f;
     //Controls the boundaries of our camera
-    private int minX, minY, maxX, maxY;
-    
-
-    public Transform movePoint;
-
+    private float mapHeight, mapWidth;
+    private float cameraHalfHeight, cameraHalfWidth;
+    private float cellSize = 1f;
+    private float[] cameraLimitX;
+    private float[] cameraLimitY;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Setup 
         instance = this;
-        movePoint.SetParent(null);
         int boundsX = MapBehavior.instance.tilemap.cellBounds.size.x;
         int boundsY = MapBehavior.instance.tilemap.cellBounds.size.y;
-        minX = Screen.width / 64 - 1;
-        minY = Screen.height / 64;
-        maxX = boundsX - minX;
-        maxY = boundsY - minY;
+        cellSize = MapBehavior.instance.getGridCellSize();
+        //Set moveUnit, moveUnit is how many tiles to move when press WASD
+        moveUnit = cellSize;
+        //Get and set height and width of the grid
+        mapHeight = boundsY;
+        mapWidth = boundsX;
+        //Get camera width and height
+        cameraHalfHeight = Camera.main.orthographicSize;
+        cameraHalfWidth = cameraHalfHeight * Camera.main.aspect;
+        //Set the limit of width and height of the map
+        cameraLimitX = new float[] { cameraHalfWidth, mapWidth * cellSize - cameraHalfWidth };
+        cameraLimitY = new float[] { cameraHalfHeight, mapHeight * cellSize - cameraHalfHeight };
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Always move the camera towards the move point, this handles camera panning
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
-
+        Vector3 cameraPos = transform.position;
         //This controls the movement of the camera
-        moveCamera();
+        cameraPos = moveCamera(cameraPos);
+        transform.position = cameraPos;
     }
 
     //Moves the movePoint of the camera on certain criteria
-    private void moveCamera()
+    private Vector3 moveCamera(Vector3 cameraPos)
     {
-        if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
+        // For mouse movement when it is over the top of the map
+        if (Input.mousePosition.y >= Screen.height - moveUnit)
         {
-            //If there's a horizontal input, move the camera that amount horizontally (1 for right, -1 for left)
-            if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
-            {
-                Vector3 attempted = movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
-                if (inBounds(attempted))
-                    movePoint.position = attempted;
-            }
-            //If there's a vertical input, move the camera that amount vertically (1 for up, -1 for down)
-            if (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
-            {
-                Vector3 attempted = movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
-                if (inBounds(attempted))
-                    movePoint.position = attempted;
-            }
-
-            //Now, check for mouse position bounds
-            if (Input.mousePosition.x >= Screen.width - 48)
-            {
-                Vector3 attempted = movePoint.position + new Vector3(1f, 0f, 0f);
-                if (inBounds(attempted))
-                    movePoint.position = attempted;
-            }
-            if (Input.mousePosition.y >= Screen.height - 48)
-            {
-                Vector3 attempted = movePoint.position + new Vector3(0f, 1f, 0f);
-                if (inBounds(attempted))
-                    movePoint.position = attempted;
-            }
-            if (Input.mousePosition.x <= 48)
-            {
-                Vector3 attempted = movePoint.position + new Vector3(-1f, 0f, 0f);
-                if (inBounds(attempted))
-                    movePoint.position = attempted;
-            }
-            if (Input.mousePosition.y <= 48)
-            {
-                Vector3 attempted = movePoint.position + new Vector3(0f, -1f, 0f);
-                if (inBounds(attempted))
-                    movePoint.position = attempted;
-            }
+            cameraPos.y += moveSpeed * Time.deltaTime;
         }
+
+        if (Input.GetKeyDown("w"))
+        {
+            cameraPos.y += moveUnit;
+        }
+
+        // For mouse movement when it is below the bottom of the map
+        if (Input.mousePosition.y <= moveUnit)
+        {
+            cameraPos.y -= moveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown("s"))
+        {
+            cameraPos.y -= moveUnit;
+        }
+
+        // For mouse movement when it is over the right side of the map
+        if (Input.mousePosition.x >= Screen.width - moveUnit)
+        {
+            cameraPos.x += moveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown("d"))
+        {
+            cameraPos.x += moveUnit;
+        }
+
+        // For mouse movement when it is over the left side of the map
+        if (Input.mousePosition.x <= moveUnit)
+        {
+            cameraPos.x -= moveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown("a"))
+        {
+            cameraPos.x -= moveUnit;
+        }
+
+        //Set limit of camera width and height
+        //CameraLimitX[0] is bottom bounce, CameraLimitX[1] is top bounce, same for CameraLimitY
+        cameraPos.x = Mathf.Clamp(cameraPos.x, cameraLimitX[0], cameraLimitX[1]);
+        cameraPos.y = Mathf.Clamp(cameraPos.y, cameraLimitY[0], cameraLimitY[1]);
+
+        return cameraPos;
     }
 
-    private bool inBounds(Vector3 attemptedPosition)
-    {
-        return (attemptedPosition.x <= maxX && attemptedPosition.x >= minX && attemptedPosition.y <= maxY && attemptedPosition.y >= minY);
-    }
-
+    //Not working yet
     //Used to pan the camera to a specific point
-    public void panCameraTo(Vector3 destination)
-    {
-        movePoint.position = destination;
-    }
+    //public void panCameraTo(Vector3 destination)
+    //{
+    //    movePoint.position = destination;
+    //}
 
-    //Used to snap the camera immediately to a specific point
-    public void snapCameraTo(Vector3 destination)
-    {
-        transform.position = destination;
-        movePoint.position = destination;
-    }
+    ////Used to snap the camera immediately to a specific point
+    //public void snapCameraTo(Vector3 destination)
+    //{
+    //    transform.position = destination;
+    //    movePoint.position = destination;
+    //}
 }
