@@ -29,6 +29,8 @@ public abstract class Level : MonoBehaviour
             instance = this;
         }
         Instantiate(enemyController);
+
+        
     }
 
     // Update is called once per frame
@@ -63,6 +65,17 @@ public abstract class Level : MonoBehaviour
                 return;
         }
         GameManager.instance.endEnemyTurn();
+    }
+
+    public void levelSetup()
+    {
+        GameManager.instance.enemyPhase = true;
+        foreach (Unit u in enemyUnits)
+            MapBehavior.instance.unitMoved(u.transform.position, u.transform.position);
+        GameManager.instance.enemyPhase = false;
+        GameManager.instance.playerPhase = true;
+        foreach (Unit u in playerUnits)
+            MapBehavior.instance.unitMoved(u.transform.position, u.transform.position);
     }
 
     public abstract void cutscene();

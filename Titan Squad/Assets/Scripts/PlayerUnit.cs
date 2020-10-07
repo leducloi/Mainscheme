@@ -25,6 +25,11 @@ public class PlayerUnit : Unit
     //Trigger to detect when a player is clicked
     void OnMouseDown()
     {
+        //Ensure no other player unit is selected
+        foreach (PlayerUnit player in Level.instance.playerUnits)
+            if (player.selected)
+                return;
+
         //If it's the player phase, then we select the unit
         if (GameManager.instance.playerPhase && hasTurn && !selected)
         {

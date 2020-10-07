@@ -31,6 +31,7 @@ public class CollisionTile
     //Bool to track if the tile can be walked on - default true
     public bool passable = true;
 
+
     //Use for A* algorithm
     public int gCost;
     public int fCost;
@@ -104,6 +105,6 @@ public class CollisionTile
 
     public string toString()
     {
-        return "Tile Type: " + tileType + ", X: " + coordinate.x + ", Y: " + coordinate.y + ", Tile Cost: " + tileCost;
+        return "Tile Type: " + tileType + ", X: " + coordinate.x + ", Y: " + coordinate.y + ", Tile Cost: " + tileCost + ", Has Enemy: " + hasEnemy + ", Has Player: " + hasPlayer;
     }
 }
