@@ -104,6 +104,6 @@ public class CollisionTile
 
     public string toString()
     {
-        return "Tile Type: " + tileType + ", X: " + coordinate.x + ", Y: " + coordinate.y + ", Tile Cost: " + tileCost;
+        return "Tile Type: " + tileType + ", X: " + coordinate.x + ", Y: " + coordinate.y + ", Tile Cost: " + tileCost + ", Has Enemy: " + hasEnemy + ", Has Player: " + hasPlayer;
     }
 }

@@ -59,6 +59,16 @@ public class MapBehavior : MonoBehaviour
         //Finally, create the CollisionMap from the tilemap data
         map = new CollisionMap(allTiles, bounds.size.x, bounds.size.y);
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
+        Level.instance.levelSetup();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("q"))
+        {
+            foreach (CollisionTile t in map.map)
+                Debug.Log(t.toString());
+        }
     }
 
     //Call this method at the end of every move command
@@ -86,8 +96,7 @@ public class MapBehavior : MonoBehaviour
         //Return null if no valid path
         return null;
     }
-
-    //TODO - Mark tiles with enemies on them as impassible
+    
     private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null)
     {
         //check if destination is a valid, unoccupied tile
