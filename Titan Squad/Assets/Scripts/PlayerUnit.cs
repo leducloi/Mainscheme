@@ -29,7 +29,7 @@ public class PlayerUnit : Unit
         foreach (PlayerUnit player in Level.instance.playerUnits)
             if (player.selected)
                 return;
-
+        
         //If it's the player phase, then we select the unit
         if (GameManager.instance.playerPhase && hasTurn && !selected)
         {

@@ -52,8 +52,9 @@ public abstract class Level : MonoBehaviour
             if (unit != null && !unit.hasMoved())
                 return;
         }
-        GameManager.instance.endPlayerTurn();
+        StartCoroutine(GameManager.instance.endPlayerTurn());
     }
+
 
     //Checks if the enemy phase is over and ends it automatically
     void autoEndEnemyPhase()
@@ -64,7 +65,7 @@ public abstract class Level : MonoBehaviour
             if (unit != null && !unit.hasMoved())
                 return;
         }
-        GameManager.instance.endEnemyTurn();
+        StartCoroutine(GameManager.instance.endEnemyTurn());
     }
 
     public void levelSetup()
@@ -76,6 +77,8 @@ public abstract class Level : MonoBehaviour
         GameManager.instance.playerPhase = true;
         foreach (Unit u in playerUnits)
             MapBehavior.instance.unitMoved(u.transform.position, u.transform.position);
+        GameManager.instance.playerPhase = false;
+        StartCoroutine(GameManager.instance.endEnemyTurn());
     }
 
     public abstract void cutscene();

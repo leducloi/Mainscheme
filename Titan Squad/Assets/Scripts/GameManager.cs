@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     //Contains the Map Manager
     public static MapManager mapMan;
 
+    public GameObject UIMan;
+
     //Booleans to control player and enemy phases
     public bool playerPhase;
     public bool enemyPhase;
@@ -39,6 +41,9 @@ public class GameManager : MonoBehaviour
 
         mapMan = GetComponent<MapManager>();
         mapMan.loadMap(currMap);
+
+        Instantiate(UIMan);
+
         playerPhase = true;
         enemyPhase = false;
     }
@@ -50,16 +55,20 @@ public class GameManager : MonoBehaviour
     }
 
     //Called to end the player's turn
-    public void endPlayerTurn()
+    public IEnumerator endPlayerTurn()
     {
         playerPhase = false;
+        UIManager.instance.ShowEnemyMessage();
+        yield return new WaitForSeconds(1);
         enemyPhase = true;
     }
 
     //Called to end the enemy's turn
-    public void endEnemyTurn()
+    public IEnumerator endEnemyTurn()
     {
-        playerPhase = true;
         enemyPhase = false;
+        UIManager.instance.ShowPlayerMessage();
+        yield return new WaitForSeconds(1);
+        playerPhase = true;
     }
 }

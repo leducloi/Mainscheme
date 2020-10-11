@@ -59,7 +59,7 @@ public class CollisionTile
         {
             if (tileName.Equals(name))
             {
-                tileType = "Grasslands";
+                tileType = "Grass";
                 tileCost = 1;
                 tileDodge = 0;
                 return;
