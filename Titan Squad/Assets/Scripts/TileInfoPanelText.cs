@@ -56,8 +56,9 @@ public class TileInfoPanelText : MonoBehaviour
         tile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)); 
         if (tile != null)
             {
+                string cost = (tile.tileCost == 99) ? "--" : "" + tile.tileCost;
                 tileTypeText.text = "Terrain Type: " + tile.tileType;
-                tileCostText.text = "Terrain Cost: " + tile.tileCost;
+                tileCostText.text = "Terrain Cost: " + cost;
                 tileDodgeText.text = "Terrain Dodge: " + tile.tileDodge;
             }
         

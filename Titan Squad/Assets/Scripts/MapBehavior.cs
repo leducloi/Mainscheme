@@ -75,6 +75,11 @@ public class MapBehavior : MonoBehaviour
         }
     }
 
+    public CollisionMap getMap()
+    {
+        return map;
+    }
+
     //Call this method at the end of every move command
     public void unitMoved(Vector3 start, Vector3 destination, bool setForEnemy = false)
     {
@@ -87,7 +92,7 @@ public class MapBehavior : MonoBehaviour
         {
             map.updateUnitLocation(start, destination, GameManager.instance.playerPhase);
         }
-       
+
     }
 
     public CollisionTile[] getPathTo(Vector3 currPos, Vector3 tile, int? movement = null)
@@ -108,7 +113,7 @@ public class MapBehavior : MonoBehaviour
         //Return null if no valid path
         return null;
     }
-    
+
     private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null)
     {
         //check if destination is a valid, unoccupied tile
@@ -127,7 +132,7 @@ public class MapBehavior : MonoBehaviour
         //initialize starting tile and ending tile;
         CollisionTile startTile = currPos;
         CollisionTile endTile = destination;
-        
+
         openList.Add(startTile);
 
         //starting tile will have gCost of 0 => Find hCost and fCost
@@ -153,7 +158,7 @@ public class MapBehavior : MonoBehaviour
 
             //find all neighbors of current tile
             List<CollisionTile> allNeighborTiles = findNeighborTiles(currentTile);
-            foreach(CollisionTile eachNeighbor in allNeighborTiles)
+            foreach (CollisionTile eachNeighbor in allNeighborTiles)
             {
                 //check if the tile is already checked out
                 if (!closeList.Contains(eachNeighbor))
@@ -248,7 +253,7 @@ public class MapBehavior : MonoBehaviour
         List<CollisionTile> finalPath = new List<CollisionTile>();
         finalPath.Add(endTile);
         CollisionTile currentTile = endTile;
-        while(currentTile.cameFromTile != null)
+        while (currentTile.cameFromTile != null)
         {
             finalPath.Add(currentTile.cameFromTile);
             //Reduce movement cost by tile cost
@@ -263,9 +268,9 @@ public class MapBehavior : MonoBehaviour
         {
             return null;
         }
-             
+
         finalPath.Reverse();
-        
+
         return finalPath;
     }
 
@@ -312,4 +317,160 @@ public class MapBehavior : MonoBehaviour
     {
         return mapWidth;
     }
+
+
+    //Gets the enemy units that are within a certain range
+    public List<Unit> getUnitsInRange(Vector3 location, int range)
+    {
+        List<Unit> ret = new List<Unit>();
+
+        //Gets enemy units if it's the player
+        if (GameManager.instance.playerPhase)
+        {
+            foreach (Unit unit in Level.instance.enemyUnits)
+            {
+                if (unit == null)
+                    continue;
+                if (hasLineTo(location, unit.transform.position, range))
+                    ret.Add(unit);
+            }
+        }
+        //Gets player units if it's the enemy
+        else if (GameManager.instance.enemyPhase)
+        {
+            foreach (Unit unit in Level.instance.playerUnits)
+            {
+                if (hasLineTo(location, unit.transform.position, range))
+                    ret.Add(unit);
+            }
+        }
+        
+        return ret;
+    }
+
+
+    //Draws a grid-based line to the target, checking tile collision on the way
+    private bool hasLineTo(Vector3 start, Vector3 destination, int range)
+    {
+        if (Mathf.Abs(destination.y - start.y) < Mathf.Abs(destination.x - start.x))
+        {
+            if (start.x > destination.x)
+                return checkLineLow(destination, start, range);
+            else
+                return checkLineLow(start, destination, range);
+        }
+        else
+        {
+            if (start.y > destination.y)
+                return checkLineHigh(destination, start, range);
+            else
+                return checkLineHigh(start, destination, range);
+        }
+    }
+    //Helper for hasLineTo, checks low slope lines
+    private bool checkLineLow(Vector3 start, Vector3 destination, int range)
+    {
+        int distanceChecked = 0;
+
+        //Get our differentials
+        int xDif = (int)(destination.x - start.x);
+        int yDif = (int)(destination.y - start.y);
+
+        //Set up the proper direction to move the y value
+        int yIncrement = 1;
+        if (yDif < 0)
+        {
+            yIncrement = -1;
+            yDif = -yDif;
+        }
+
+        //Determines when to increment y
+        int d = (2 * yDif) - xDif;
+        //Y coordinate
+        int y = (int)start.y;
+
+        for (int x = (int)start.x; x <= (int)destination.x; x++)
+        {
+            CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+            if (currTile.coordinate.Equals(destination))
+                return true;
+            if (!currTile.passable)
+                return false;
+            if (distanceChecked >= range)
+                return false;
+            distanceChecked++;
+
+            //Check if we should increment y
+            if (d > 0)
+            {
+                y = y + yIncrement;
+                d = d + (2 * (yDif - xDif));
+                currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+                if (currTile.coordinate.Equals(destination))
+                    return true;
+                if (!currTile.passable)
+                    return false;
+                if (distanceChecked >= range)
+                    return false;
+                distanceChecked++;
+            }
+            else
+                d = d + 2 * yDif;
+        }
+        return false;
+    }
+    //Helper for hasLineTo, checks high slope lines
+    private bool checkLineHigh(Vector3 start, Vector3 destination, int range)
+    {
+        int distanceChecked = 0;
+
+        //Get our differentials
+        int xDif = (int)(destination.x - start.x);
+        int yDif = (int)(destination.y - start.y);
+
+        //Set up the proper direction to move the x value
+        int xIncrement = 1;
+        if (xDif < 0)
+        {
+            xIncrement = -1;
+            xDif = -xDif;
+        }
+
+        //Determines when to increment x
+        int d = (2 * xDif) - yDif;
+        //X coordinate
+        int x = (int)start.x;
+
+        for (int y = (int)start.y; y <= (int)destination.y; y++)
+        {
+            CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+            if (currTile.coordinate.Equals(destination))
+                return true;
+            if (!currTile.passable)
+                return false;
+            if (distanceChecked >= range)
+                return false;
+            distanceChecked++;
+
+            //Check if we should increment x
+            if (d > 0)
+            {
+                x = x + xIncrement;
+                d = d + (2 * (xDif - yDif));
+                currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+                if (currTile.coordinate.Equals(destination))
+                    return true;
+                if (!currTile.passable)
+                    return false;
+                if (distanceChecked >= range)
+                    return false;
+                distanceChecked++;
+            }
+            else
+                d = d + 2 * xDif;
+        }
+        return false;
+    }
+
+    
 }

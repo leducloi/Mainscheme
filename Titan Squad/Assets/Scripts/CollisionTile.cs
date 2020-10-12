@@ -41,11 +41,8 @@ public class CollisionTile
 
 
     //These static variables hold the names of tiles that occupy the same categorical tile type
-    private static string[] grassTiles = {"TilesetExample_6", "TilesetExample_7", "TilesetExample_15", "TilesetExample_16",
-                                            "TilesetExample_38"};
-    private static string[] sandTiles = { "TilesetExample_25", "TilesetExample_26", "TilesetExample_27",
-                                            "TilesetExample_32", "TilesetExample_33", "TilesetExample_34",
-                                              "TilesetExample_41", "TilesetExample_42", "TilesetExample_43"};
+    private static string[] grassTiles = {"grasstile1", "grasstile2", "grasstile3", "grasstile4"};
+    private static string[] sandTiles = { "dirttile1", "dirttile2", "dirttile3"};
 
 
     public CollisionTile(string tileName, float tileX, float tileY)
@@ -70,7 +67,7 @@ public class CollisionTile
         {
             if (tileName.Equals(name))
             {
-                tileType = "Desert";
+                tileType = "Dirt";
                 tileCost = 2;
                 tileDodge = -10;
                 return;
@@ -79,7 +76,7 @@ public class CollisionTile
         //TODO - Other tile types
 
         //Tiles not in a category are simply marked impassible.
-        tileType = "Impassible";
+        tileType = "Water";
         passable = false;
         tileCost = 99;
         tileDodge = 0;

@@ -51,6 +51,14 @@ public class CollisionMap
         tileAt(destination + new Vector3(-0.5f, -0.5f, 0)).hasEnemy = true;
     }
 
+    public void unitDefeated(Vector3 unitLocation, bool wasEnemy)
+    {
+        if (wasEnemy)
+            tileAt(unitLocation).hasEnemy = false;
+        else
+            tileAt(unitLocation).hasPlayer = false;
+    }
+
     public CollisionTile tileAt(Vector3 location)
     {
         //If the location clicked on is outside of our tile range, return null

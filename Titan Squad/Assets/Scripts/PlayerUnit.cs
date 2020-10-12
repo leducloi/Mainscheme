@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerUnit : Unit
 {
@@ -12,7 +13,12 @@ public class PlayerUnit : Unit
     private int movement;
     private float moveSpeed = 5f;
 
+    //Keep track of weapons held by the unit
+    private Weapon[] weapons;
+    public Weapon equippedWeapon;
+
     public UnitEvent OnPlayerSelected;
+    public UnityEvent OnTurnCompleted;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -22,11 +28,18 @@ public class PlayerUnit : Unit
         selected = false;
         base.Start();
         hasTurn = true;
+
+        weapons = new Weapon[2];
+        weapons[0] = new Weapon("Pistol");
+        weapons[1] = new Weapon("Rifle");
+        equippedWeapon = weapons[0];
     }
 
     //Trigger to detect when a player is clicked
     void OnMouseDown()
     {
+        foreach (Unit u in MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange))
+            Debug.Log(u + " is in range");
         //Ensure no other player unit is selected
         foreach (PlayerUnit player in Level.instance.playerUnits)
             if (player.selected)
@@ -38,18 +51,10 @@ public class PlayerUnit : Unit
             selected = true;
             //Right now, all we do is enable them to walk. In the future this will pull open the selection menu
             animator.SetTrigger("Walking");
-            //StartCoroutine(wait());
 
             OnPlayerSelected?.Invoke(gameObject);
         }
     }
-
-    //This coroutine is used to add a slight pause
-    //IEnumerator wait()
-    //{
-    //    yield return new WaitForSeconds(.1f);
-    //    canMove = true;
-    //}
 
     // Update is called once per frame
     void Update()
@@ -69,8 +74,8 @@ public class PlayerUnit : Unit
                 {
                     move();
                 }
-                
             }
+            
         }
     }
 
@@ -116,15 +121,14 @@ public class PlayerUnit : Unit
             yield return null;
 
         //Once we've moved, we stop the moving animation
-        animator.SetTrigger("Stopped");
-        hasTurn = false;
-        selected = false;
+        turnCompleted();
 
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
         yield return null;
     }
 
+    //Tells the unit to become deselected
     public void deselected()
     {
         animator.SetTrigger("Stopped");
@@ -133,10 +137,48 @@ public class PlayerUnit : Unit
         canAttack = false;
     }
 
+    //Used to select a valid target to attack
+    public IEnumerator selectTarget(List<Unit> enemiesInRange)
+    {
+        Unit target = null;
+        while (target == null)
+        {
+            if (!canAttack)
+                yield break;
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mp.z = 0f;
+                foreach (Unit u in enemiesInRange)
+                {
+                    if (Vector3.Distance(mp, u.transform.position) <= .5f)
+                    {
+                        target = u;
+                        Debug.Log("Target found");
+                        break;
+                    }
+                }
+            }
+            yield return null;
+        }
+        UIManager.instance.targetChosen(target.gameObject);
+        StartCoroutine(playAttack(target));
+        yield break;
+    }
+
     override
     public void attack(Unit enemy)
     {
         //TODO
+    }
+
+    private IEnumerator playAttack(Unit enemy)
+    {
+        yield return new WaitForSeconds(.5f);
+        enemy.hit(equippedWeapon.damage);
+        UIManager.instance.targetConfirmed();
+        turnCompleted();
+        yield break;
     }
 
     //Used by the UI to tell the unit the player selected a move
@@ -147,6 +189,20 @@ public class PlayerUnit : Unit
 
     //Used by the UI to tell the unit the player selected an attack
     public void attackSelected()
+    {
+
+    }
+
+    private void turnCompleted()
+    {
+        OnTurnCompleted?.Invoke();
+        hasTurn = false;
+        selected = false;
+        animator.SetTrigger("Stopped");
+    }
+
+    override
+    public void hit(int damage)
     {
 
     }

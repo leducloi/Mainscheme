@@ -10,6 +10,8 @@ public abstract class Unit : MonoBehaviour
 
     public int hpMax;
     public int hpRemaining;
+    [SerializeField]
+
 
     // Start is called before the first frame update
     virtual protected void Start()
@@ -38,6 +40,8 @@ public abstract class Unit : MonoBehaviour
     public abstract void attack(Unit enemy);
 
     public abstract void move();
+
+    public abstract void hit(int damage);
 
     
 }

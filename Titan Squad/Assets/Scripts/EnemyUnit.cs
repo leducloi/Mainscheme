@@ -35,6 +35,15 @@ public class EnemyUnit : Unit
     // Start is called before the first frame update
     protected override void Start()
     {
+        if (patrolPath == null)
+            mode = "Guard";
+
+        if (mode.Equals("Patrol"))
+            patrolEnemy = true;
+        else
+            patrolEnemy = false;
+        
+
         if (patrolEnemy)
         {
             numberOfPatternChild = patrolPath.transform.childCount;
@@ -47,6 +56,11 @@ public class EnemyUnit : Unit
     // Update is called once per frame
     void Update()
     {
+        if (hpRemaining <= 0)
+        {
+            unitDefeated();
+            return;
+        }
         //If it's the player's phase, give this unit a turn and allow it to move
         if (GameManager.instance.playerPhase)
         {
@@ -73,6 +87,16 @@ public class EnemyUnit : Unit
         canMove = false;
         if (mode.Equals("Patrol"))
             StartCoroutine(patroling());
+        else if (mode.Equals("Guard"))
+            StartCoroutine(guarding());
+    }
+
+    IEnumerator guarding()
+    {
+        animator.SetTrigger("Walking");
+        yield return new WaitForSeconds(0.5f);
+        animator.SetTrigger("Stopped");
+        setFinishMove(transform.position);
     }
 
     IEnumerator patroling()
@@ -166,5 +190,17 @@ public class EnemyUnit : Unit
         public void attack(Unit enemy)
     {
 
+    }
+
+    override
+    public void hit(int damage)
+    {
+        hpRemaining -= damage;
+    }
+
+    private void unitDefeated()
+    {
+        MapBehavior.instance.getMap().unitDefeated(transform.position, true);
+        Destroy(gameObject);
     }
 }

@@ -79,6 +79,7 @@ public abstract class Level : MonoBehaviour
             MapBehavior.instance.unitMoved(u.transform.position, u.transform.position);
         GameManager.instance.playerPhase = false;
         StartCoroutine(GameManager.instance.endEnemyTurn());
+        Instantiate(GameManager.instance.cursor);
     }
 
     public abstract void cutscene();

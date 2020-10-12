@@ -48,6 +48,7 @@ MonoBehaviour:
   playerPhase: 0
   enemyPhase: 0
   currMap: 0
+  cursor: {fileID: 7587641514887190598, guid: c68a5c44cfdd8ef42baeb37bea88c34f, type: 3}
 --- !u!114 &2597409426896943077
 MonoBehaviour:
   m_ObjectHideFlags: 0

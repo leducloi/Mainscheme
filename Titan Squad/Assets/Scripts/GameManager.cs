@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public bool enemyPhase;
     //Tracker to keep track of what map we are on
     public int currMap = 0;
+
+    public GameObject cursor;
    
 
     void Awake()
