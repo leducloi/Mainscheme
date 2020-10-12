@@ -25,8 +25,8 @@ public class CameraBehavior : MonoBehaviour
     {
         //Setup 
         instance = this;
-        int boundsX = MapBehavior.instance.tilemap.cellBounds.size.x;
-        int boundsY = MapBehavior.instance.tilemap.cellBounds.size.y;
+        int boundsX = MapBehavior.instance.getMapwidth();
+        int boundsY = MapBehavior.instance.getMapHeigth();
         cellSize = MapBehavior.instance.getGridCellSize();
         //Set moveUnit, moveUnit is how many tiles to move when press WASD
         moveUnit = cellSize;
