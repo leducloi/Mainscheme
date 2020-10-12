@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class PlayerUnit : Unit
 {
-    private bool canMove;
-    private bool canAttack;
-    private bool selected;
+    public bool canMove;
+    public bool canAttack;
+    public bool selected;
 
     [SerializeField]
     private int movement;
     private float moveSpeed = 5f;
+
+    public UnitEvent OnPlayerSelected;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -36,16 +38,18 @@ public class PlayerUnit : Unit
             selected = true;
             //Right now, all we do is enable them to walk. In the future this will pull open the selection menu
             animator.SetTrigger("Walking");
-            StartCoroutine(wait());
+            //StartCoroutine(wait());
+
+            OnPlayerSelected?.Invoke(gameObject);
         }
     }
 
     //This coroutine is used to add a slight pause
-    IEnumerator wait()
-    {
-        yield return new WaitForSeconds(.1f);
-        canMove = true;
-    }
+    //IEnumerator wait()
+    //{
+    //    yield return new WaitForSeconds(.1f);
+    //    canMove = true;
+    //}
 
     // Update is called once per frame
     void Update()
@@ -119,6 +123,14 @@ public class PlayerUnit : Unit
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
         yield return null;
+    }
+
+    public void deselected()
+    {
+        animator.SetTrigger("Stopped");
+        selected = false;
+        canMove = false;
+        canAttack = false;
     }
 
     override
