@@ -32,8 +32,8 @@ public class UIManager : MonoBehaviour
         playerPhaseText.enabled = false;//Hides the text at the launch of the game
         enemyPhaseText.enabled = false;//Hides the text at the launch of the game
 
-        Instantiate(actionMenu);
-        Instantiate(tileMenu);
+        actionMenu = Instantiate(actionMenu);
+        tileMenu = Instantiate(tileMenu);
     }
 
     // Update is called once per frame
@@ -84,6 +84,16 @@ public class UIManager : MonoBehaviour
             enemyPhaseText.enabled = false;
         else
             playerPhaseText.enabled = false;
+    }
+
+    public void unitSelected(GameObject unit)
+    {
+        instance.actionMenu.GetComponent<ActionMenu>().displayMenu(unit);
+    }
+
+    public void moveSelected()
+    {
+        instance.actionMenu.GetComponent<ActionMenu>().enableMove();
     }
 
 }
