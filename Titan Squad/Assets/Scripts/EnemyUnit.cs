@@ -71,7 +71,7 @@ public class EnemyUnit : Unit
     public void move()
     {
         canMove = false;
-        if(mode.Equals("Patrol"))
+        if (mode.Equals("Patrol"))
             StartCoroutine(patroling());
     }
 
@@ -103,7 +103,7 @@ public class EnemyUnit : Unit
         {
             yield return StartCoroutine(forNotPatrolEnemy());
         }
-        
+
         yield return null;
 
     }
@@ -161,9 +161,9 @@ public class EnemyUnit : Unit
     }
 
 
-//WIP - Used to have a unit attack an enemy
-override
-    public void attack(Unit enemy)
+    //WIP - Used to have a unit attack an enemy
+    override
+        public void attack(Unit enemy)
     {
 
     }

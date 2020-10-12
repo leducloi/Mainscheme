@@ -23,6 +23,7 @@ public class MapBehavior : MonoBehaviour
     public static MapBehavior instance = null;
     public Grid grid;
     private float gridCellSize;
+    private int mapHeight, mapWidth;
     public Tilemap tilemap;
     private const int MOVE_STRAIGHT_COST = 10;
     private Vector3 coordOffset;
@@ -52,6 +53,9 @@ public class MapBehavior : MonoBehaviour
 
         //Grab the bounds
         BoundsInt bounds = tilemap.cellBounds;
+
+        mapWidth = tilemap.cellBounds.size.x;
+        mapHeight = tilemap.cellBounds.size.y;
 
         //Get all the tiles with the correct bounds
         TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
@@ -297,5 +301,15 @@ public class MapBehavior : MonoBehaviour
     public float getGridCellSize()
     {
         return gridCellSize;
+    }
+
+    public int getMapHeigth()
+    {
+        return mapHeight;
+    }
+
+    public int getMapwidth()
+    {
+        return mapWidth;
     }
 }
