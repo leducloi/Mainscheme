@@ -72,12 +72,21 @@ public class MapBehavior : MonoBehaviour
     }
 
     //Call this method at the end of every move command
-    public void unitMoved(Vector3 start, Vector3 destination)
+    public void unitMoved(Vector3 start, Vector3 destination, bool setForEnemy = false)
     {
-        map.updateUnitLocation(start, destination, GameManager.instance.playerPhase);
+        //setForEnemy is when we want to set manually, playerPhase at the start is true, it causes enemy's tile set as hasPlayer
+        if (setForEnemy)
+        {
+            map.updateUnitLocation(start, destination, false);
+        }
+        else
+        {
+            map.updateUnitLocation(start, destination, GameManager.instance.playerPhase);
+        }
+       
     }
 
-    public CollisionTile[] getPathTo(Vector3 currPos, Vector3 tile, int movement)
+    public CollisionTile[] getPathTo(Vector3 currPos, Vector3 tile, int? movement = null)
     {
         //Get the start and destination tiles
         CollisionTile destination = getTileAtPos(tile);
@@ -86,7 +95,6 @@ public class MapBehavior : MonoBehaviour
         //Our variable to hold our created path
         //We use a List here since it is easier to add to it
         List<CollisionTile> path = new List<CollisionTile>();
-        
         //Call our recursive pathfinding method
         path = getPath(ref start, ref destination, movement);
 
@@ -115,6 +123,7 @@ public class MapBehavior : MonoBehaviour
         //initialize starting tile and ending tile;
         CollisionTile startTile = currPos;
         CollisionTile endTile = destination;
+        
         openList.Add(startTile);
 
         //starting tile will have gCost of 0 => Find hCost and fCost
@@ -171,7 +180,6 @@ public class MapBehavior : MonoBehaviour
                 }
             }
         }
-
         return null;
 
     }
@@ -248,8 +256,12 @@ public class MapBehavior : MonoBehaviour
         }
         //when out of movement cost
         if (movementCost < 0 && movementCost != null)
-            return null; 
+        {
+            return null;
+        }
+             
         finalPath.Reverse();
+        
         return finalPath;
     }
 

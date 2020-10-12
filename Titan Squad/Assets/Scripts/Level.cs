@@ -72,7 +72,7 @@ public abstract class Level : MonoBehaviour
     {
         GameManager.instance.enemyPhase = true;
         foreach (Unit u in enemyUnits)
-            MapBehavior.instance.unitMoved(u.transform.position, u.transform.position);
+            MapBehavior.instance.unitMoved(u.transform.position, u.transform.position, true);
         GameManager.instance.enemyPhase = false;
         GameManager.instance.playerPhase = true;
         foreach (Unit u in playerUnits)
