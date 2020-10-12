@@ -6460,6 +6460,14 @@ PrefabInstance:
       propertyPath: mode
       value: Patrol
       objectReference: {fileID: 0}
+    - target: {fileID: 2256975709938947622, guid: d70153cf6d7575d468bdc50b94ede3f2, type: 3}
+      propertyPath: patrolPath
+      value: 
+      objectReference: {fileID: 1760096370318574517, guid: ed3a5c8f059186648a80b0bc2a78bc42, type: 3}
+    - target: {fileID: 2256975709938947622, guid: d70153cf6d7575d468bdc50b94ede3f2, type: 3}
+      propertyPath: patrolEnemy
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70153cf6d7575d468bdc50b94ede3f2, type: 3}
 --- !u!4 &6671532326770804994 stripped
