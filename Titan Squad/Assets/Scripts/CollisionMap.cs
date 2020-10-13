@@ -34,7 +34,14 @@ public class CollisionMap
         {
             //To get the row, divide position by # of columns
             //To get the columns, get the remainder from the division of columns
-            map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f );
+            if ((x % cols) == 0)
+            {
+                map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, Mathf.CeilToInt(x * inverseCols) + .5f);
+            }
+            else
+            {
+                map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f);
+            }
             //The tilemap is offset by .5, so we need to offset where our tiles are by the same amount
         }
     }

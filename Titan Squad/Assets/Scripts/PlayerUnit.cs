@@ -12,6 +12,8 @@ public class PlayerUnit : Unit
     [SerializeField]
     private int movement;
     private float moveSpeed = 5f;
+    //[SerializeField]
+    public GameObject maskFilter;
 
     //Keep track of weapons held by the unit
     private Weapon[] weapons;
@@ -33,6 +35,11 @@ public class PlayerUnit : Unit
         weapons[0] = new Weapon("Pistol");
         weapons[1] = new Weapon("Rifle");
         equippedWeapon = weapons[0];
+        if (maskFilter)
+        {
+            maskFilter = Instantiate(maskFilter);
+        }
+        
     }
 
     //Trigger to detect when a player is clicked
@@ -59,6 +66,8 @@ public class PlayerUnit : Unit
     // Update is called once per frame
     void Update()
     {
+        if(maskFilter)
+            maskFilter.transform.position = transform.position;
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (GameManager.instance.enemyPhase)
             hasTurn = true;
@@ -100,6 +109,7 @@ public class PlayerUnit : Unit
         if (path == null)
             yield break;
 
+        setActiveMask(false);
         //Remove movement permission
         canMove = false;
 
@@ -125,6 +135,7 @@ public class PlayerUnit : Unit
 
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
+        setActiveMask(true);
         yield return null;
     }
 
@@ -164,6 +175,12 @@ public class PlayerUnit : Unit
         UIManager.instance.targetChosen(target.gameObject);
         StartCoroutine(playAttack(target));
         yield break;
+    }
+
+    private void setActiveMask(bool active)
+    {
+        if (maskFilter)
+            maskFilter.SetActive(active);
     }
 
     override
