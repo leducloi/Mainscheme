@@ -14,13 +14,14 @@ public class CursorControl : MonoBehaviour
     {
         Vector3 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         currentPos = FollowMouseCursor(currentPos);
-        transform.position = new Vector3(currentPos.x, currentPos.y, -1);
+        transform.position = currentPos;
     }
 
     private Vector3 FollowMouseCursor(Vector3 currentMousePos)
     {
         CollisionTile mouseTile = MapBehavior.instance.getTileAtPos(currentMousePos);
         float cellSize = MapBehavior.instance.getGridCellSize();
+
         if (mouseTile != null)
         {
             float cursorX = mouseTile.coordinate.x;
