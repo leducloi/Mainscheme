@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2217794110747985597}
   - component: {fileID: 8551965560983261471}
   - component: {fileID: 2206609385956427511}
+  - component: {fileID: 1108703955833123358}
   m_Layer: 0
   m_Name: EnemyType1
   m_TagString: Untagged
@@ -54,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e216e0f83104b4747814a0b3ea9db484, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,15 +76,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 8419647064633469269, guid: 9c412ab656662fe4f85d8fa944f2b694, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1.4375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &2217794110747985597
@@ -137,6 +138,18 @@ MonoBehaviour:
   patrolEnemy: 0
   hasControl: 0
   mode: Patrol
+--- !u!114 &1108703955833123358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217794110747985596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8d00e3b17cf3fc4ca09ec16ed0c5298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4134368892429100806
 GameObject:
   m_ObjectHideFlags: 0

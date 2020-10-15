@@ -66,8 +66,10 @@ public class PlayerUnit : Unit
     }
 
     // Update is called once per frame
-    void Update()
+    override
+    protected void Update()
     {
+        base.Update();
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (GameManager.instance.enemyPhase)
             hasTurn = true;

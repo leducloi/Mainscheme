@@ -54,8 +54,11 @@ public class EnemyUnit : Unit
     }
 
     // Update is called once per frame
-    void Update()
+    override
+    protected void Update()
     {
+        base.Update();
+
         if (hpRemaining <= 0)
         {
             unitDefeated();
