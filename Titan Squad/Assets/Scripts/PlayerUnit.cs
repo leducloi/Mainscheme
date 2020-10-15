@@ -38,7 +38,9 @@ public class PlayerUnit : Unit
         if (maskFilter)
         {
             maskFilter = Instantiate(maskFilter);
+            maskFilter.transform.position = transform.position;
         }
+
         
     }
 
@@ -66,8 +68,6 @@ public class PlayerUnit : Unit
     // Update is called once per frame
     void Update()
     {
-        if(maskFilter)
-            maskFilter.transform.position = transform.position;
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (GameManager.instance.enemyPhase)
             hasTurn = true;
@@ -108,8 +108,7 @@ public class PlayerUnit : Unit
         //If the path was invalid
         if (path == null)
             yield break;
-
-        setActiveMask(false);
+        
         //Remove movement permission
         canMove = false;
 
@@ -130,12 +129,14 @@ public class PlayerUnit : Unit
         while (Vector3.Distance(transform.position, movePoint.position) != 0)
             yield return null;
 
+        if (maskFilter)
+            maskFilter.transform.position = transform.position;
+
         //Once we've moved, we stop the moving animation
         turnCompleted();
 
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
-        setActiveMask(true);
         yield return null;
     }
 
@@ -177,11 +178,6 @@ public class PlayerUnit : Unit
         yield break;
     }
 
-    private void setActiveMask(bool active)
-    {
-        if (maskFilter)
-            maskFilter.SetActive(active);
-    }
 
     override
     public void attack(Unit enemy)
