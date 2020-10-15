@@ -27,6 +27,8 @@ public class EnemyUnit : Unit
 
     private int movement;
     private float moveSpeed = 5f;
+    [SerializeField]
+    private Rigidbody2D visibleBox;
 
     //Mode affects what actions the enemy will take
     public string mode;
@@ -42,7 +44,8 @@ public class EnemyUnit : Unit
             patrolEnemy = true;
         else
             patrolEnemy = false;
-        
+
+        visibleBox = GetComponentInChildren<Rigidbody2D>();
 
         if (patrolEnemy)
         {
@@ -51,6 +54,14 @@ public class EnemyUnit : Unit
         }
         hasControl = false;
         base.Start();
+
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Fog of War")
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     // Update is called once per frame
@@ -58,6 +69,7 @@ public class EnemyUnit : Unit
     protected void Update()
     {
         base.Update();
+
 
         if (hpRemaining <= 0)
         {
