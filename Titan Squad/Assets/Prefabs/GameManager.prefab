@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256bac32f6eaedd49bb67a657a59112f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIMan: {fileID: 5488265728788554245, guid: 55356b6b569746042b3e3af3793ac9ac, type: 3}
+  UIMan: {fileID: 5488265728788554245, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
   playerPhase: 0
   enemyPhase: 0
   currMap: 0

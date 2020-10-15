@@ -124,10 +124,11 @@ MonoBehaviour:
   canAttack: 0
   selected: 0
   movement: 0
+  maskFilter: {fileID: 6869732701657546119, guid: f90275506ecd12047868013c4bb24de1, type: 3}
   OnPlayerSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5488265728788554265, guid: 55356b6b569746042b3e3af3793ac9ac, type: 3}
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: unitSelected
         m_Mode: 2
@@ -142,7 +143,7 @@ MonoBehaviour:
   OnTurnCompleted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5488265728788554265, guid: 55356b6b569746042b3e3af3793ac9ac, type: 3}
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: resetCurrentUnit
         m_Mode: 1
