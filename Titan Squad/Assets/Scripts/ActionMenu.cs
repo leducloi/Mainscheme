@@ -93,7 +93,7 @@ public class ActionMenu : MonoBehaviour
         if (actualPos.x < Camera.main.pixelWidth / 2)
         {
             //If there's room on the left, place the menu on the left
-            if (actualPos.x - 16 > bounds.rect.width)
+            if (actualPos.x - 16 > bounds.rect.width * 2)
                 unitPos += new Vector3(-5f, 0f, 0f);
             else
                 unitPos += new Vector3(.5f, 0f, 0f);
@@ -111,7 +111,7 @@ public class ActionMenu : MonoBehaviour
         //If the unit is too low for the menu to show up properly, move it up to fit
         if (actualPos.y < bounds.rect.height)
         {
-            actualPos.y = bounds.rect.height + 10;
+            actualPos.y = bounds.rect.height * 2 + 16;
         }
         else
         {
