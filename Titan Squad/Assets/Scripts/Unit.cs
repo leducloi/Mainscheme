@@ -7,9 +7,12 @@ public abstract class Unit : MonoBehaviour
     protected Animator animator;
     public Transform movePoint;
     protected bool hasTurn;
+    protected Greyscale greyscaleControl;
 
     public int hpMax;
     public int hpRemaining;
+    [SerializeField]
+
 
     // Start is called before the first frame update
     virtual protected void Start()
@@ -17,12 +20,17 @@ public abstract class Unit : MonoBehaviour
         animator = GetComponent<Animator>();
         movePoint.SetParent(null);
         hasTurn = false;
+        greyscaleControl = GetComponent<Greyscale>();
     }
 
     // Update is called once per frame
-    void Update()
+    virtual protected void Update()
     {
-        
+        if (!hasTurn && !greyscaleControl.currGreyscale)
+            greyscaleControl.makeGreyscale(true);
+        else if (hasTurn && greyscaleControl.currGreyscale)
+            greyscaleControl.makeGreyscale(false);
+
     }
 
     public bool hasMoved()
@@ -38,6 +46,8 @@ public abstract class Unit : MonoBehaviour
     public abstract void attack(Unit enemy);
 
     public abstract void move();
+
+    public abstract void hit(int damage);
 
     
 }
