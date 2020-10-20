@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject enemySelectedOutline;
     public GameObject pauseMenu;
     public GameObject forecastMenu;
+    public GameObject combatCalculator;
 
     private List<GameObject> enemyOutlines = new List<GameObject>();
 
@@ -47,6 +48,7 @@ public class UIManager : MonoBehaviour
         tileMenu = Instantiate(tileMenu);
         pauseMenu = Instantiate(pauseMenu);
         forecastMenu = Instantiate(forecastMenu);
+        combatCalculator = Instantiate(combatCalculator);
         
         playerSelectedOutline = Instantiate(playerSelectedOutline);
         playerSelectedOutline.SetActive(false);
@@ -126,6 +128,7 @@ public class UIManager : MonoBehaviour
                 Destroy(outline);
             }
         }
+        CombatCalculator.instance.calculate(instance.currUnit, target.GetComponent<Unit>());
         instance.forecastMenu.GetComponent<ForecastMenu>().displayMenu();
         instance.currTarget = target.GetComponent<EnemyUnit>();
     }

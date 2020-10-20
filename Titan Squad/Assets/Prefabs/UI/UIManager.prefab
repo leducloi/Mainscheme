@@ -209,9 +209,11 @@ MonoBehaviour:
   enemySelectedOutline: {fileID: 9074200601587621654, guid: 08cd4922cbd040345b7be7c52d55c1d2, type: 3}
   pauseMenu: {fileID: 2853687712032119948, guid: f480dc043bf69634f80be944fb5c99d4, type: 3}
   forecastMenu: {fileID: 4805252265447094246, guid: 0afd174792280ed428228bd097ccca15, type: 3}
+  combatCalculator: {fileID: 5391532308134352649, guid: 4d259fdf6b9b5094bb1bd9283548655b, type: 3}
   playerPhaseText: {fileID: 5488265728274992600}
   enemyPhaseText: {fileID: 5488265728047555968}
   currUnit: {fileID: 0}
+  currTarget: {fileID: 0}
 --- !u!114 &5488265728788554244
 MonoBehaviour:
   m_ObjectHideFlags: 0

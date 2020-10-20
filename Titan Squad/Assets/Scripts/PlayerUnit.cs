@@ -14,11 +14,8 @@ public class PlayerUnit : Unit
     private float moveSpeed = 5f;
     //[SerializeField]
     public GameObject maskFilter;
-    private EnemyUnit targetedEnemy;
 
-    //Keep track of weapons held by the unit
-    private Weapon[] weapons;
-    public Weapon equippedWeapon;
+    
 
     public UnitEvent OnPlayerSelected;
     public UnityEvent OnTurnCompleted;
@@ -32,16 +29,11 @@ public class PlayerUnit : Unit
         base.Start();
         hasTurn = true;
 
-        weapons = new Weapon[2];
-        weapons[0] = new Weapon("Pistol");
-        weapons[1] = new Weapon("Rifle");
-        equippedWeapon = weapons[0];
         if (maskFilter)
         {
             maskFilter = Instantiate(maskFilter);
             maskFilter.transform.position = transform.position;
         }
-        targetedEnemy = null;
         
     }
 
@@ -190,7 +182,8 @@ public class PlayerUnit : Unit
     private IEnumerator playAttack(Unit enemy)
     {
         yield return new WaitForSeconds(.5f);
-        enemy.hit(equippedWeapon.damage);
+        if (CombatCalculator.instance.doesHit)
+            enemy.hit(equippedWeapon.damage);
         turnCompleted();
         yield break;
     }
@@ -199,12 +192,6 @@ public class PlayerUnit : Unit
     public void moveSelected()
     {
         canMove = true;
-    }
-
-    //Used by the UI to tell the unit the player selected an attack
-    public void attackSelected()
-    {
-
     }
 
     private void turnCompleted()
@@ -219,5 +206,11 @@ public class PlayerUnit : Unit
     public void hit(int damage)
     {
 
+    }
+
+    override
+    public bool isHiddenFrom(Unit enemy)
+    {
+        return false;
     }
 }

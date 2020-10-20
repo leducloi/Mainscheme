@@ -11,7 +11,15 @@ public abstract class Unit : MonoBehaviour
 
     public int hpMax;
     public int hpRemaining;
-    [SerializeField]
+
+    //Keep track of weapons held by the unit
+    protected Weapon[] weapons = new Weapon[2];
+    public Weapon equippedWeapon;
+
+    public int combatTraining = 0;
+    public int evasiveTactics = 0;
+    public int bionicEnhancement = 0;
+    public int luck = 0;
 
 
     // Start is called before the first frame update
@@ -21,6 +29,10 @@ public abstract class Unit : MonoBehaviour
         movePoint.SetParent(null);
         hasTurn = false;
         greyscaleControl = GetComponent<Greyscale>();
+        
+        weapons[0] = new Weapon("Pistol");
+        weapons[1] = new Weapon("Rifle");
+        equippedWeapon = weapons[0];
     }
 
     // Update is called once per frame
@@ -48,6 +60,8 @@ public abstract class Unit : MonoBehaviour
     public abstract void move();
 
     public abstract void hit(int damage);
+
+    public abstract bool isHiddenFrom(Unit enemy);
 
     
 }

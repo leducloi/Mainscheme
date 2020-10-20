@@ -27,6 +27,11 @@ public class ForecastMenu : MonoBehaviour
 
     public void displayMenu()
     {
+        healthText.text = "" + CombatCalculator.instance.currEnemy.hpRemaining;
+        hitText.text = "" + CombatCalculator.instance.hitChanceDisplay + "%";
+        damageText.text = "" + CombatCalculator.instance.currUnit.equippedWeapon.damage;
+        alertText.text = "TODO";
+
         menu.enabled = true;
     }
 
