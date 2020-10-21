@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerUnit : Unit
+public abstract class PlayerUnit : Unit
 {
     public bool canMove;
     public bool canAttack;
@@ -13,8 +13,13 @@ public class PlayerUnit : Unit
     private int movement;
     private float moveSpeed = 5f;
     //[SerializeField]
-    public GameObject maskFilter;
+    public GameObject[] vision;
+    private GameObject maskFilter;
 
+    public string[] abilityNames;
+    public string[] abilityDescriptions;
+
+    protected int actionPoints = 2;
     
 
     public UnitEvent OnPlayerSelected;
@@ -23,11 +28,16 @@ public class PlayerUnit : Unit
     // Start is called before the first frame update
     protected override void Start()
     {
+        abilityNames = new string[3];
+        abilityDescriptions = new string[3];
+
         movement = 5;
         canMove = false;
         selected = false;
         base.Start();
         hasTurn = true;
+
+        maskFilter = vision[0];
 
         if (maskFilter)
         {
@@ -128,7 +138,12 @@ public class PlayerUnit : Unit
             maskFilter.transform.position = transform.position;
 
         //Once we've moved, we stop the moving animation
-        turnCompleted();
+        actionPoints--;
+        if (actionPoints == 0)
+            turnCompleted();
+        else
+            OnPlayerSelected?.Invoke(gameObject);
+
 
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
@@ -184,7 +199,12 @@ public class PlayerUnit : Unit
         yield return new WaitForSeconds(.5f);
         if (CombatCalculator.instance.doesHit)
             enemy.hit(equippedWeapon.damage);
-        turnCompleted();
+
+        actionPoints--;
+        if (actionPoints == 0)
+            turnCompleted();
+        else
+            OnPlayerSelected?.Invoke(gameObject);
         yield break;
     }
 
@@ -197,6 +217,7 @@ public class PlayerUnit : Unit
     private void turnCompleted()
     {
         OnTurnCompleted?.Invoke();
+        actionPoints = 2;
         hasTurn = false;
         selected = false;
         animator.SetTrigger("Stopped");
@@ -213,4 +234,17 @@ public class PlayerUnit : Unit
     {
         return false;
     }
+
+    public void swapVision()
+    {
+        if (maskFilter.Equals(vision[0]))
+            maskFilter = vision[1];
+        else
+            maskFilter = vision[0];
+    }
+
+    public abstract void ability1();
+    public abstract void ability2();
+    public abstract void ability3();
+
 }

@@ -121,6 +121,10 @@ MonoBehaviour:
   movePoint: {fileID: 8642282793530543168}
   hpMax: 10
   hpRemaining: 10
+  combatTraining: 0
+  evasiveTactics: 0
+  bionicEnhancement: 0
+  luck: 0
   patrolPath: {fileID: 0}
   patrolEnemy: 0
   hasControl: 0

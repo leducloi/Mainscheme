@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && menu.enabled)
-            menu.enabled = false;
+            hideMenu();
     }
 
     public void endTurn()
@@ -31,5 +31,10 @@ public class PauseMenu : MonoBehaviour
         if (!menu.enabled)
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         menu.enabled = true;
+    }
+
+    public void hideMenu()
+    {
+        menu.enabled = false;
     }
 }

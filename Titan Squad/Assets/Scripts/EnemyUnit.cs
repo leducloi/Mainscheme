@@ -6,7 +6,7 @@ public class EnemyUnit : Unit
 {
     //Set of patrol path patterns
     [SerializeField]
-    private GameObject patrolPath;
+    private GameObject patrolPath = null;
 
     //Set fasle if enemy does not move
     [SerializeField]

@@ -8,13 +8,13 @@ public class ForecastMenu : MonoBehaviour
     public Canvas menu;
 
     [SerializeField]
-    private Text healthText;
+    private Text healthText = null;
     [SerializeField]
-    private Text hitText;
+    private Text hitText = null;
     [SerializeField]
-    private Text damageText;
+    private Text damageText = null;
     [SerializeField]
-    private Text alertText;
+    private Text alertText = null;
 
     private PlayerUnit currUnit;
 
@@ -31,6 +31,7 @@ public class ForecastMenu : MonoBehaviour
         hitText.text = "" + CombatCalculator.instance.hitChanceDisplay + "%";
         damageText.text = "" + CombatCalculator.instance.currUnit.equippedWeapon.damage;
         alertText.text = "TODO";
+        
 
         menu.enabled = true;
     }

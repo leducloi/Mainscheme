@@ -98,6 +98,7 @@ public class UIManager : MonoBehaviour
 
     public void unitSelected(GameObject unit)
     {
+        instance.pauseMenu.GetComponent<PauseMenu>().hideMenu();
         instance.actionMenu.GetComponent<ActionMenu>().displayMenu(unit);
     }
 
