@@ -20,8 +20,15 @@ public class CameraBehavior : MonoBehaviour
     private float[] cameraLimitX;
     private float[] cameraLimitY;
 
+    
+
     // Start is called before the first frame update
     void Start()
+    {
+        
+    }
+
+    public void setup()
     {
         //Setup 
         instance = this;

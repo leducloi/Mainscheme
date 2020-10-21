@@ -130,8 +130,8 @@ MonoBehaviour:
   selected: 0
   movement: 0
   vision:
-  - {fileID: 5519743853196176358, guid: 41ea53ca079cdbf4c8f179653cdc3f17, type: 3}
-  - {fileID: 4736103055151661554, guid: b384023f367c0db488883226f9a45c2d, type: 3}
+  - {fileID: 5519743853196176358, guid: 40ad7f119185a5e4cade72a2df050250, type: 3}
+  - {fileID: 4736103055151661554, guid: 4f62adb535f077d44bb4620b3ae768f5, type: 3}
   abilityNames: []
   abilityDescriptions: []
   OnPlayerSelected:

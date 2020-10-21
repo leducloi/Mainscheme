@@ -65,6 +65,7 @@ public class MapBehavior : MonoBehaviour
         map = new CollisionMap(allTiles, bounds.size.x, bounds.size.y);
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
         Level.instance.levelSetup();
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
     }
 
     private void Update()
