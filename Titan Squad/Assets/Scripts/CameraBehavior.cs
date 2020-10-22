@@ -11,8 +11,8 @@ public class CameraBehavior : MonoBehaviour
 {
     public static CameraBehavior instance = null;
     [SerializeField]
-    private float moveSpeed = 5f;
-    private float moveUnit = 1f;
+    private float moveSpeed = 0;
+    private float moveUnit = 24f;
     //Controls the boundaries of our camera
     private float mapHeight, mapWidth;
     private float cameraHalfHeight, cameraHalfWidth;
@@ -20,13 +20,20 @@ public class CameraBehavior : MonoBehaviour
     private float[] cameraLimitX;
     private float[] cameraLimitY;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    public void setup()
+    {
         //Setup 
         instance = this;
-        int boundsX = MapBehavior.instance.tilemap.cellBounds.size.x;
-        int boundsY = MapBehavior.instance.tilemap.cellBounds.size.y;
+        int boundsX = MapBehavior.instance.getMapwidth();
+        int boundsY = MapBehavior.instance.getMapHeigth();
         cellSize = MapBehavior.instance.getGridCellSize();
         //Set moveUnit, moveUnit is how many tiles to move when press WASD
         moveUnit = cellSize;

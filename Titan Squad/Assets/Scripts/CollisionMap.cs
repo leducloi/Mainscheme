@@ -34,7 +34,14 @@ public class CollisionMap
         {
             //To get the row, divide position by # of columns
             //To get the columns, get the remainder from the division of columns
-            map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f );
+            if ((x % cols) == 0)
+            {
+                map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, Mathf.CeilToInt(x * inverseCols) + .5f);
+            }
+            else
+            {
+                map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f);
+            }
             //The tilemap is offset by .5, so we need to offset where our tiles are by the same amount
         }
     }
@@ -51,6 +58,14 @@ public class CollisionMap
         tileAt(destination + new Vector3(-0.5f, -0.5f, 0)).hasEnemy = true;
     }
 
+    public void unitDefeated(Vector3 unitLocation, bool wasEnemy)
+    {
+        if (wasEnemy)
+            tileAt(unitLocation).hasEnemy = false;
+        else
+            tileAt(unitLocation).hasPlayer = false;
+    }
+
     public CollisionTile tileAt(Vector3 location)
     {
         //If the location clicked on is outside of our tile range, return null
@@ -58,7 +73,7 @@ public class CollisionMap
             return null;
 
         //If the location was potentially valid, generate an index
-        int index = (int)(location.x + location.y * cols);
+        int index = (int)(Mathf.Floor(location.x) + Mathf.Floor(location.y) * cols);
 
         //Return the value of that index or null if the generated index was invalid
         if (index < 0 || index >= map.Length)
