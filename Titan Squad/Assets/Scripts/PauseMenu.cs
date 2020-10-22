@@ -5,12 +5,16 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     public Canvas menu;
+    public GameObject panel = null;
+
+    private RectTransform bounds = null;
 
     // Start is called before the first frame update
     void Start()
     {
         menu = GetComponent<Canvas>();
         menu.enabled = false;
+        bounds = panel.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -29,7 +33,12 @@ public class PauseMenu : MonoBehaviour
     public void displayMenu()
     {
         if (!menu.enabled)
-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        {
+            Vector3 nearestTile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)).coordinate;
+            nearestTile.y += .25f;
+            bounds.position = Camera.main.WorldToScreenPoint(nearestTile);
+        }
+            
         menu.enabled = true;
     }
 

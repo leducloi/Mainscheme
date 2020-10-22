@@ -54,6 +54,7 @@ public class EnemyUnit : Unit
         }
         hasControl = false;
         base.Start();
+        shaderControl.setColor(false);
 
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }

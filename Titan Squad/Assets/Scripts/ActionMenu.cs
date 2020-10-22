@@ -7,6 +7,7 @@ public class ActionMenu : MonoBehaviour
 { 
     public Canvas menu; // Assign in inspector
     private bool isShowing; // Bool to determine if the menu should be visible or not
+    public GameObject panel = null;
 
     public PlayerUnit currUnit;
     
@@ -83,43 +84,59 @@ public class ActionMenu : MonoBehaviour
         }
 
         //Get bounds for our menu
-        RectTransform bounds = GetComponent<RectTransform>();
+        RectTransform bounds = panel.GetComponent<RectTransform>();
+
+        float tileSize = Camera.main.WorldToScreenPoint(new Vector3(1f, 1f, 0f)).x;
+
 
         //Get the position of the unit, both world and actual position
-        Vector3 unitPos = currUnit.transform.position;
-        Vector3 actualPos = Camera.main.WorldToScreenPoint(unitPos);
+        Vector3 worldPosition = currUnit.transform.position;
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+        Vector3 rectLocation = new Vector3();
 
-        //Check if the unit is on the left or the right side of the screen
-        if (actualPos.x < Camera.main.pixelWidth / 2)
+
+        //Set up x coordinate
+        //If the unit is on the left side of the map:
+        if (screenPosition.x < Screen.width / 2)
         {
-            //If there's room on the left, place the menu on the left
-            if (actualPos.x - 32 > bounds.rect.width * 2)
-                unitPos += new Vector3(-5f, 0f, 0f);
+            //If there is room on the left side, place it on the left side
+            if (screenPosition.x - tileSize > bounds.rect.width)
+            {
+                rectLocation.x = screenPosition.x - tileSize/2 - bounds.rect.width;
+            }
+            //If not, place it on the right
             else
-                unitPos += new Vector3(.5f, 0f, 0f);
+            {
+                rectLocation.x = screenPosition.x + tileSize/2;
+            }
+        }
+        //If the unit is on the right side of the map:
+        else
+        {
+            //If there is room on the right side, place it on the right side
+            if (Screen.width - bounds.rect.width - tileSize > screenPosition.x)
+            {
+                rectLocation.x = screenPosition.x + tileSize/2;
+            }
+            //If not, place it on the left
+            else
+            {
+                rectLocation.x = screenPosition.x - tileSize/2 - bounds.rect.width;
+            }
+        }
+
+        //Set up y coordinate
+        if (screenPosition.y > bounds.rect.height + tileSize)
+        {
+            rectLocation.y = screenPosition.y + tileSize / 2;
         }
         else
         {
-            //If there's room on the right, place the menu on the right
-            if (actualPos.x + bounds.rect.width + 16 < Camera.main.pixelWidth)
-                unitPos += new Vector3(.5f, 0f, 0f);
-            else
-                unitPos += new Vector3(-5f, 0f, 0f);
+            rectLocation.y = bounds.rect.height;
         }
+        rectLocation.z = 0f;
 
-
-        //If the unit is too low for the menu to show up properly, move it up to fit
-        if (actualPos.y < bounds.rect.height)
-        {
-            actualPos.y = bounds.rect.height * 2 + 32;
-        }
-        else
-        {
-            actualPos.y += 32;
-        }
-        actualPos = Camera.main.ScreenToWorldPoint(actualPos);
-
-        gameObject.transform.position = new Vector3(unitPos.x, actualPos.y, 0f);
+        bounds.position = rectLocation;
     }
 
 }
