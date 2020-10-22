@@ -11,8 +11,8 @@ public class CameraBehavior : MonoBehaviour
 {
     public static CameraBehavior instance = null;
     [SerializeField]
-    private float moveSpeed = 5f;
-    private float moveUnit = 1f;
+    private float moveSpeed = 0;
+    private float moveUnit = 24f;
     //Controls the boundaries of our camera
     private float mapHeight, mapWidth;
     private float cameraHalfHeight, cameraHalfWidth;
@@ -20,17 +20,36 @@ public class CameraBehavior : MonoBehaviour
     private float[] cameraLimitX;
     private float[] cameraLimitY;
 
+    private float horizontalResolution = 1920;
+    private float storedResolution;
+
+    public bool pauseWASD = false;
+
     private int ScreenSizeX = 0;
     private int ScreenSizeY = 0;
 
-    // Start is called before the first frame update
     void Awake()
     {
         RescaleCamera();
     }
+    // Start is called before the first frame update
     void Start()
     {
+        //If there are no instances of CameraBehavior, just set it to this
+        if (instance == null)
+            instance = this;
+        //If there is more than one instance of CameraBehavior, destroy the copy and reset it
+        else if (instance != this)
+        {
+            Destroy(instance);
+            instance = this;
+        }
+    }
+
+    public void setup()
+    {
         //Setup 
+        storedResolution = (float)Screen.width / (float)Screen.height;
         instance = this;
         int boundsX = MapBehavior.instance.getMapwidth();
         int boundsY = MapBehavior.instance.getMapHeigth();
@@ -51,6 +70,9 @@ public class CameraBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        readjustCamera();
+        
+
         Vector3 cameraPos = transform.position;
         //This controls the movement of the camera
         cameraPos = moveCamera(cameraPos);
@@ -67,7 +89,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.y += moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("w"))
+        if (Input.GetKeyDown("w") && !pauseWASD)
         {
             cameraPos.y += moveUnit;
         }
@@ -78,7 +100,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.y -= moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("s"))
+        if (Input.GetKeyDown("s") && !pauseWASD)
         {
             cameraPos.y -= moveUnit;
         }
@@ -89,7 +111,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.x += moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("d"))
+        if (Input.GetKeyDown("d") && !pauseWASD)
         {
             cameraPos.x += moveUnit;
         }
@@ -100,7 +122,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.x -= moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("a"))
+        if (Input.GetKeyDown("a") && !pauseWASD)
         {
             cameraPos.x -= moveUnit;
         }
@@ -111,6 +133,16 @@ public class CameraBehavior : MonoBehaviour
         cameraPos.y = Mathf.Clamp(cameraPos.y, cameraLimitY[0], cameraLimitY[1]);
 
         return cameraPos;
+    }
+
+    void readjustCamera()
+    {
+        float currentAspect = (float)Screen.width / (float)Screen.height;
+        if (currentAspect != storedResolution)
+        {
+            Camera.main.orthographicSize = horizontalResolution / currentAspect / 200;
+            setup();
+        }
     }
 
     private void RescaleCamera()

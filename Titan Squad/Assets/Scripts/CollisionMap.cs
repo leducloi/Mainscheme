@@ -73,7 +73,7 @@ public class CollisionMap
             return null;
 
         //If the location was potentially valid, generate an index
-        int index = (int)(location.x + location.y * cols);
+        int index = (int)(Mathf.Floor(location.x) + Mathf.Floor(location.y) * cols);
 
         //Return the value of that index or null if the generated index was invalid
         if (index < 0 || index >= map.Length)

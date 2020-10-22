@@ -6,7 +6,7 @@ public class EnemyUnit : Unit
 {
     //Set of patrol path patterns
     [SerializeField]
-    private GameObject patrolPath;
+    private GameObject patrolPath = null;
 
     //Set fasle if enemy does not move
     [SerializeField]
@@ -54,14 +54,21 @@ public class EnemyUnit : Unit
         }
         hasControl = false;
         base.Start();
+        shaderControl.setColor(false);
 
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Fog of War")
+        if (collision.tag == "Light")
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Light")
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -69,7 +76,6 @@ public class EnemyUnit : Unit
     protected void Update()
     {
         base.Update();
-
 
         if (hpRemaining <= 0)
         {
@@ -217,5 +223,11 @@ public class EnemyUnit : Unit
     {
         MapBehavior.instance.getMap().unitDefeated(transform.position, true);
         Destroy(gameObject);
+    }
+
+    override
+    public bool isHiddenFrom(Unit player)
+    {
+        return true;
     }
 }
