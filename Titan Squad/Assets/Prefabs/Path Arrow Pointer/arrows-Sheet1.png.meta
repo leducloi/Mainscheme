@@ -1,43 +1,37 @@
 fileFormatVersion: 2
-guid: e6d938a6fdeaf9b40920bbfbc55e5910
+guid: 990cefa39f9252646a388d8e719c8a08
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6755256547522905175
-    second: Soldier 02-1_0
+      213: -9221089639140140427
+    second: arrows-Sheet1_0
   - first:
-      213: 2180035727253629138
-    second: Soldier 02-1_1
+      213: 817301493426625072
+    second: arrows-Sheet1_1
   - first:
-      213: 659479557171071342
-    second: Soldier 02-1_2
+      213: 5927198000470358415
+    second: arrows-Sheet1_2
   - first:
-      213: -6590666832991784353
-    second: Soldier 02-1_3
+      213: -4731789421792877150
+    second: arrows-Sheet1_3
   - first:
-      213: -7529056480212617048
-    second: Soldier 02-1_4
+      213: 7457409394634596617
+    second: arrows-Sheet1_4
   - first:
-      213: 8531045576034332222
-    second: Soldier 02-1_5
+      213: -9120075152176230256
+    second: arrows-Sheet1_5
   - first:
-      213: -6535788579875426181
-    second: Soldier 02-1_6
+      213: -8285842450156450481
+    second: arrows-Sheet1_6
   - first:
-      213: 1246538981673838103
-    second: Soldier 02-1_7
+      213: -3302559923435675512
+    second: arrows-Sheet1_7
   - first:
-      213: 7839273274692156646
-    second: Soldier 02-1_8
+      213: 2124858135133911044
+    second: arrows-Sheet1_8
   - first:
-      213: -6144530192527908875
-    second: Soldier 02-1_9
-  - first:
-      213: 7521071013033117722
-    second: Soldier 02-1_10
-  - first:
-      213: 581691319504875684
-    second: Soldier 02-1_11
+      213: -4637098276667657389
+    second: arrows-Sheet1_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -68,7 +62,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -122,19 +116,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -149,11 +131,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Soldier 02-1_0
+      name: arrows-Sheet1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 96
+        x: 1
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -163,18 +145,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7540cb10a0e7fbd50800000000000000
-      internalID: 6755256547522905175
+      spriteID: 57a540124db180080800000000000000
+      internalID: -9221089639140140427
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_1
+      name: arrows-Sheet1_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
+        x: 35
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -184,18 +166,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d8ec9091fa014e10800000000000000
-      internalID: 2180035727253629138
+      spriteID: 03a1716c063a75b00800000000000000
+      internalID: 817301493426625072
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_2
+      name: arrows-Sheet1_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
+        x: 69
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -205,18 +187,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6940d5c921f62900800000000000000
-      internalID: 659479557171071342
+      spriteID: f89f0738d23a14250800000000000000
+      internalID: 5927198000470358415
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_3
+      name: arrows-Sheet1_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 103
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -226,18 +208,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f52739a2f6f3984a0800000000000000
-      internalID: -6590666832991784353
+      spriteID: 2a5a51a479e455eb0800000000000000
+      internalID: -4731789421792877150
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_4
+      name: arrows-Sheet1_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 137
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -247,18 +229,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a8f21b950b638790800000000000000
-      internalID: -7529056480212617048
+      spriteID: 9012bd7555a0e7760800000000000000
+      internalID: 7457409394634596617
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_5
+      name: arrows-Sheet1_5
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 171
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -268,18 +250,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3ea13280cc546670800000000000000
-      internalID: 8531045576034332222
+      spriteID: 0905ba528fbfe6180800000000000000
+      internalID: -9120075152176230256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_6
+      name: arrows-Sheet1_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 205
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -289,18 +271,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7078792ae63c45a0800000000000000
-      internalID: -6535788579875426181
+      spriteID: f4d829d1136c20d80800000000000000
+      internalID: -8285842450156450481
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_7
+      name: arrows-Sheet1_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 239
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -310,18 +292,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 716a85179989c4110800000000000000
-      internalID: 1246538981673838103
+      spriteID: 880ec225f33fa22d0800000000000000
+      internalID: -3302559923435675512
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_8
+      name: arrows-Sheet1_8
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
+        x: 273
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -331,18 +313,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ec3d335281bacc60800000000000000
-      internalID: 7839273274692156646
+      spriteID: 40871c647330d7d10800000000000000
+      internalID: 2124858135133911044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Soldier 02-1_9
+      name: arrows-Sheet1_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 307
+        y: 1
         width: 32
         height: 32
       alignment: 0
@@ -352,50 +334,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ff16b2585e3abaa0800000000000000
-      internalID: -6144530192527908875
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Soldier 02-1_10
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a18835eec36306860800000000000000
-      internalID: 7521071013033117722
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Soldier 02-1_11
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4a034045c25921800800000000000000
-      internalID: 581691319504875684
+      spriteID: 353f5ae8fa7b5afb0800000000000000
+      internalID: -4637098276667657389
       vertices: []
       indices: 
       edges: []
