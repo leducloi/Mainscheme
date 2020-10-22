@@ -35,6 +35,7 @@ public abstract class PlayerUnit : Unit
         canMove = false;
         selected = false;
         base.Start();
+        shaderControl.setColor(true);
         hasTurn = true;
 
         maskFilter = vision[0];
@@ -52,6 +53,7 @@ public abstract class PlayerUnit : Unit
     {
         foreach (Unit u in MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange))
             Debug.Log(u + " is in range");
+
         //Ensure no other player unit is selected
         foreach (PlayerUnit player in Level.instance.playerUnits)
             if (player.selected)
@@ -60,6 +62,9 @@ public abstract class PlayerUnit : Unit
         //If it's the player phase, then we select the unit
         if (GameManager.instance.playerPhase && hasTurn && !selected)
         {
+            shaderControl.showOutline();
+            setAndLockHighIntensity();
+
             selected = true;
             //Right now, all we do is enable them to walk. In the future this will pull open the selection menu
             animator.SetTrigger("Walking");
@@ -154,6 +159,8 @@ public abstract class PlayerUnit : Unit
     public void deselected()
     {
         animator.SetTrigger("Stopped");
+        shaderControl.setLowIntensity();
+        shaderControl.hideOutline();
         selected = false;
         canMove = false;
         canAttack = false;
@@ -218,6 +225,8 @@ public abstract class PlayerUnit : Unit
     {
         OnTurnCompleted?.Invoke();
         actionPoints = 2;
+        shaderControl.setLowIntensity();
+        shaderControl.hideOutline();
         hasTurn = false;
         selected = false;
         animator.SetTrigger("Stopped");

@@ -25,6 +25,15 @@ public class ForecastMenu : MonoBehaviour
         menu.enabled = false;
     }
 
+    private void Update()
+    {
+        if (menu.enabled && Input.GetKeyDown(KeyCode.Escape))
+        {
+            menu.enabled = false;
+            UIManager.instance.attackSelected();
+        }
+    }
+
     public void displayMenu()
     {
         healthText.text = "" + CombatCalculator.instance.currEnemy.hpRemaining;
