@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -41,7 +42,6 @@ public class PlayerUnit : Unit
             maskFilter.transform.position = transform.position;
         }
 
-        
     }
 
     //Trigger to detect when a player is clicked
@@ -81,13 +81,25 @@ public class PlayerUnit : Unit
             //If we're allowed to move, on a mouse click we move to that position
             if (canMove)
             {
+                setArrowPath();
                 if (Input.GetMouseButtonDown(0))
                 {
                     move();
+                    PathArrowControl.instance.destroyAllArrows();
                 }
             }
             
         }
+    }
+
+    private void setArrowPath()
+    {
+        Vector3 destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
+        if (path != null)
+            PathArrowControl.instance.setPathArrow(path);
+        else
+            PathArrowControl.instance.destroyAllArrows();
     }
 
     override
@@ -98,7 +110,6 @@ public class PlayerUnit : Unit
 
         //Construct a path from the character selected to the destination
         CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
-
         //Begin movement along that path
         StartCoroutine(moveAlongPath(path));
     }
