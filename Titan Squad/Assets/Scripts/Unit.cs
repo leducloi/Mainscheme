@@ -22,8 +22,6 @@ public abstract class Unit : MonoBehaviour
     public int luck = 0;
 
 
-    private bool intensityLock = false;
-
     // Start is called before the first frame update
     virtual protected void Start()
     {
@@ -59,54 +57,13 @@ public abstract class Unit : MonoBehaviour
 
     protected void OnMouseEnter()
     {
-        if (!hasTurn || GameManager.instance.enemyPhase)
-            return;
-
-        if (!shaderControl.outlineShowing)
-            shaderControl.showOutline();
-        else if (!shaderControl.highIntensity)
-            shaderControl.setHighIntensity();
+        Debug.Log("Trying to show outline");
+        shaderControl.showOutline();
     }
 
     protected void OnMouseExit()
     {
-        if (intensityLock)
-            return;
-        if (shaderControl.highIntensity)
-            shaderControl.setLowIntensity();
-        else
-            shaderControl.hideOutline();
-        
-    }
-
-    public void showOutline()
-    {
-        shaderControl.showOutline();
-        intensityLock = false;
-    }
-
-    public void hideOutline()
-    {
         shaderControl.hideOutline();
-        intensityLock = false;
-    }
-
-    public void setLowIntensity()
-    {
-        shaderControl.setLowIntensity();
-        intensityLock = false;
-    }
-
-    public void setHighIntensity()
-    {
-        shaderControl.setHighIntensity();
-        intensityLock = false;
-    }
-
-    public void setAndLockHighIntensity()
-    {
-        shaderControl.setHighIntensity();
-        intensityLock = true;
     }
 
     
