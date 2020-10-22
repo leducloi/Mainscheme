@@ -20,6 +20,8 @@ public class CameraBehavior : MonoBehaviour
     private float[] cameraLimitX;
     private float[] cameraLimitY;
 
+    private float horizontalResolution = 1920;
+    private float storedResolution;
     
 
     // Start is called before the first frame update
@@ -31,6 +33,7 @@ public class CameraBehavior : MonoBehaviour
     public void setup()
     {
         //Setup 
+        storedResolution = (float)Screen.width / (float)Screen.height;
         instance = this;
         int boundsX = MapBehavior.instance.getMapwidth();
         int boundsY = MapBehavior.instance.getMapHeigth();
@@ -51,6 +54,14 @@ public class CameraBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Screen size is " + Screen.width + " x " + Screen.height + " pixels.");
+        }
+
+        readjustCamera();
+        
+
         Vector3 cameraPos = transform.position;
         //This controls the movement of the camera
         cameraPos = moveCamera(cameraPos);
@@ -110,6 +121,16 @@ public class CameraBehavior : MonoBehaviour
         cameraPos.y = Mathf.Clamp(cameraPos.y, cameraLimitY[0], cameraLimitY[1]);
 
         return cameraPos;
+    }
+
+    void readjustCamera()
+    {
+        float currentAspect = (float)Screen.width / (float)Screen.height;
+        if (currentAspect != storedResolution)
+        {
+            Camera.main.orthographicSize = horizontalResolution / currentAspect / 200;
+            setup();
+        }
     }
 
     //Not working yet

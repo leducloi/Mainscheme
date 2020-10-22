@@ -94,19 +94,30 @@ public class ActionMenu : MonoBehaviour
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
         Vector3 rectLocation = new Vector3();
 
+        
 
         //Set up x coordinate
         //If the unit is on the left side of the map:
         if (screenPosition.x < Screen.width / 2)
         {
             //If there is room on the left side, place it on the left side
-            if (screenPosition.x - tileSize > bounds.rect.width)
+            if (screenPosition.x - tileSize > bounds.sizeDelta.x)
             {
-                rectLocation.x = screenPosition.x - tileSize/2 - bounds.rect.width;
+                Vector2 setting = new Vector2(1, 1);
+                bounds.anchorMin = setting;
+                bounds.anchorMax = setting;
+                bounds.pivot = setting;
+
+                rectLocation.x = screenPosition.x - tileSize / 2;
             }
             //If not, place it on the right
             else
             {
+                Vector2 setting = new Vector2(0, 1);
+                bounds.anchorMin = setting;
+                bounds.anchorMax = setting;
+                bounds.pivot = setting;
+
                 rectLocation.x = screenPosition.x + tileSize/2;
             }
         }
@@ -114,26 +125,36 @@ public class ActionMenu : MonoBehaviour
         else
         {
             //If there is room on the right side, place it on the right side
-            if (Screen.width - bounds.rect.width - tileSize > screenPosition.x)
+            if (Screen.width - bounds.sizeDelta.x - tileSize > screenPosition.x)
             {
-                rectLocation.x = screenPosition.x + tileSize/2;
+                Vector2 setting = new Vector2(0, 1);
+                bounds.anchorMin = setting;
+                bounds.anchorMax = setting;
+                bounds.pivot = setting;
+
+                rectLocation.x = screenPosition.x + tileSize / 2;
             }
             //If not, place it on the left
             else
             {
-                rectLocation.x = screenPosition.x - tileSize/2 - bounds.rect.width;
+                Vector2 setting = new Vector2(1, 1);
+                bounds.anchorMin = setting;
+                bounds.anchorMax = setting;
+                bounds.pivot = setting;
+
+                rectLocation.x = screenPosition.x - tileSize / 2;
             }
         }
 
         //Set up y coordinate
-        if (screenPosition.y > bounds.rect.height + tileSize)
+        if (!(screenPosition.y > bounds.sizeDelta.y + tileSize))
         {
-            rectLocation.y = screenPosition.y + tileSize / 2;
+            Vector2 setting = new Vector2(bounds.anchorMin.x, 0);
+            bounds.anchorMin = setting;
+            bounds.anchorMax = setting;
+            bounds.pivot = setting;
         }
-        else
-        {
-            rectLocation.y = bounds.rect.height;
-        }
+        rectLocation.y = screenPosition.y + tileSize / 2;
         rectLocation.z = 0f;
 
         bounds.position = rectLocation;
