@@ -144,6 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currGreyscale: 0
+  outlineShowing: 0
+  highIntensity: 0
 --- !u!65 &-2665079962583934687
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -198,8 +200,9 @@ GameObject:
   - component: {fileID: 9038714217154410394}
   - component: {fileID: 5087081016032791421}
   - component: {fileID: 8580908745100619851}
+  - component: {fileID: 2473101554135369043}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: VisionDetection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,3 +261,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 2217794110747985596}
+--- !u!50 &2473101554135369043
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5770258910926881530}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0

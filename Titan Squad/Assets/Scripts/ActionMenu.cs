@@ -86,7 +86,8 @@ public class ActionMenu : MonoBehaviour
         //Get bounds for our menu
         RectTransform bounds = panel.GetComponent<RectTransform>();
 
-        float tileSize = Camera.main.WorldToScreenPoint(new Vector3(1f, 1f, 0f)).x;
+
+        //float tileSize = Camera.main.WorldToScreenPoint(new Vector3(1f, 1f, 0f)).x;
 
 
         //Get the position of the unit, both world and actual position
@@ -94,6 +95,8 @@ public class ActionMenu : MonoBehaviour
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
         Vector3 rectLocation = new Vector3();
 
+        float tileSize = Camera.main.WorldToScreenPoint(worldPosition + new Vector3(1f, 0f, 0f)).x - screenPosition.x;
+        
         
 
         //Set up x coordinate
@@ -153,8 +156,11 @@ public class ActionMenu : MonoBehaviour
             bounds.anchorMin = setting;
             bounds.anchorMax = setting;
             bounds.pivot = setting;
+
+            rectLocation.y = screenPosition.y;
         }
-        rectLocation.y = screenPosition.y + tileSize / 2;
+        else
+            rectLocation.y = screenPosition.y + tileSize / 2;
         rectLocation.z = 0f;
 
         bounds.position = rectLocation;
