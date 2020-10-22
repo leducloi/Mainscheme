@@ -51,9 +51,6 @@ public abstract class PlayerUnit : Unit
     //Trigger to detect when a player is clicked
     void OnMouseDown()
     {
-        foreach (Unit u in MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange))
-            Debug.Log(u + " is in range");
-
         //Ensure no other player unit is selected
         foreach (PlayerUnit player in Level.instance.playerUnits)
             if (player.selected)
@@ -142,7 +139,10 @@ public abstract class PlayerUnit : Unit
         if (maskFilter)
             maskFilter.transform.position = transform.position;
 
-        //Once we've moved, we stop the moving animation
+        //Wait 1 frame
+        yield return new WaitForSeconds(0.1f);
+
+        //Once we've moved, reduce our action points
         actionPoints--;
         if (actionPoints == 0)
             turnCompleted();

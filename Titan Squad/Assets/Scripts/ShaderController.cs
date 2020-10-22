@@ -68,12 +68,14 @@ public class ShaderController : MonoBehaviour
     {
         float intensity = Mathf.Pow(2, 1.3f);
         spriteRenderer.material.SetColor("_Color", new Color(red * intensity, green * intensity, blue * intensity, 1f));
+        spriteRenderer.material.SetFloat("_Thickness", 0.001f);
         highIntensity = true;
     }
 
     public void setLowIntensity()
     {
         spriteRenderer.material.SetColor("_Color", new Color(red, green, blue, 1f));
+        spriteRenderer.material.SetFloat("_Thickness", 0.0025f);
         highIntensity = false;
     }
 }

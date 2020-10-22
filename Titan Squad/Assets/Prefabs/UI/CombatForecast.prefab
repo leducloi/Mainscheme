@@ -906,6 +906,7 @@ MonoBehaviour:
   hitText: {fileID: 549363307652549170}
   damageText: {fileID: 1731567256568092869}
   alertText: {fileID: 8755415859871250865}
+  confirmBtn: {fileID: 5708447239844962818}
 --- !u!1 &5179315049994933414
 GameObject:
   m_ObjectHideFlags: 0

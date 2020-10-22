@@ -22,12 +22,22 @@ public class CameraBehavior : MonoBehaviour
 
     private float horizontalResolution = 1920;
     private float storedResolution;
+
+    public bool pauseWASD = false;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //If there are no instances of CameraBehavior, just set it to this
+        if (instance == null)
+            instance = this;
+        //If there is more than one instance of CameraBehavior, destroy the copy and reset it
+        else if (instance != this)
+        {
+            Destroy(instance);
+            instance = this;
+        }
     }
 
     public void setup()
@@ -54,11 +64,6 @@ public class CameraBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Screen size is " + Screen.width + " x " + Screen.height + " pixels.");
-        }
-
         readjustCamera();
         
 
@@ -77,7 +82,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.y += moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("w"))
+        if (Input.GetKeyDown("w") && !pauseWASD)
         {
             cameraPos.y += moveUnit;
         }
@@ -88,7 +93,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.y -= moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("s"))
+        if (Input.GetKeyDown("s") && !pauseWASD)
         {
             cameraPos.y -= moveUnit;
         }
@@ -99,7 +104,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.x += moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("d"))
+        if (Input.GetKeyDown("d") && !pauseWASD)
         {
             cameraPos.x += moveUnit;
         }
@@ -110,7 +115,7 @@ public class CameraBehavior : MonoBehaviour
             cameraPos.x -= moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown("a"))
+        if (Input.GetKeyDown("a") && !pauseWASD)
         {
             cameraPos.x -= moveUnit;
         }

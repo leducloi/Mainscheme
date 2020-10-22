@@ -18,6 +18,8 @@ public class ForecastMenu : MonoBehaviour
 
     private PlayerUnit currUnit;
 
+    public Button confirmBtn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,10 @@ public class ForecastMenu : MonoBehaviour
         {
             menu.enabled = false;
             UIManager.instance.attackSelected();
+        }
+        else if (menu.enabled && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ))
+        {
+            confirmBtn.onClick.Invoke();
         }
     }
 

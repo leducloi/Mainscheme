@@ -92,12 +92,12 @@ public class UIManager : MonoBehaviour
     public void unitSelected(GameObject unit)
     {
         instance.pauseMenu.GetComponent<PauseMenu>().hideMenu();
-        instance.actionMenu.GetComponent<ActionMenu>().displayMenu(unit);
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().displayMenu(unit);
     }
 
     public void moveSelected()
     {
-        instance.actionMenu.GetComponent<ActionMenu>().enableMove();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().enableMove();
     }
 
     public void attackSelected()
@@ -110,7 +110,7 @@ public class UIManager : MonoBehaviour
             u.showOutline();
             instance.enemiesToOutline.Add(u);
         }
-        instance.actionMenu.GetComponent<ActionMenu>().beginAttack(unitsInRange);
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().beginAttack(unitsInRange);
     }
 
     public void targetChosen(GameObject target)
@@ -144,7 +144,7 @@ public class UIManager : MonoBehaviour
     {
         instance.currUnit = null;
         instance.currTarget = null;
-        instance.actionMenu.GetComponent<ActionMenu>().currUnit = null;
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().currUnit = null;
     }
 
     public void clearOutlines()
