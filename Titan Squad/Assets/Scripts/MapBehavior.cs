@@ -27,6 +27,7 @@ public class MapBehavior : MonoBehaviour
     public Tilemap tilemap;
     private const int MOVE_STRAIGHT_COST = 10;
     private Vector3 coordOffset;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +65,7 @@ public class MapBehavior : MonoBehaviour
         map = new CollisionMap(allTiles, bounds.size.x, bounds.size.y);
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
         Level.instance.levelSetup();
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
     }
 
     private void Update()
@@ -329,7 +331,7 @@ public class MapBehavior : MonoBehaviour
         {
             foreach (Unit unit in Level.instance.enemyUnits)
             {
-                if (unit == null)
+                if (unit == null || !unit.GetComponent<SpriteRenderer>().enabled)
                     continue;
                 if (hasLineTo(location, unit.transform.position, range))
                     ret.Add(unit);
@@ -350,7 +352,7 @@ public class MapBehavior : MonoBehaviour
 
 
     //Draws a grid-based line to the target, checking tile collision on the way
-    private bool hasLineTo(Vector3 start, Vector3 destination, int range)
+    public bool hasLineTo(Vector3 start, Vector3 destination, int range)
     {
         if (Mathf.Abs(destination.y - start.y) < Mathf.Abs(destination.x - start.x))
         {

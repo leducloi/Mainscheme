@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - MaskFilter
+  - Darkness
+  - Light
+  - Fog of War
   layers:
   - Default
   - TransparentFX
