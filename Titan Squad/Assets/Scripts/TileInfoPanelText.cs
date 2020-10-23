@@ -57,9 +57,9 @@ public class TileInfoPanelText : MonoBehaviour
         if (tile != null)
             {
                 string cost = (tile.tileCost == 99) ? "--" : "" + tile.tileCost;
-                tileTypeText.text = "Type: " + tile.tileType;
-                tileCostText.text = "Cost: " + cost;
-                tileDodgeText.text = "Dodge: " + tile.tileDodge;
+                tileTypeText.text = "Terrain Type: " + tile.tileType;
+                tileCostText.text = "Terrain Cost: " + cost;
+                tileDodgeText.text = "Terrain Dodge: " + tile.tileDodge;
             }
         
       

@@ -27,11 +27,6 @@ public class PathArrowControl : MonoBehaviour
     private GameObject pointerLeft;
     [SerializeField]
     private GameObject pointerRight;
-
-    private Transform cursorHolder;
-
-
-
     List<Tuple<GameObject, Vector3>> arrowSetMap;
     void Start()
     {
@@ -46,14 +41,13 @@ public class PathArrowControl : MonoBehaviour
         arrowSetMap = new List<Tuple<GameObject, Vector3>>();
         instantiateAllArrows();
         hideAllArrows();
-        cursorHolder = new GameObject("CursorHolder").transform;
-        cursorHolder = Instantiate(cursorHolder);
     }
 
     void Update()
     {
-        if (arrowSetMap.Count != 0)
+        if (arrowSetMap != null)
         {
+
             renderArrowSetMap();
         }
         else
@@ -64,7 +58,7 @@ public class PathArrowControl : MonoBehaviour
 
     public void destroyAllArrows()
     {
-        foreach (Transform child in cursorHolder.transform)
+        foreach (Transform child in gameObject.transform)
         {
             GameObject.Destroy(child.gameObject);
             arrowSetMap = new List<Tuple<GameObject, Vector3>>();
@@ -81,16 +75,16 @@ public class PathArrowControl : MonoBehaviour
 
     public void setPathArrow(CollisionTile[] path)
     {
-        //destroyAllArrows();
+        destroyAllArrows();
         int index = 0;
         while (index < path.Length - 2)
         {
-            CollisionTile currentTile = path[index]; float x0 = currentTile.coordinate.x, y0 = currentTile.coordinate.y;
+            CollisionTile currentTile = path[index]; float x0 = currentTile.coordinate.x, y0 = currentTile.coordinate.y; 
             CollisionTile nextFirstTile = path[index + 1]; float x1 = nextFirstTile.coordinate.x, y1 = nextFirstTile.coordinate.y;
             CollisionTile nextSecondTile = path[index + 2]; float x2 = nextSecondTile.coordinate.x, y2 = nextSecondTile.coordinate.y;
             if (y0 == y1 && y1 == y2)
             {
-                Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(straightX, nextFirstTile.coordinate);
+                Tuple<GameObject, Vector3> newArrow = new Tuple < GameObject, Vector3> (straightX, nextFirstTile.coordinate);
                 arrowSetMap.Add(newArrow);
             }
 
@@ -112,7 +106,7 @@ public class PathArrowControl : MonoBehaviour
                     Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopRight, nextFirstTile.coordinate);
                     arrowSetMap.Add(newArrow);
                 }
-
+                
             }
 
             if (x1 < x0 && x1 == x2 && y1 == y0)
@@ -170,7 +164,7 @@ public class PathArrowControl : MonoBehaviour
                 Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerRight, endTile.coordinate);
                 arrowSetMap.Add(newArrow);
             }
-            else if (endX < bEndX)
+            else if(endX < bEndX)
             {
                 Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerLeft, endTile.coordinate);
                 arrowSetMap.Add(newArrow);
@@ -190,15 +184,15 @@ public class PathArrowControl : MonoBehaviour
                 arrowSetMap.Add(newArrow);
             }
         }
-    }
+    } 
 
     void renderArrowSetMap()
     {
-        
         foreach (Tuple<GameObject, Vector3> eachArrow in arrowSetMap)
         {
-            GameObject newArrow = Instantiate(eachArrow.Item1, eachArrow.Item2, Quaternion.identity) as GameObject;
-            newArrow.transform.SetParent(cursorHolder.transform);
+            GameObject newArrow = Instantiate(eachArrow.Item1);
+            newArrow.transform.position = eachArrow.Item2;
+            newArrow.transform.parent = gameObject.transform;
             newArrow.SetActive(true);
         }
     }

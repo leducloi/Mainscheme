@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class PlayerUnit : Unit
+public class PlayerUnit : Unit
 {
     public bool canMove;
     public bool canAttack;
@@ -13,49 +14,41 @@ public abstract class PlayerUnit : Unit
     private int movement;
     private float moveSpeed = 5f;
     //[SerializeField]
-    public GameObject[] vision;
-    private GameObject maskFilter;
+    public GameObject maskFilter;
 
-    public string[] abilityNames;
-    public string[] abilityDescriptions;
-
-    protected int actionPoints = 2;
-    
+    //Keep track of weapons held by the unit
+    private Weapon[] weapons;
+    public Weapon equippedWeapon;
 
     public UnitEvent OnPlayerSelected;
     public UnityEvent OnTurnCompleted;
 
-    //private CollisionTile[] currentPath;
-    private CollisionTile lastTile;
-    
-
     // Start is called before the first frame update
     protected override void Start()
     {
-        abilityNames = new string[3];
-        abilityDescriptions = new string[3];
-        
-
         movement = 5;
         canMove = false;
         selected = false;
         base.Start();
-        shaderControl.setColor(true);
         hasTurn = true;
 
-        maskFilter = vision[0];
-
+        weapons = new Weapon[2];
+        weapons[0] = new Weapon("Pistol");
+        weapons[1] = new Weapon("Rifle");
+        equippedWeapon = weapons[0];
         if (maskFilter)
         {
             maskFilter = Instantiate(maskFilter);
             maskFilter.transform.position = transform.position;
         }
-        
+
     }
 
     //Trigger to detect when a player is clicked
     void OnMouseDown()
     {
+        foreach (Unit u in MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange))
+            Debug.Log(u + " is in range");
         //Ensure no other player unit is selected
         foreach (PlayerUnit player in Level.instance.playerUnits)
             if (player.selected)
@@ -64,9 +57,6 @@ public abstract class PlayerUnit : Unit
         //If it's the player phase, then we select the unit
         if (GameManager.instance.playerPhase && hasTurn && !selected)
         {
-            shaderControl.showOutline();
-            setAndLockHighIntensity();
-
             selected = true;
             //Right now, all we do is enable them to walk. In the future this will pull open the selection menu
             animator.SetTrigger("Walking");
@@ -97,8 +87,19 @@ public abstract class PlayerUnit : Unit
                     move();
                     PathArrowControl.instance.destroyAllArrows();
                 }
-            }            
+            }
+            
         }
+    }
+
+    private void setArrowPath()
+    {
+        Vector3 destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
+        if (path != null)
+            PathArrowControl.instance.setPathArrow(path);
+        else
+            PathArrowControl.instance.destroyAllArrows();
     }
 
     override
@@ -109,7 +110,6 @@ public abstract class PlayerUnit : Unit
 
         //Construct a path from the character selected to the destination
         CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
-
         //Begin movement along that path
         StartCoroutine(moveAlongPath(path));
     }
@@ -145,16 +145,8 @@ public abstract class PlayerUnit : Unit
         if (maskFilter)
             maskFilter.transform.position = transform.position;
 
-        //Wait 1 frame
-        yield return new WaitForSeconds(0.1f);
-
-        //Once we've moved, reduce our action points
-        actionPoints--;
-        if (actionPoints == 0)
-            turnCompleted();
-        else
-            OnPlayerSelected?.Invoke(gameObject);
-
+        //Once we've moved, we stop the moving animation
+        turnCompleted();
 
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
@@ -165,34 +157,9 @@ public abstract class PlayerUnit : Unit
     public void deselected()
     {
         animator.SetTrigger("Stopped");
-        PathArrowControl.instance.destroyAllArrows();
-        setLowIntensity();
-        hideOutline();
         selected = false;
         canMove = false;
         canAttack = false;
-    }
-
-    private void setArrowPath()
-    {
-        CollisionTile newTile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        if (newTile != null)
-        {
-            if (newTile == lastTile)
-            {
-                return;
-            }
-        }
-        else
-            return;
-
-        lastTile = newTile;
-        PathArrowControl.instance.destroyAllArrows();
-
-        Vector3 destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
-        if (path != null)
-            PathArrowControl.instance.setPathArrow(path);
     }
 
     //Used to select a valid target to attack
@@ -220,6 +187,7 @@ public abstract class PlayerUnit : Unit
             yield return null;
         }
         UIManager.instance.targetChosen(target.gameObject);
+        StartCoroutine(playAttack(target));
         yield break;
     }
 
@@ -227,20 +195,15 @@ public abstract class PlayerUnit : Unit
     override
     public void attack(Unit enemy)
     {
-        StartCoroutine(playAttack(enemy));
+        //TODO
     }
 
     private IEnumerator playAttack(Unit enemy)
     {
         yield return new WaitForSeconds(.5f);
-        if (CombatCalculator.instance.doesHit)
-            enemy.hit(equippedWeapon.damage);
-
-        actionPoints--;
-        if (actionPoints == 0)
-            turnCompleted();
-        else
-            OnPlayerSelected?.Invoke(gameObject);
+        enemy.hit(equippedWeapon.damage);
+        UIManager.instance.targetConfirmed();
+        turnCompleted();
         yield break;
     }
 
@@ -250,16 +213,18 @@ public abstract class PlayerUnit : Unit
         canMove = true;
     }
 
+    //Used by the UI to tell the unit the player selected an attack
+    public void attackSelected()
+    {
+
+    }
+
     private void turnCompleted()
     {
         OnTurnCompleted?.Invoke();
-        actionPoints = 2;
-        setLowIntensity();
-        hideOutline();
         hasTurn = false;
         selected = false;
         animator.SetTrigger("Stopped");
-        PathArrowControl.instance.destroyAllArrows();
     }
 
     override
@@ -267,23 +232,4 @@ public abstract class PlayerUnit : Unit
     {
 
     }
-
-    override
-    public bool isHiddenFrom(Unit enemy)
-    {
-        return false;
-    }
-
-    public void swapVision()
-    {
-        if (maskFilter.Equals(vision[0]))
-            maskFilter = vision[1];
-        else
-            maskFilter = vision[0];
-    }
-
-    public abstract void ability1();
-    public abstract void ability2();
-    public abstract void ability3();
-
 }

@@ -17,7 +17,7 @@ public class Weapon
 
         if (name.Equals("Pistol"))
         {
-            damage = 10;
+            damage = 100;
             effectiveRange = 5;
             maxRange = 6;
             noise = 2;

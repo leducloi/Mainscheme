@@ -52,7 +52,7 @@ public abstract class Level : MonoBehaviour
             if (unit != null && !unit.hasMoved())
                 return;
         }
-        endTurn();
+        StartCoroutine(GameManager.instance.endPlayerTurn());
     }
 
 
@@ -65,15 +65,7 @@ public abstract class Level : MonoBehaviour
             if (unit != null && !unit.hasMoved())
                 return;
         }
-        endTurn();
-    }
-
-    public void endTurn()
-    {
-        if (GameManager.instance.playerPhase)
-            StartCoroutine(GameManager.instance.endPlayerTurn());
-        else
-            StartCoroutine(GameManager.instance.endEnemyTurn());
+        StartCoroutine(GameManager.instance.endEnemyTurn());
     }
 
     public void levelSetup()

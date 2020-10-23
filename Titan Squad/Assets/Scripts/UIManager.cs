@@ -12,11 +12,10 @@ public class UIManager : MonoBehaviour
     public static UIManager instance = null;
     public GameObject actionMenu;
     public GameObject tileMenu;
-    public GameObject pauseMenu;
-    public GameObject forecastMenu;
-    public GameObject combatCalculator;
+    public GameObject playerSelectedOutline;
+    public GameObject enemySelectedOutline;
 
-    private List<Unit> enemiesToOutline = new List<Unit>();
+    private List<GameObject> enemyOutlines = new List<GameObject>();
 
     //Not sure if I need to move the text into its own independent script
     //This text displays in the middle of the camera view of which phase it is
@@ -24,15 +23,13 @@ public class UIManager : MonoBehaviour
     public Text enemyPhaseText;
 
     public PlayerUnit currUnit;
-    public EnemyUnit currTarget;
-
-    private bool selectingAttack = false;
    
 
     void Awake()
     {
         if (instance == null){
             instance = this;
+           
         }
             
         else if (instance != this){
@@ -41,28 +38,25 @@ public class UIManager : MonoBehaviour
         playerPhaseText.enabled = false;//Hides the text at the launch of the game
         enemyPhaseText.enabled = false;//Hides the text at the launch of the game
 
-        currTarget = null;
-        currUnit = null;
-
         actionMenu = Instantiate(actionMenu);
         tileMenu = Instantiate(tileMenu);
-        pauseMenu = Instantiate(pauseMenu);
-        forecastMenu = Instantiate(forecastMenu);
-        combatCalculator = Instantiate(combatCalculator);
-        
-        
+        playerSelectedOutline = Instantiate(playerSelectedOutline);
+        playerSelectedOutline.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-            openPauseMenu();
-
-        if (selectingAttack && Input.GetKeyDown(KeyCode.Escape))
+        if (currUnit != null)
         {
-            selectingAttack = false;
-            clearOutlines();
+            playerSelectedOutline.transform.position = currUnit.transform.position;
+            if (!playerSelectedOutline.activeSelf)
+                playerSelectedOutline.SetActive(true);
+        }
+        else
+        {
+            if (playerSelectedOutline.activeSelf)
+                playerSelectedOutline.SetActive(false);
         }
     }
 
@@ -91,82 +85,55 @@ public class UIManager : MonoBehaviour
 
     public void unitSelected(GameObject unit)
     {
-        instance.pauseMenu.GetComponent<PauseMenu>().hideMenu();
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().displayMenu(unit);
+        instance.actionMenu.GetComponent<ActionMenu>().displayMenu(unit);
     }
 
     public void moveSelected()
     {
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().enableMove();
+        instance.actionMenu.GetComponent<ActionMenu>().enableMove();
     }
 
     public void attackSelected()
     {
-        selectingAttack = true;
         List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(instance.currUnit.transform.position, instance.currUnit.equippedWeapon.maxRange);
-        
         foreach (Unit u in unitsInRange)
         {
-            u.showOutline();
-            instance.enemiesToOutline.Add(u);
+            GameObject outline = Instantiate(instance.enemySelectedOutline);
+            instance.enemyOutlines.Add(outline);
+            outline.transform.position = u.transform.position;
         }
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().beginAttack(unitsInRange);
+        instance.actionMenu.GetComponent<ActionMenu>().beginAttack(unitsInRange);
     }
 
     public void targetChosen(GameObject target)
     {
-        instance.currTarget = target.GetComponent<EnemyUnit>();
         Vector3 unitLocation = target.GetComponent<Unit>().transform.position;
-        foreach (Unit u in instance.enemiesToOutline)
+        foreach (GameObject outline in instance.enemyOutlines)
         {
-            if (u != currTarget)
+            if (!outline.transform.position.Equals(unitLocation))
             {
-                u.hideOutline();
-            }
-            else
-            {
-                u.setAndLockHighIntensity();
+                Destroy(outline);
             }
         }
-        CombatCalculator.instance.calculate(instance.currUnit, target.GetComponent<Unit>());
-        instance.forecastMenu.GetComponent<ForecastMenu>().displayMenu();
     }
      
     public void targetConfirmed()
     {
-        instance.currUnit.attack(instance.currTarget);
         instance.clearOutlines();
-        instance.resetCurrentUnit();
-        instance.forecastMenu.GetComponent<ForecastMenu>().hideMenu();
+        resetCurrentUnit();
     }
 
     public void resetCurrentUnit()
     {
         instance.currUnit = null;
-        instance.currTarget = null;
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().currUnit = null;
+        instance.actionMenu.GetComponent<ActionMenu>().currUnit = null;
     }
 
     public void clearOutlines()
     {
-        foreach (Unit u in instance.enemiesToOutline)
-            u.hideOutline();
-        instance.enemiesToOutline.Clear();
-    }
-
-    public void endTurnSelected()
-    {
-        instance.pauseMenu.GetComponent<PauseMenu>().endTurn();
-    }
-
-    public void openPauseMenu()
-    {
-        if (GameManager.instance.playerPhase && (currUnit == null || !currUnit.selected))
-        {
-            instance.pauseMenu.GetComponent<PauseMenu>().displayMenu();
-
-        }
-            
+        foreach (GameObject outline in instance.enemyOutlines)
+            Destroy(outline);
+        instance.enemyOutlines.Clear();
     }
 
 }

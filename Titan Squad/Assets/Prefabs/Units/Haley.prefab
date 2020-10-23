@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1719514652399234776}
   - component: {fileID: 1719514652399234777}
   - component: {fileID: 1719514652399234778}
-  - component: {fileID: 4716636738013595702}
+  - component: {fileID: 4939434921559574080}
   - component: {fileID: 9202386582228416888}
   - component: {fileID: 4844979343108605676}
   m_Layer: 0
@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8ea6e387137ffd1438c2fc67efc102af, type: 2}
+  - {fileID: 2100000, guid: e216e0f83104b4747814a0b3ea9db484, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4750916368599340704, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+  m_Sprite: {fileID: 4256196335965220526, guid: a00d916a36d104e43a4113824cfc7efe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,7 +106,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4716636738013595702
+--- !u!114 &4939434921559574080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,25 +115,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1719514652399234779}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fff797842483c4baff2563206391a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cd196a645e7393418fe3d640dee31a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movePoint: {fileID: 9148025668021806119}
   hpMax: 10
   hpRemaining: 10
-  combatTraining: 0
-  evasiveTactics: 0
-  bionicEnhancement: 0
-  luck: 0
   canMove: 0
   canAttack: 0
   selected: 0
   movement: 0
-  vision:
-  - {fileID: 5519743853196176358, guid: 40ad7f119185a5e4cade72a2df050250, type: 3}
-  - {fileID: 4736103055151661554, guid: 4f62adb535f077d44bb4620b3ae768f5, type: 3}
-  abilityNames: []
-  abilityDescriptions: []
+  maskFilter: {fileID: 5519743853196176358, guid: 41ea53ca079cdbf4c8f179653cdc3f17, type: 3}
   OnPlayerSelected:
     m_PersistentCalls:
       m_Calls:
@@ -189,9 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d00e3b17cf3fc4ca09ec16ed0c5298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currGreyscale: 0
-  outlineShowing: 0
-  highIntensity: 0
 --- !u!1 &3493636707652915041
 GameObject:
   m_ObjectHideFlags: 0

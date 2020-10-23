@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 5488265728047555969}
   - component: {fileID: 5488265728047555971}
   - component: {fileID: 5488265728047555968}
-  - component: {fileID: 3649296274915759072}
-  - component: {fileID: 7449949206311377108}
   m_Layer: 5
   m_Name: EnemyPhase
   m_TagString: Untagged
@@ -34,11 +32,11 @@ RectTransform:
   m_Father: {fileID: 5488265729498366100}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 773.7668, y: 145.08127}
-  m_Pivot: {x: 0.5, y: 1}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5488265728047555971
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -68,8 +66,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: a8cc10506bd45ca4db36e55101bdbab3, type: 3}
-    m_FontSize: 40
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -81,36 +79,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Enemy Phase
---- !u!114 &3649296274915759072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488265728047555982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
---- !u!114 &7449949206311377108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488265728047555982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 5, y: -5}
-  m_UseGraphicAlpha: 1
 --- !u!1 &5488265728274992601
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,8 +90,6 @@ GameObject:
   - component: {fileID: 5488265728274992602}
   - component: {fileID: 5488265728274992603}
   - component: {fileID: 5488265728274992600}
-  - component: {fileID: 868988753384829689}
-  - component: {fileID: 6796480140753594886}
   m_Layer: 5
   m_Name: PlayerPhase
   m_TagString: Untagged
@@ -145,11 +111,11 @@ RectTransform:
   m_Father: {fileID: 5488265729498366100}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 773.7668, y: 145.08127}
-  m_Pivot: {x: 0.5, y: 1}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5488265728274992603
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -179,8 +145,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: a8cc10506bd45ca4db36e55101bdbab3, type: 3}
-    m_FontSize: 40
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -192,36 +158,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Player Phase
---- !u!114 &868988753384829689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488265728274992601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
---- !u!114 &6796480140753594886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5488265728274992601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 5, y: -5}
-  m_UseGraphicAlpha: 1
 --- !u!1 &5488265728788554245
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,13 +207,9 @@ MonoBehaviour:
   tileMenu: {fileID: 291078123205448644, guid: b845df0b65da2c34ca251926a760c8da, type: 3}
   playerSelectedOutline: {fileID: 756814903949450993, guid: 611fea253d05a414d86109bb80712b29, type: 3}
   enemySelectedOutline: {fileID: 9074200601587621654, guid: 08cd4922cbd040345b7be7c52d55c1d2, type: 3}
-  pauseMenu: {fileID: 2853687712032119948, guid: f480dc043bf69634f80be944fb5c99d4, type: 3}
-  forecastMenu: {fileID: 4805252265447094246, guid: 0afd174792280ed428228bd097ccca15, type: 3}
-  combatCalculator: {fileID: 5391532308134352649, guid: 4d259fdf6b9b5094bb1bd9283548655b, type: 3}
   playerPhaseText: {fileID: 5488265728274992600}
   enemyPhaseText: {fileID: 5488265728047555968}
   currUnit: {fileID: 0}
-  currTarget: {fileID: 0}
 --- !u!114 &5488265728788554244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +271,7 @@ Canvas:
   m_GameObject: {fileID: 5488265729498366101}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
@@ -364,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 32
+  m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
