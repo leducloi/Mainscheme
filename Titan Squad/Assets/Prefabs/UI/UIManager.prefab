@@ -269,10 +269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionMenu: {fileID: 7890186372973941017, guid: 9739823369e6c4a4d96190075125c2f8, type: 3}
   tileMenu: {fileID: 291078123205448644, guid: b845df0b65da2c34ca251926a760c8da, type: 3}
-  playerSelectedOutline: {fileID: 756814903949450993, guid: 611fea253d05a414d86109bb80712b29, type: 3}
-  enemySelectedOutline: {fileID: 9074200601587621654, guid: 08cd4922cbd040345b7be7c52d55c1d2, type: 3}
   pauseMenu: {fileID: 2853687712032119948, guid: f480dc043bf69634f80be944fb5c99d4, type: 3}
-  forecastMenu: {fileID: 4805252265447094246, guid: 0afd174792280ed428228bd097ccca15, type: 3}
+  forecastMenu: {fileID: 7641734979166283571, guid: c2aa7093891ff8040894fc83faee9826, type: 3}
   combatCalculator: {fileID: 5391532308134352649, guid: 4d259fdf6b9b5094bb1bd9283548655b, type: 3}
   playerPhaseText: {fileID: 5488265728274992600}
   enemyPhaseText: {fileID: 5488265728047555968}

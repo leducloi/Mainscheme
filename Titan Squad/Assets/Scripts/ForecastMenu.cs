@@ -13,30 +13,28 @@ public class ForecastMenu : MonoBehaviour
     private Text hitText = null;
     [SerializeField]
     private Text damageText = null;
-    [SerializeField]
-    private Text alertText = null;
 
     private PlayerUnit currUnit;
-
-    public Button confirmBtn;
 
     // Start is called before the first frame update
     void Start()
     {
-        menu = GetComponent<Canvas>();
         menu.enabled = false;
     }
 
     private void Update()
     {
+        if (menu.enabled)
+            smartPosition();
+
         if (menu.enabled && Input.GetKeyDown(KeyCode.Escape))
         {
             menu.enabled = false;
             UIManager.instance.attackSelected();
         }
-        else if (menu.enabled && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ))
+        else if (menu.enabled && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0) ))
         {
-            confirmBtn.onClick.Invoke();
+            UIManager.instance.targetConfirmed();
         }
     }
 
@@ -45,8 +43,7 @@ public class ForecastMenu : MonoBehaviour
         healthText.text = "" + CombatCalculator.instance.currEnemy.hpRemaining;
         hitText.text = "" + CombatCalculator.instance.hitChanceDisplay + "%";
         damageText.text = "" + CombatCalculator.instance.currUnit.equippedWeapon.damage;
-        alertText.text = "TODO";
-        
+        smartPosition();
 
         menu.enabled = true;
     }
@@ -54,5 +51,41 @@ public class ForecastMenu : MonoBehaviour
     public void hideMenu()
     {
         menu.enabled = false;
+    }
+
+    private void smartPosition()
+    {
+        if (CombatCalculator.instance.currEnemy == null)
+        {
+            hideMenu();
+            return;
+        }
+
+        Vector3 location = CombatCalculator.instance.currEnemy.transform.position;
+        Vector3 screenLoc = Camera.main.WorldToScreenPoint(location);
+
+        RectTransform rt = GetComponent<RectTransform>();
+        
+
+        if (screenLoc.x < Screen.width / 2)
+        {
+            Vector2 setting = new Vector2(1, .5f);
+            rt.anchorMin = setting;
+            rt.anchorMax = setting;
+            rt.pivot = setting;
+
+            screenLoc.x -= 16;
+        }
+        else
+        {
+            Vector2 setting = new Vector2(0, .5f);
+            rt.anchorMin = setting;
+            rt.anchorMax = setting;
+            rt.pivot = setting;
+
+            screenLoc.x += 16;
+        }
+
+        rt.position = screenLoc;
     }
 }
