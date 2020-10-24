@@ -13,9 +13,13 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public PlayerUnit currUnit;
 
     public Button[] buttons;
+    public Button[] buttons2;
+
     private int currButton;
+    private int currButton2;
 
     private bool usingMouse = false;
+    private bool actionMenu = true;
 
 
 
@@ -23,6 +27,11 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     void Start()//Starts with the menu being disabled
     {
         currButton = 0;
+        currButton2 = 0;
+        
+
+        foreach (Button b in buttons2)
+            b.gameObject.SetActive(false);
         isShowing = false;
         menu.enabled = (isShowing);
         currUnit = null;
@@ -35,13 +44,9 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (menu.enabled && currUnit != null)
             smartMenuPosition();
         //Cancel unit select
-        if (menu.enabled && Input.GetKeyDown(KeyCode.Escape))
+        if (menu.enabled && Input.GetKeyDown(KeyCode.Escape) && actionMenu)
         {
-            menu.enabled = false;
-            currUnit.deselected();
-            CameraBehavior.instance.pauseWASD = false;
-            currUnit = null;
-            UIManager.instance.currUnit = currUnit;
+            hideMenu();
         }
         //Cancel attack select
         if (currUnit != null && currUnit.canAttack && Input.GetKeyDown(KeyCode.Escape))
@@ -57,31 +62,92 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             menu.enabled = true;
             CameraBehavior.instance.pauseWASD = true;
             currUnit.canMove = false;
+            PathArrowControl.instance.destroyAllArrows();
         }
 
         if (menu.enabled && !usingMouse)
         {
-            if (Input.GetKeyDown("w") && currButton > 0)
+            if (actionMenu)
             {
-                buttons[currButton].OnDeselect(null);
-                currButton--;
-                if (!buttons[currButton].interactable)
+                if (Input.GetKeyDown("w") && currButton > 0)
+                {
+                    buttons[currButton].OnDeselect(null);
                     currButton--;
-                buttons[currButton].OnSelect(null);
-            }
-            else if (Input.GetKeyDown("s") && currButton < buttons.Length)
-            {
-                buttons[currButton].OnDeselect(null);
-                currButton++;
-                if (!buttons[currButton].interactable)
+                    if (!buttons[currButton].interactable)
+                        currButton--;
+                    buttons[currButton].OnSelect(null);
+                }
+                else if (Input.GetKeyDown("s") && currButton < buttons.Length)
+                {
+                    buttons[currButton].OnDeselect(null);
                     currButton++;
-                buttons[currButton].OnSelect(null);
+                    if (!buttons[currButton].interactable)
+                        currButton++;
+                    buttons[currButton].OnSelect(null);
+                }
+                else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                {
+                    buttons[currButton].onClick.Invoke();
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            else
             {
-                buttons[currButton].onClick.Invoke();
+                if (Input.GetKeyDown("w") && currButton2 > 0)
+                {
+                    buttons2[currButton2].OnDeselect(null);
+                    currButton2--;
+                    if (!buttons2[currButton2].interactable)
+                        currButton2--;
+                    buttons2[currButton2].OnSelect(null);
+                }
+                else if (Input.GetKeyDown("s") && currButton2 < buttons2.Length)
+                {
+                    buttons2[currButton2].OnDeselect(null);
+                    currButton2++;
+                    if (!buttons2[currButton2].interactable)
+                        currButton2++;
+                    buttons2[currButton2].OnSelect(null);
+                }
+                else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+                {
+                    buttons2[currButton2].onClick.Invoke();
+                }
             }
         }
+
+        if (menu.enabled && !actionMenu && Input.GetKeyDown(KeyCode.Escape))
+        {
+            switchToActionMenu();
+        }
+    }
+
+    public void switchToActionMenu()
+    {
+        actionMenu = true;
+
+        foreach (Button b in buttons2)
+            b.gameObject.SetActive(false);
+        foreach (Button b in buttons)
+            b.gameObject.SetActive(true);
+
+        currButton = 0;
+        currButton2 = 0;
+    }
+
+    public void switchToAbilityMenu()
+    {
+        actionMenu = false;
+
+        foreach (Button b in buttons)
+            b.gameObject.SetActive(false);
+        foreach (Button b in buttons2)
+            b.gameObject.SetActive(true);
+
+        for(int x = 0; x < currUnit.abilityNames.Length; x++)
+            buttons2[x].GetComponentInChildren<Text>().text = currUnit.abilityNames[x];
+
+        currButton = 0;
+        currButton2 = 0;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -113,6 +179,15 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             buttons[1].interactable = false;
         }
         StartCoroutine(finishDraw());
+    }
+
+    public void hideMenu()
+    {
+        menu.enabled = false;
+        currUnit.deselected();
+        CameraBehavior.instance.pauseWASD = false;
+        currUnit = null;
+        UIManager.instance.currUnit = currUnit;
     }
 
     public void enableMove()

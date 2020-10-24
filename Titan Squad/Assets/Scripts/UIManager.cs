@@ -129,7 +129,7 @@ public class UIManager : MonoBehaviour
             }
         }
         CombatCalculator.instance.calculate(instance.currUnit, target.GetComponent<Unit>());
-        instance.forecastMenu.GetComponent<ForecastMenu>().displayMenu();
+        instance.forecastMenu.GetComponentInChildren<ForecastMenu>().displayMenu();
     }
      
     public void targetConfirmed()
@@ -137,7 +137,12 @@ public class UIManager : MonoBehaviour
         instance.currUnit.attack(instance.currTarget);
         instance.clearOutlines();
         instance.resetCurrentUnit();
-        instance.forecastMenu.GetComponent<ForecastMenu>().hideMenu();
+        instance.forecastMenu.GetComponentInChildren<ForecastMenu>().hideMenu();
+    }
+
+    public void abilityMenu()
+    {
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToAbilityMenu();
     }
 
     public void resetCurrentUnit()

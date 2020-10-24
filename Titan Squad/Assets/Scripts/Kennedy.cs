@@ -14,7 +14,7 @@ public class Kennedy : PlayerUnit
         base.Start();
 
         abilityNames[0] = "Advanced Scope";
-        abilityNames[1] = "Instantaneous Transmission";
+        abilityNames[1] = "Tele-trap";
         abilityNames[2] = "Decoy";
 
         abilityDescriptions[0] = "Kennedy triggers her advanced scope, marking all enemies within range of her Railgun for " + ADVANCED_SCOPE_DURATION + " turn.";

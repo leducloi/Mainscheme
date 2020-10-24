@@ -25,11 +25,16 @@ public abstract class PlayerUnit : Unit
     public UnitEvent OnPlayerSelected;
     public UnityEvent OnTurnCompleted;
 
+    //private CollisionTile[] currentPath;
+    private CollisionTile lastTile;
+    
+
     // Start is called before the first frame update
     protected override void Start()
     {
         abilityNames = new string[3];
         abilityDescriptions = new string[3];
+        
 
         movement = 5;
         canMove = false;
@@ -86,12 +91,13 @@ public abstract class PlayerUnit : Unit
             //If we're allowed to move, on a mouse click we move to that position
             if (canMove)
             {
+                setArrowPath();
                 if (Input.GetMouseButtonDown(0))
                 {
                     move();
+                    PathArrowControl.instance.destroyAllArrows();
                 }
-            }
-            
+            }            
         }
     }
 
@@ -159,11 +165,34 @@ public abstract class PlayerUnit : Unit
     public void deselected()
     {
         animator.SetTrigger("Stopped");
+        PathArrowControl.instance.destroyAllArrows();
         setLowIntensity();
         hideOutline();
         selected = false;
         canMove = false;
         canAttack = false;
+    }
+
+    private void setArrowPath()
+    {
+        CollisionTile newTile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (newTile != null)
+        {
+            if (newTile == lastTile)
+            {
+                return;
+            }
+        }
+        else
+            return;
+
+        lastTile = newTile;
+        PathArrowControl.instance.destroyAllArrows();
+
+        Vector3 destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
+        if (path != null)
+            PathArrowControl.instance.setPathArrow(path);
     }
 
     //Used to select a valid target to attack
@@ -183,7 +212,6 @@ public abstract class PlayerUnit : Unit
                     if (Vector3.Distance(mp, u.transform.position) <= .5f)
                     {
                         target = u;
-                        Debug.Log("Target found");
                         break;
                     }
                 }
@@ -230,6 +258,7 @@ public abstract class PlayerUnit : Unit
         hasTurn = false;
         selected = false;
         animator.SetTrigger("Stopped");
+        PathArrowControl.instance.destroyAllArrows();
     }
 
     override

@@ -32,14 +32,17 @@ public class PauseMenu : MonoBehaviour
 
     public void displayMenu()
     {
+        Vector3 nearestTile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)).coordinate;
         if (!menu.enabled)
         {
-            Vector3 nearestTile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)).coordinate;
             nearestTile.y += .25f;
             bounds.position = Camera.main.WorldToScreenPoint(nearestTile);
+            menu.enabled = true;
         }
-            
-        menu.enabled = true;
+        else if (nearestTile != MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(bounds.position)).coordinate)
+        {
+            menu.enabled = false;
+        }
     }
 
     public void hideMenu()
