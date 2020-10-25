@@ -83,7 +83,7 @@ public class EnemyUnit : Unit
             return;
         }
         //If it's the player's phase, give this unit a turn and allow it to move
-        if (GameManager.instance.playerPhase)
+        if (!GameManager.instance.enemyPhase)
         {
             hasTurn = true;
             canMove = true;

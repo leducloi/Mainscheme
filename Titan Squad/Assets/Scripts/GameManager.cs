@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     //Tracker to keep track of what map we are on
     public int currMap = 0;
 
+    public int turnCount = 0;
+
     public GameObject cursor;
    
 
@@ -42,12 +44,21 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         mapMan = GetComponent<MapManager>();
-        mapMan.loadMap(currMap);
 
         Instantiate(UIMan);
 
+        playerPhase = false;
+        enemyPhase = false;
+
+        loadNextMap();
+    }
+
+    void loadNextMap()
+    {
+        mapMan.loadMap(currMap++);
         playerPhase = true;
         enemyPhase = false;
+        turnCount = 0;
     }
 
     // Update is called once per frame
@@ -63,6 +74,7 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ShowEnemyMessage();
         yield return new WaitForSeconds(1);
         enemyPhase = true;
+        turnCount++;
     }
 
     //Called to end the enemy's turn

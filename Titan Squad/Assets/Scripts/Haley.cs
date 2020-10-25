@@ -37,21 +37,21 @@ public class Haley : PlayerUnit
     override
     public void ability1()
     {
-
+        useActionPoint(1);
     }
 
     //Sound Dart
     override
     public void ability2()
     {
-
+        useActionPoint(1);
     }
 
     //Sleep Dart
     override
     public void ability3()
     {
-
+        useActionPoint(1);
     }
 
 }

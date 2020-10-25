@@ -27,6 +27,10 @@ public abstract class PlayerUnit : Unit
 
     //private CollisionTile[] currentPath;
     private CollisionTile lastTile;
+
+    public bool usingAbility1 = false;
+    public bool usingAbility2 = false;
+    public bool usingAbility3 = false;
     
 
     // Start is called before the first frame update
@@ -81,7 +85,7 @@ public abstract class PlayerUnit : Unit
     {
         base.Update();
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
-        if (GameManager.instance.enemyPhase)
+        if (!GameManager.instance.playerPhase)
             hasTurn = true;
         //We always want the character to be moving towards the spot they're supposed to be at, represented by the movePoint
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
@@ -149,11 +153,7 @@ public abstract class PlayerUnit : Unit
         yield return new WaitForSeconds(0.1f);
 
         //Once we've moved, reduce our action points
-        actionPoints--;
-        if (actionPoints == 0)
-            turnCompleted();
-        else
-            OnPlayerSelected?.Invoke(gameObject);
+        useActionPoint(1);
 
 
         //Update the tiles for collision
@@ -212,7 +212,6 @@ public abstract class PlayerUnit : Unit
                     if (Vector3.Distance(mp, u.transform.position) <= .5f)
                     {
                         target = u;
-                        Debug.Log("Target found");
                         break;
                     }
                 }
@@ -236,11 +235,7 @@ public abstract class PlayerUnit : Unit
         if (CombatCalculator.instance.doesHit)
             enemy.hit(equippedWeapon.damage);
 
-        actionPoints--;
-        if (actionPoints == 0)
-            turnCompleted();
-        else
-            OnPlayerSelected?.Invoke(gameObject);
+        useActionPoint(1);
         yield break;
     }
 
@@ -248,6 +243,15 @@ public abstract class PlayerUnit : Unit
     public void moveSelected()
     {
         canMove = true;
+    }
+
+    protected void useActionPoint(int cost)
+    {
+        actionPoints -= cost;
+        if (actionPoints == 0)
+            turnCompleted();
+        else
+            OnPlayerSelected?.Invoke(gameObject);
     }
 
     private void turnCompleted()
@@ -265,7 +269,9 @@ public abstract class PlayerUnit : Unit
     override
     public void hit(int damage)
     {
-
+        //play hit animation
+        hpRemaining -= damage;
+        //check if death
     }
 
     override
@@ -276,10 +282,17 @@ public abstract class PlayerUnit : Unit
 
     public void swapVision()
     {
-        if (maskFilter.Equals(vision[0]))
-            maskFilter = vision[1];
+        if (maskFilter.name == "VisionDefault(Clone)")
+        {
+            Destroy(maskFilter.gameObject);
+            maskFilter = Instantiate(vision[1]);
+        }
         else
-            maskFilter = vision[0];
+        {
+            Destroy(maskFilter.gameObject);
+            maskFilter = Instantiate(vision[0]);
+        }
+        maskFilter.transform.position = transform.position;
     }
 
     public abstract void ability1();

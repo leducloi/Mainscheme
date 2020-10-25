@@ -140,6 +140,32 @@ public class UIManager : MonoBehaviour
         instance.forecastMenu.GetComponentInChildren<ForecastMenu>().hideMenu();
     }
 
+    public void abilityMenu()
+    {
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToAbilityMenu();
+    }
+
+    public void selectAbility1()
+    {
+        instance.currUnit.ability1();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().menu.enabled = false;
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
+    }
+
+    public void selectAbility2()
+    {
+        instance.currUnit.ability2();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().menu.enabled = false;
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
+    }
+
+    public void selectAbility3()
+    {
+        instance.currUnit.ability3();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().menu.enabled = false;
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
+    }
+
     public void resetCurrentUnit()
     {
         instance.currUnit = null;

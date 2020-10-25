@@ -32,20 +32,40 @@ public class Santias : PlayerUnit
     override
     public void ability1()
     {
-
+        StartCoroutine(nightVisionBooster());
+        useActionPoint(1);
     }
 
     //Grapple Move
     override
     public void ability2()
     {
-
+        useActionPoint(1);
     }
 
     //Grapple Jump
     override
     public void ability3()
     {
+        useActionPoint(1);
+    }
 
+    IEnumerator nightVisionBooster()
+    {
+        usingAbility1 = true;
+        int endTurn = GameManager.instance.turnCount + NVB_DURATION;
+
+        foreach (PlayerUnit ally in Level.instance.playerUnits)
+            ally.swapVision();
+
+        while (GameManager.instance.turnCount != endTurn)
+            yield return null;
+        while (!GameManager.instance.playerPhase)
+            yield return null;
+
+        foreach (PlayerUnit ally in Level.instance.playerUnits)
+            ally.swapVision();
+
+        usingAbility1 = false;
     }
 }

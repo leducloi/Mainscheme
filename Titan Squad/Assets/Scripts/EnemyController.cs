@@ -40,11 +40,14 @@ public class EnemyController : MonoBehaviour
     IEnumerator controlEnemies()
     {
         controllingEnemies = true;
+        bool enemies = false;
         foreach (EnemyUnit enemy in Level.instance.enemyUnits)
         {
             //If the slot is null, it means the enemy has been defeated and should be skipped
             if (enemy == null)
                 continue;
+
+            enemies = true;
 
             //Give control to the current enemy
             enemy.giveControl();
@@ -56,6 +59,10 @@ public class EnemyController : MonoBehaviour
             //Add slight pause between units moving
             yield return new WaitForSeconds(0.25f);
         }
+        //In order to give the player their turn, add a slight pause if all enemies are defeated
+        if (!enemies)
+            yield return new WaitForSeconds(.5f);
+
         controllingEnemies = false;
     }
     
