@@ -272,6 +272,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 2853687712032119948, guid: f480dc043bf69634f80be944fb5c99d4, type: 3}
   forecastMenu: {fileID: 7641734979166283571, guid: c2aa7093891ff8040894fc83faee9826, type: 3}
   combatCalculator: {fileID: 5391532308134352649, guid: 4d259fdf6b9b5094bb1bd9283548655b, type: 3}
+  abilityInfoWindow: {fileID: 8287376425527936915, guid: 0f46f70ef72b9f94ba503b09b573007b, type: 3}
   playerPhaseText: {fileID: 5488265728274992600}
   enemyPhaseText: {fileID: 5488265728047555968}
   currUnit: {fileID: 0}

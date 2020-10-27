@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject forecastMenu;
     public GameObject combatCalculator;
+    public GameObject abilityInfoWindow;
 
     private List<Unit> enemiesToOutline = new List<Unit>();
 
@@ -49,6 +50,7 @@ public class UIManager : MonoBehaviour
         pauseMenu = Instantiate(pauseMenu);
         forecastMenu = Instantiate(forecastMenu);
         combatCalculator = Instantiate(combatCalculator);
+        abilityInfoWindow = Instantiate(abilityInfoWindow);
         
         
     }
@@ -147,28 +149,28 @@ public class UIManager : MonoBehaviour
 
     public void selectAbility1()
     {
-        instance.currUnit.ability1();
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().menu.enabled = false;
+        instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 0);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
     }
 
     public void selectAbility2()
     {
-        instance.currUnit.ability2();
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().menu.enabled = false;
+        instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 1);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
     }
 
     public void selectAbility3()
     {
-        instance.currUnit.ability3();
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().menu.enabled = false;
+        instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 2);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
     }
 
     public void resetCurrentUnit()
     {
-        instance.currUnit = null;
+        //instance.currUnit = null;
         instance.currTarget = null;
         instance.actionMenu.GetComponentInChildren<ActionMenu>().currUnit = null;
     }
@@ -187,7 +189,7 @@ public class UIManager : MonoBehaviour
 
     public void openPauseMenu()
     {
-        if (GameManager.instance.playerPhase && (currUnit == null || !currUnit.selected))
+        if (GameManager.instance.playerPhase && (instance.currUnit == null || !instance.currUnit.selected))
         {
             instance.pauseMenu.GetComponent<PauseMenu>().displayMenu();
 

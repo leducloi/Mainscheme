@@ -47,6 +47,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (menu.enabled && Input.GetKeyDown(KeyCode.Escape) && actionMenu)
         {
             hideMenu();
+            currUnit.deselected();
         }
         //Cancel attack select
         if (currUnit != null && currUnit.canAttack && Input.GetKeyDown(KeyCode.Escape))
@@ -132,6 +133,8 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         currButton = 0;
         currButton2 = 0;
+
+        menu.enabled = true;
     }
 
     public void switchToAbilityMenu()
@@ -158,6 +161,8 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             buttons2[1].interactable = false;
         if (currUnit.usingAbility3)
             buttons2[2].interactable = false;
+
+        menu.enabled = true;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -194,10 +199,10 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void hideMenu()
     {
         menu.enabled = false;
-        currUnit.deselected();
+        //currUnit.deselected();
         CameraBehavior.instance.pauseWASD = false;
-        currUnit = null;
-        UIManager.instance.currUnit = currUnit;
+        //currUnit = null;
+        //UIManager.instance.currUnit = currUnit;
         foreach (Button b in buttons2)
             b.interactable = true;
     }

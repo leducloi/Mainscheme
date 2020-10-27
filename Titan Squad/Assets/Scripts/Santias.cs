@@ -11,7 +11,7 @@ public class Santias : PlayerUnit
     {
         base.Start();
 
-        abilityNames[0] = "Night Vision Booster";
+        abilityNames[0] = "NV Booster";
         abilityNames[1] = "Grapple Move";
         abilityNames[2] = "Grapple Jump";
 
@@ -52,20 +52,6 @@ public class Santias : PlayerUnit
 
     IEnumerator nightVisionBooster()
     {
-        usingAbility1 = true;
-        int endTurn = GameManager.instance.turnCount + NVB_DURATION;
-
-        foreach (PlayerUnit ally in Level.instance.playerUnits)
-            ally.swapVision();
-
-        while (GameManager.instance.turnCount != endTurn)
-            yield return null;
-        while (!GameManager.instance.playerPhase)
-            yield return null;
-
-        foreach (PlayerUnit ally in Level.instance.playerUnits)
-            ally.swapVision();
-
-        usingAbility1 = false;
+        yield return null;
     }
 }

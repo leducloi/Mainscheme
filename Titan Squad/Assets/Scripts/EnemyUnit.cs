@@ -27,8 +27,6 @@ public class EnemyUnit : Unit
 
     private int movement;
     private float moveSpeed = 5f;
-    [SerializeField]
-    private Rigidbody2D visibleBox;
 
     //Mode affects what actions the enemy will take
     public string mode;
@@ -44,8 +42,7 @@ public class EnemyUnit : Unit
             patrolEnemy = true;
         else
             patrolEnemy = false;
-
-        visibleBox = GetComponentInChildren<Rigidbody2D>();
+        
 
         if (patrolEnemy)
         {
@@ -55,20 +52,7 @@ public class EnemyUnit : Unit
         hasControl = false;
         base.Start();
         shaderControl.setColor(false);
-
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Light")
-            gameObject.GetComponent<SpriteRenderer>().enabled = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Light")
-            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        
     }
 
     // Update is called once per frame

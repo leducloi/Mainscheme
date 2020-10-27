@@ -12,9 +12,6 @@ public abstract class PlayerUnit : Unit
     [SerializeField]
     private int movement;
     private float moveSpeed = 5f;
-    //[SerializeField]
-    public GameObject[] vision;
-    private GameObject maskFilter;
 
     public string[] abilityNames;
     public string[] abilityDescriptions;
@@ -31,6 +28,8 @@ public abstract class PlayerUnit : Unit
     public bool usingAbility1 = false;
     public bool usingAbility2 = false;
     public bool usingAbility3 = false;
+
+    private bool showingHighlight = false;
     
 
     // Start is called before the first frame update
@@ -46,14 +45,7 @@ public abstract class PlayerUnit : Unit
         base.Start();
         shaderControl.setColor(true);
         hasTurn = true;
-
-        maskFilter = vision[0];
-
-        if (maskFilter)
-        {
-            maskFilter = Instantiate(maskFilter);
-            maskFilter.transform.position = transform.position;
-        }
+        
         
     }
 
@@ -95,6 +87,11 @@ public abstract class PlayerUnit : Unit
             //If we're allowed to move, on a mouse click we move to that position
             if (canMove)
             {
+                if (!showingHighlight)
+                {
+                    showingHighlight = true;
+                    MapBehavior.instance.highlightTilesInRange(transform.position, movement);
+                }
                 setArrowPath();
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -116,6 +113,8 @@ public abstract class PlayerUnit : Unit
 
         //Begin movement along that path
         StartCoroutine(moveAlongPath(path));
+        MapBehavior.instance.deleteHighlightTiles();
+        showingHighlight = false;
     }
 
     //This coroutine is to move the movePoint along the path for the sprite to follow
@@ -145,9 +144,7 @@ public abstract class PlayerUnit : Unit
         }
         while (Vector3.Distance(transform.position, movePoint.position) != 0)
             yield return null;
-
-        if (maskFilter)
-            maskFilter.transform.position = transform.position;
+        
 
         //Wait 1 frame
         yield return new WaitForSeconds(0.1f);
@@ -155,6 +152,7 @@ public abstract class PlayerUnit : Unit
         //Once we've moved, reduce our action points
         useActionPoint(1);
 
+        
 
         //Update the tiles for collision
         MapBehavior.instance.unitMoved(start, transform.position);
@@ -279,21 +277,7 @@ public abstract class PlayerUnit : Unit
     {
         return false;
     }
-
-    public void swapVision()
-    {
-        if (maskFilter.name == "VisionDefault(Clone)")
-        {
-            Destroy(maskFilter.gameObject);
-            maskFilter = Instantiate(vision[1]);
-        }
-        else
-        {
-            Destroy(maskFilter.gameObject);
-            maskFilter = Instantiate(vision[0]);
-        }
-        maskFilter.transform.position = transform.position;
-    }
+    
 
     public abstract void ability1();
     public abstract void ability2();

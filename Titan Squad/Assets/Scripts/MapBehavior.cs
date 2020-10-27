@@ -27,6 +27,10 @@ public class MapBehavior : MonoBehaviour
     public Tilemap tilemap;
     private const int MOVE_STRAIGHT_COST = 10;
     private Vector3 coordOffset;
+
+    [SerializeField]
+    private GameObject tileHighlight;
+    private GameObject highlightHolder;
     
 
     // Start is called before the first frame update
@@ -66,6 +70,8 @@ public class MapBehavior : MonoBehaviour
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
         Level.instance.levelSetup();
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
+
+        highlightHolder = new GameObject();
     }
 
     private void Update()
@@ -331,7 +337,7 @@ public class MapBehavior : MonoBehaviour
         {
             foreach (Unit unit in Level.instance.enemyUnits)
             {
-                if (unit == null || !unit.GetComponent<SpriteRenderer>().enabled)
+                if (unit == null)
                     continue;
                 if (hasLineTo(location, unit.transform.position, range))
                     ret.Add(unit);
@@ -474,5 +480,96 @@ public class MapBehavior : MonoBehaviour
         return false;
     }
 
-    
+    public void highlightTilesInRange(Vector3 currPos, int movement)
+    {
+        //Get the start tile
+        CollisionTile start = getTileAtPos(currPos);
+
+        //Our variable to hold our created path
+        //We use a List here since it is easier to add to it
+        List<CollisionTile> path = new List<CollisionTile>();
+
+        //Call our recursive pathfinding method
+        path = getTilesInRange(ref start, movement, path);
+
+        foreach (CollisionTile tile in path)
+        {
+            GameObject highlight = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
+            highlight.transform.SetParent(highlightHolder.transform);
+        }
+    }
+
+    public void deleteHighlightTiles()
+    {
+        foreach (Transform tile in highlightHolder.transform)
+        {
+            Destroy(tile.gameObject);
+        }
+    }
+
+    private List<CollisionTile> getTilesInRange(ref CollisionTile currPos, int movementLeft, List<CollisionTile> currentPath)
+    {
+        //If we didn't have enough movement to get here, stop looking
+        if (movementLeft < 0 || !currPos.isWalkable())
+            return currentPath;
+
+        //Add the current tile to the path
+        if (!currentPath.Contains(currPos))
+            currentPath.Add(currPos);
+        
+
+        //Set up our possible paths
+        List<CollisionTile> path1 = null;
+        List<CollisionTile> path2 = null;
+        List<CollisionTile> path3 = null;
+        List<CollisionTile> path4 = null;
+
+        //If we're here, we still have movement and we've not reached our destination. We must now check all adjacent tiles
+        CollisionTile E = getTileAtPos(currPos.coordinate + new Vector3(1, 0, 0)); //Tile to the East
+        CollisionTile W = getTileAtPos(currPos.coordinate + new Vector3(-1, 0, 0)); //Tile to the West
+        CollisionTile N = getTileAtPos(currPos.coordinate + new Vector3(0, 1, 0)); //Tile to the North
+        CollisionTile S = getTileAtPos(currPos.coordinate + new Vector3(0, -1, 0)); //Tile to the South
+
+        //If the tile is non-null, traverse along the path
+        if (E != null)
+        {
+            //Get how much movement is remaining
+            int remainder = movementLeft - E.tileCost;
+            //We need to create a new list identical to currentPath so that other paths don't add to the same list
+            //Instead of setting a new pointer to the list, copy the contents
+            List<CollisionTile> temp = new List<CollisionTile>();
+            foreach (CollisionTile tile in currentPath)
+                temp.Add(tile);
+            //Have path1 store the results of the first created path
+            path1 = getTilesInRange(ref E, remainder, currentPath);
+        }
+        if (W != null)
+        {
+            int remainder = movementLeft - W.tileCost;
+            List<CollisionTile> temp = new List<CollisionTile>();
+            foreach (CollisionTile tile in currentPath)
+                temp.Add(tile);
+            path2 = getTilesInRange(ref W, remainder, currentPath);
+        }
+        if (N != null)
+        {
+            int remainder = movementLeft - N.tileCost;
+            List<CollisionTile> temp = new List<CollisionTile>();
+            foreach (CollisionTile tile in currentPath)
+                temp.Add(tile);
+            path3 = getTilesInRange(ref N, remainder, currentPath);
+        }
+        if (S != null)
+        {
+            int remainder = movementLeft - S.tileCost;
+            List<CollisionTile> temp = new List<CollisionTile>();
+            foreach (CollisionTile tile in currentPath)
+                temp.Add(tile);
+            path4 = getTilesInRange(ref S, remainder, currentPath);
+        }
+
+        return currentPath;
+
+    }
+
 }

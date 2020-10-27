@@ -74,7 +74,7 @@ public class ForecastMenu : MonoBehaviour
             rt.anchorMax = setting;
             rt.pivot = setting;
 
-            screenLoc.x -= 16;
+            location.x -= .5f;
         }
         else
         {
@@ -83,9 +83,9 @@ public class ForecastMenu : MonoBehaviour
             rt.anchorMax = setting;
             rt.pivot = setting;
 
-            screenLoc.x += 16;
+            location.x += .5f;
         }
 
-        rt.position = screenLoc;
+        rt.position = Camera.main.WorldToScreenPoint(location);
     }
 }

@@ -32,7 +32,11 @@ public class PauseMenu : MonoBehaviour
 
     public void displayMenu()
     {
-        Vector3 nearestTile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)).coordinate;
+        CollisionTile tile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (tile == null)
+            return;
+
+        Vector3 nearestTile = tile.coordinate;
         if (!menu.enabled)
         {
             nearestTile.y += .25f;
