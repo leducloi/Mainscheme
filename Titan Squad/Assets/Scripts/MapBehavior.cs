@@ -30,7 +30,9 @@ public class MapBehavior : MonoBehaviour
 
     [SerializeField]
     private GameObject tileHighlight;
+
     private GameObject highlightHolder;
+    private GameObject bfgHolder;
     
 
     // Start is called before the first frame update
@@ -72,6 +74,7 @@ public class MapBehavior : MonoBehaviour
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
 
         highlightHolder = new GameObject();
+        bfgHolder = new GameObject();
     }
 
     private void Update()
@@ -223,7 +226,7 @@ public class MapBehavior : MonoBehaviour
         return cost;
     }
 
-    private List<CollisionTile> findNeighborTiles(CollisionTile currentTile)
+    public List<CollisionTile> findNeighborTiles(CollisionTile currentTile)
     {
         //Getting neighbors of a tile and add into a list of all neighbors
         List<CollisionTile> allNeighborTiles = new List<CollisionTile>();
@@ -480,6 +483,249 @@ public class MapBehavior : MonoBehaviour
         return false;
     }
 
+    public List<Unit> getBFGHits(Vector3 position, Vector3 target)
+    {
+        List<CollisionTile> path;
+        if (Mathf.Abs(target.y - position.y) < Mathf.Abs(target.x - position.x))
+        {
+            Vector3 line2Offset = new Vector3(0, 1, 0);
+            Vector3 line3Offset = new Vector3(0, -1, 0);
+            if (position.x > target.x)
+            {
+                path = getLineLow(position, target, false);
+                foreach (CollisionTile tile in getLineLow(position + line2Offset, target + line2Offset, false))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineLow(position + line3Offset, target + line3Offset, false))
+                    path.Add(tile);
+            }
+            else
+            {
+                path = getLineLow(position, target, true);
+                foreach (CollisionTile tile in getLineLow(position + line2Offset, target + line2Offset, true))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineLow(position + line3Offset, target + line3Offset, true))
+                    path.Add(tile);
+            }
+        }
+        else
+        {
+            Vector3 line2Offset = new Vector3(1, 0, 0);
+            Vector3 line3Offset = new Vector3(-1, 0, 0);
+            if (position.y > target.y)
+            {
+                path = getLineHigh(position, target, false);
+                foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, false))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, false))
+                    path.Add(tile);
+            }
+            else
+            {
+                path = getLineHigh(position, target, true);
+                foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, true))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, true))
+                    path.Add(tile);
+            }
+        }
+        List<Unit> unitsHit = new List<Unit>();
+        foreach (CollisionTile tile in path)
+        {
+            if (tile.hasEnemy)
+            {
+                Unit enemy = Level.instance.getUnitAtLoc(tile.coordinate);
+                if (enemy != null)
+                {
+                    unitsHit.Add(enemy);
+                }
+            }
+        }
+
+        return unitsHit;
+    }
+
+    public void drawBFGLine(Vector3 position, Vector3 target)
+    {
+        List<CollisionTile> path;
+        if (Mathf.Abs(target.y - position.y) < Mathf.Abs(target.x - position.x))
+        {
+            Vector3 line2Offset = new Vector3(0, 1, 0);
+            Vector3 line3Offset = new Vector3(0, -1, 0);
+            if (position.x > target.x)
+            {
+                path = getLineLow(position, target, false);
+                foreach (CollisionTile tile in getLineLow(position + line2Offset, target + line2Offset, false))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineLow(position + line3Offset, target + line3Offset, false))
+                    path.Add(tile);
+            }
+            else
+            {
+                path = getLineLow(position, target, true);
+                foreach (CollisionTile tile in getLineLow(position + line2Offset, target + line2Offset, true))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineLow(position + line3Offset, target + line3Offset, true))
+                    path.Add(tile);
+            }
+        }
+        else
+        {
+            Vector3 line2Offset = new Vector3(1, 0, 0);
+            Vector3 line3Offset = new Vector3(-1, 0, 0);
+            if (position.y > target.y)
+            {
+                path = getLineHigh(position, target, false);
+                foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, false))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, false))
+                    path.Add(tile);
+            }
+            else
+            {
+                path = getLineHigh(position, target, true);
+                foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, true))
+                    path.Add(tile);
+                foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, true))
+                    path.Add(tile);
+            }
+        }
+
+        tileHighlight.GetComponent<SpriteRenderer>().color = new Color (207f/255f, 42f/255f, 61f/255f);
+        foreach (CollisionTile tile in path)
+        {
+            GameObject newTile = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
+            newTile.transform.SetParent(bfgHolder.transform);
+        }
+    }
+
+    public void eraseBFGLine()
+    {
+        foreach (Transform t in bfgHolder.transform)
+            Destroy(t.gameObject);
+    }
+
+    //Helper for hasLineTo, checks low slope lines
+    private List<CollisionTile> getLineLow(Vector3 start, Vector3 destination, bool xDir)
+    {
+        //Get our differentials
+        int xDif = (int)(destination.x - start.x);
+        int yDif = (int)(destination.y - start.y);
+        if (!xDir)
+        {
+            xDif = (int)(start.x - destination.x);
+            yDif = (int)(start.y - destination.y);
+        }
+
+        //Set up the proper direction to move the y value
+        int yIncrement = 1;
+        if (yDif < 0)
+        {
+            yIncrement = -1;
+            yDif = -yDif;
+        }
+        if (!xDir)
+            yIncrement = -yIncrement;
+
+        //Determines when to increment y
+        int d = (2 * yDif) - xDif;
+        //Y coordinate
+        int y = (int)start.y;
+
+        int x = (int)start.x;
+        CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+        List<CollisionTile> path = new List<CollisionTile>();
+
+        while (currTile != null && currTile.passable)
+        {
+            if (!currTile.passable)
+                return path;
+
+            path.Add(currTile);
+
+            //Check if we should increment y
+            if (d > 0)
+            {
+                y = y + yIncrement;
+                d = d + (2 * (yDif - xDif));
+                currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+                if (currTile == null || !currTile.passable)
+                    return path;
+
+                //path.Add(currTile);
+            }
+            else
+                d = d + 2 * yDif;
+
+            if (xDir)
+                x++;
+            else
+                x--;
+            currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+        }
+        return path;
+    }
+    //Helper for hasLineTo, checks high slope lines
+    private List<CollisionTile> getLineHigh(Vector3 start, Vector3 destination, bool yDir)
+    {
+        //Get our differentials
+        int xDif = (int)(destination.x - start.x);
+        int yDif = (int)(destination.y - start.y);
+        if (!yDir)
+        {
+            xDif = (int)(start.x - destination.x);
+            yDif = (int)(start.y - destination.y);
+        }
+
+        //Set up the proper direction to move the x value
+        int xIncrement = 1;
+        if (xDif < 0)
+        {
+            xIncrement = -1;
+            xDif = -xDif;
+        }
+        if (!yDir)
+            xIncrement = -xIncrement;
+
+        //Determines when to increment x
+        int d = (2 * xDif) - yDif;
+        //X coordinate
+        int x = (int)start.x;
+
+        int y = (int)start.y;
+        CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+        List<CollisionTile> path = new List<CollisionTile>();
+
+        while (currTile != null && currTile.passable)
+        {
+            if (!currTile.passable)
+                return path;
+
+            path.Add(currTile);
+
+            //Check if we should increment x
+            if (d > 0)
+            {
+                x = x + xIncrement;
+                d = d + (2 * (xDif - yDif));
+                currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+                if (currTile == null || !currTile.passable)
+                    return path;
+
+                //path.Add(currTile);
+            }
+            else
+                d = d + 2 * xDif;
+
+            if (yDir)
+                y++;
+            else
+                y--;
+
+            currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+        }
+        return path;
+    }
+
     public void highlightTilesInRange(Vector3 currPos, int movement)
     {
         //Get the start tile
@@ -489,9 +735,12 @@ public class MapBehavior : MonoBehaviour
         //We use a List here since it is easier to add to it
         List<CollisionTile> path = new List<CollisionTile>();
 
-        //Call our recursive pathfinding method
-        path = getTilesInRange(ref start, movement, path);
+        //Call our recursive method
+        path = getTilesInRange(start, movement, path);
 
+        tileHighlight.GetComponent<SpriteRenderer>().color = new Color(45f/255f, 150f/255f, 1f);
+
+        //Spawn in the highlight game objects
         foreach (CollisionTile tile in path)
         {
             GameObject highlight = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
@@ -499,6 +748,7 @@ public class MapBehavior : MonoBehaviour
         }
     }
 
+    //Deletes all highlight tiles held in highlightHolder
     public void deleteHighlightTiles()
     {
         foreach (Transform tile in highlightHolder.transform)
@@ -507,7 +757,7 @@ public class MapBehavior : MonoBehaviour
         }
     }
 
-    private List<CollisionTile> getTilesInRange(ref CollisionTile currPos, int movementLeft, List<CollisionTile> currentPath)
+    private List<CollisionTile> getTilesInRange(CollisionTile currPos, int movementLeft, List<CollisionTile> currentPath)
     {
         //If we didn't have enough movement to get here, stop looking
         if (movementLeft < 0 || !currPos.isWalkable())
@@ -541,7 +791,7 @@ public class MapBehavior : MonoBehaviour
             foreach (CollisionTile tile in currentPath)
                 temp.Add(tile);
             //Have path1 store the results of the first created path
-            path1 = getTilesInRange(ref E, remainder, currentPath);
+            path1 = getTilesInRange(E, remainder, currentPath);
         }
         if (W != null)
         {
@@ -549,7 +799,7 @@ public class MapBehavior : MonoBehaviour
             List<CollisionTile> temp = new List<CollisionTile>();
             foreach (CollisionTile tile in currentPath)
                 temp.Add(tile);
-            path2 = getTilesInRange(ref W, remainder, currentPath);
+            path2 = getTilesInRange(W, remainder, currentPath);
         }
         if (N != null)
         {
@@ -557,7 +807,7 @@ public class MapBehavior : MonoBehaviour
             List<CollisionTile> temp = new List<CollisionTile>();
             foreach (CollisionTile tile in currentPath)
                 temp.Add(tile);
-            path3 = getTilesInRange(ref N, remainder, currentPath);
+            path3 = getTilesInRange(N, remainder, currentPath);
         }
         if (S != null)
         {
@@ -565,11 +815,10 @@ public class MapBehavior : MonoBehaviour
             List<CollisionTile> temp = new List<CollisionTile>();
             foreach (CollisionTile tile in currentPath)
                 temp.Add(tile);
-            path4 = getTilesInRange(ref S, remainder, currentPath);
+            path4 = getTilesInRange(S, remainder, currentPath);
         }
 
         return currentPath;
-
     }
 
 }

@@ -128,7 +128,6 @@ MonoBehaviour:
   patrolPath: {fileID: 0}
   patrolEnemy: 0
   hasControl: 0
-  visibleBox: {fileID: 0}
   mode: Patrol
 --- !u!114 &1108703955833123358
 MonoBehaviour:
@@ -156,7 +155,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 0.9, z: 1}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4134368892429100806
 GameObject:

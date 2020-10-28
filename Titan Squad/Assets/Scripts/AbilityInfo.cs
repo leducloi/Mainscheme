@@ -28,18 +28,26 @@ public class AbilityInfo : MonoBehaviour
             menu.enabled = false;
             UIManager.instance.abilityMenu();
         }
-        if (menu.enabled && ( Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) ))
+        if (menu.enabled && ( Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
         {
             switch (abilityNum)
             {
                 case 0:
                     currUnit.ability1();
+                    currUnit.selectAbility = false;
                     break;
                 case 1:
                     currUnit.ability2();
+                    currUnit.selectAbility = false;
                     break;
                 case 2:
                     currUnit.ability3();
+                    List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(currUnit.transform.position, currUnit.ultRange);
+                    foreach (Unit u in unitsInRange)
+                    {
+                        u.showOutline();
+                        UIManager.instance.enemiesToOutline.Add(u);
+                    }
                     break;
                 default:
                     Debug.Log("Error: Invalid ability number recieved.");

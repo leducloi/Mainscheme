@@ -208,10 +208,4 @@ public class EnemyUnit : Unit
         MapBehavior.instance.getMap().unitDefeated(transform.position, true);
         Destroy(gameObject);
     }
-
-    override
-    public bool isHiddenFrom(Unit player)
-    {
-        return true;
-    }
 }

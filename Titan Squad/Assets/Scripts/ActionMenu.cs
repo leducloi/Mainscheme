@@ -64,6 +64,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             CameraBehavior.instance.pauseWASD = true;
             currUnit.canMove = false;
             PathArrowControl.instance.destroyAllArrows();
+            MapBehavior.instance.deleteHighlightTiles();
         }
 
         if (menu.enabled && !usingMouse)
@@ -159,7 +160,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             buttons2[0].interactable = false;
         if (currUnit.usingAbility2)
             buttons2[1].interactable = false;
-        if (currUnit.usingAbility3)
+        if (currUnit.usingAbility3 || currUnit.actionPoints < 2)
             buttons2[2].interactable = false;
 
         menu.enabled = true;
@@ -199,10 +200,9 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void hideMenu()
     {
         menu.enabled = false;
-        //currUnit.deselected();
+        if (!currUnit.canAttack && !currUnit.canMove && !currUnit.selectAbility)
+            currUnit.deselected();
         CameraBehavior.instance.pauseWASD = false;
-        //currUnit = null;
-        //UIManager.instance.currUnit = currUnit;
         foreach (Button b in buttons2)
             b.interactable = true;
     }

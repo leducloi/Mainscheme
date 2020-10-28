@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         mapMan.loadMap(currMap++);
         playerPhase = true;
         enemyPhase = false;
-        turnCount = 0;
+        turnCount = 1;
     }
 
     // Update is called once per frame
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         playerPhase = false;
         UIManager.instance.ShowEnemyMessage();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         enemyPhase = true;
         turnCount++;
     }
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         enemyPhase = false;
         UIManager.instance.ShowPlayerMessage();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         playerPhase = true;
     }
 }

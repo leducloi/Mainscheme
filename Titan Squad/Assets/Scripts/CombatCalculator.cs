@@ -15,6 +15,8 @@ public class CombatCalculator : MonoBehaviour
     const int BASE_HIT = 75;
     const int RANGE_PENALTY = -40;
     const int STEALTH_BONUS = 50;
+    const int FLANKING_BONUS = 30;
+    const int COVER_BONUS = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -42,20 +44,21 @@ public class CombatCalculator : MonoBehaviour
         //Include attacker stat bonuses
         hitChance += attacker.combatTraining + attacker.bionicEnhancement + (attacker.luck / 2);
 
-        if (target.isHiddenFrom(attacker))
+        if (target.isFlankedBy(attacker))
         {
-            //Include the hidden bonus
-            hitChance += STEALTH_BONUS;
+            //Include the flanking bonus
+            hitChance += FLANKING_BONUS;
         }
-        else
+        else if (target.takingCover)
         {
             //Include defender stat bonuses
-            hitChance -= target.combatTraining + target.evasiveTactics + target.bionicEnhancement + (target.luck / 2);
+            hitChance -= COVER_BONUS;
         }
-        
+
+        hitChance -= target.combatTraining + target.evasiveTactics + target.bionicEnhancement + (target.luck / 2);
 
         //Include the dodge chance from the terrain
-        hitChance -= defenderTile.tileDodge;
+        hitChance -= defenderTile.tileDodge + target.bonusDodge;
 
         //If the target is outside of the effective range, include a range penalty
         if (!MapBehavior.instance.hasLineTo(attacker.transform.position, target.transform.position, attacker.equippedWeapon.effectiveRange))

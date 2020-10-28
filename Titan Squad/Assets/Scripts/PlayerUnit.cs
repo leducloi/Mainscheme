@@ -7,7 +7,12 @@ public abstract class PlayerUnit : Unit
 {
     public bool canMove;
     public bool canAttack;
+    public bool selectAbility;
     public bool selected;
+    public int ultRange;
+
+    protected const int ULT_COOLDOWN = 3;
+    protected const int ABILITY_COOLDOWN = 1;
 
     [SerializeField]
     private int movement;
@@ -16,7 +21,7 @@ public abstract class PlayerUnit : Unit
     public string[] abilityNames;
     public string[] abilityDescriptions;
 
-    protected int actionPoints = 2;
+    public int actionPoints = 2;
     
 
     public UnitEvent OnPlayerSelected;
@@ -41,12 +46,11 @@ public abstract class PlayerUnit : Unit
 
         movement = 5;
         canMove = false;
+        selectAbility = false;
         selected = false;
         base.Start();
         shaderControl.setColor(true);
         hasTurn = true;
-        
-        
     }
 
     //Trigger to detect when a player is clicked
@@ -78,7 +82,10 @@ public abstract class PlayerUnit : Unit
         base.Update();
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (!GameManager.instance.playerPhase)
+        {
             hasTurn = true;
+            actionPoints = 2;
+        }
         //We always want the character to be moving towards the spot they're supposed to be at, represented by the movePoint
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
@@ -144,7 +151,8 @@ public abstract class PlayerUnit : Unit
         }
         while (Vector3.Distance(transform.position, movePoint.position) != 0)
             yield return null;
-        
+
+        takeCover();
 
         //Wait 1 frame
         yield return new WaitForSeconds(0.1f);
@@ -217,6 +225,7 @@ public abstract class PlayerUnit : Unit
             yield return null;
         }
         UIManager.instance.targetChosen(target.gameObject);
+
         yield break;
     }
 
@@ -270,12 +279,6 @@ public abstract class PlayerUnit : Unit
         //play hit animation
         hpRemaining -= damage;
         //check if death
-    }
-
-    override
-    public bool isHiddenFrom(Unit enemy)
-    {
-        return false;
     }
     
 

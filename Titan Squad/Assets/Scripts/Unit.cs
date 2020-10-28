@@ -21,6 +21,9 @@ public abstract class Unit : MonoBehaviour
     public int bionicEnhancement = 0;
     public int luck = 0;
 
+    public bool takingCover = false;
+    public int bonusDodge = 0;
+
 
     private bool intensityLock = false;
 
@@ -109,7 +112,45 @@ public abstract class Unit : MonoBehaviour
         intensityLock = true;
     }
 
-    
+    public void takeCover()
+    {
+        List<CollisionTile> adjacentTiles = MapBehavior.instance.findNeighborTiles(MapBehavior.instance.getTileAtPos(transform.position));
+        foreach(CollisionTile tile in adjacentTiles)
+        {
+            if (!tile.passable)
+            {
+                takingCover = true;
+                return;
+            }
+        }
+        takingCover = false;
+    }
+
+    public bool isFlankedBy(Unit enemy)
+    {
+        if (!takingCover)
+            return true;
+
+        if (MapBehavior.instance.hasLineTo(transform.position, enemy.transform.position, enemy.equippedWeapon.maxRange))
+        {
+            Vector3 difference = enemy.transform.position - transform.position;
+
+            //If either difference is zero, we have a straight shot at the enemy
+            if (difference.x == 0 || difference.y == 0)
+                return true;
+
+            Vector2 direction = new Vector2(difference.x / Mathf.Abs(difference.x), difference.y / Mathf.Abs(difference.y));
+
+            //Get the two tiles that could possibly block our shot
+            CollisionTile tileNS = MapBehavior.instance.getTileAtPos(new Vector3(transform.position.x, transform.position.y + direction.y, 0f));
+            CollisionTile tileEW = MapBehavior.instance.getTileAtPos(new Vector3(transform.position.x + direction.x, transform.position.y, 0f));
+
+            //If both tiles are passable, we flank
+            if (tileNS.passable && tileEW.passable)
+                return true;
+        }
+        return false;
+    }
 
     public abstract void attack(Unit enemy);
 
@@ -117,7 +158,7 @@ public abstract class Unit : MonoBehaviour
 
     public abstract void hit(int damage);
 
-    public abstract bool isHiddenFrom(Unit enemy);
+    
 
     
 }

@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Santias : PlayerUnit
 {
-    const int NVB_DURATION = 2;
+    const int CLOAK_DURATION = 1;
     // Start is called before the first frame update
     override
     protected void Start()
     {
         base.Start();
 
-        abilityNames[0] = "NV Booster";
-        abilityNames[1] = "Grapple Move";
-        abilityNames[2] = "Grapple Jump";
+        abilityNames[0] = "Grapple Jump";
+        abilityNames[1] = "Cloak";
+        abilityNames[2] = "Full Force";
 
-        abilityDescriptions[0] = "Santias gives a boost to allied night vision, increasing sight range for " + NVB_DURATION + " turns.";
-        abilityDescriptions[1] = "Santias shoots out his grappling hook to a nearby obstacle, pulling himself adjacent to it.";
-        abilityDescriptions[2] = "Santias shoots out his grappling hook to a nearby obstacle and uses the momentum to toss himself over it.";
+        abilityDescriptions[0] = "Santias fires out his Grappling Hook to an obstacle and lands in a tile adjacent to it.";
+        abilityDescriptions[1] = "Santias cloaks himself for " + CLOAK_DURATION + " turn, rendering him untargetable by enemies.";
+        abilityDescriptions[2] = "Santias teleports to and attacks a nearby enemy with his Energy Blade. If this attack kills the enemy, Santias can teleport to a nearby location and make another attack.";
 
     }
 

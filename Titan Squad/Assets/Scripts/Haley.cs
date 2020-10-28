@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Haley : PlayerUnit
 {
-    const int SOUND_DART_NOISE_RANGE = 5;
-    const int SLEEP_DART_DAMAGE = 2;
-    const int SLEEP_DART_DURATION = 1;
+    const int COMBAT_DRUGS_DURATION = 3;
+    const int HEALING_AMOUNT = 10;
+    const int GLOVE_RANGE = 5;
 
     // Start is called before the first frame update
     override
@@ -15,14 +15,13 @@ public class Haley : PlayerUnit
         base.Start();
 
 
-        abilityNames[0] = "Tracker Dart";
-        abilityNames[1] = "Sound Dart";
-        abilityNames[2] = "Sleeper Dart";
+        abilityNames[0] = "Combat Drugs";
+        abilityNames[1] = "Medical Tincture";
+        abilityNames[2] = "Hit & Run";
 
-        abilityDescriptions[0] = "Haley shoots an unnoticeable tracking dart onto an enemy. Their location is marked for 5 turns, even in Fog of War.";
-        abilityDescriptions[1] = "Haley shoots a special dart onto a location in range. It creates a sound that draws enemies within " + SOUND_DART_NOISE_RANGE + " tiles.";
-        abilityDescriptions[2] = "Haley shoots a dart onto a valid target. On a hit, it deals " + SLEEP_DART_DAMAGE + " points of damage and causes the target to appear dead for " + SLEEP_DART_DURATION + " turn.";
-
+        abilityDescriptions[0] = "Haley fires a powerful mixture into an ally, increasing their combat capabilities for " + COMBAT_DRUGS_DURATION + " turns.";
+        abilityDescriptions[1] = "Haley jams a potent herbal mixture into an ally, healing them for " + HEALING_AMOUNT + " hitpoints.";
+        abilityDescriptions[2] = "Haley makes an attack with her Glove of Power and empowers all allies within " + GLOVE_RANGE + " tiles of the enemy hit with the ability to move.";
 
     }
 

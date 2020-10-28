@@ -17,7 +17,9 @@ public class UIManager : MonoBehaviour
     public GameObject combatCalculator;
     public GameObject abilityInfoWindow;
 
-    private List<Unit> enemiesToOutline = new List<Unit>();
+    public GameObject escapeClauseMenu;
+
+    public List<Unit> enemiesToOutline = new List<Unit>();
 
     //Not sure if I need to move the text into its own independent script
     //This text displays in the middle of the camera view of which phase it is
@@ -39,8 +41,8 @@ public class UIManager : MonoBehaviour
         else if (instance != this){
             Destroy(gameObject);
         }
-        playerPhaseText.enabled = false;//Hides the text at the launch of the game
-        enemyPhaseText.enabled = false;//Hides the text at the launch of the game
+        playerPhaseText.gameObject.transform.parent.gameObject.SetActive(false); //Hides the text at the launch of the game
+        enemyPhaseText.gameObject.transform.parent.gameObject.SetActive(false); //Hides the text at the launch of the game
 
         currTarget = null;
         currUnit = null;
@@ -51,6 +53,9 @@ public class UIManager : MonoBehaviour
         forecastMenu = Instantiate(forecastMenu);
         combatCalculator = Instantiate(combatCalculator);
         abilityInfoWindow = Instantiate(abilityInfoWindow);
+        escapeClauseMenu = Instantiate(escapeClauseMenu);
+
+        escapeClauseMenu.GetComponent<Canvas>().enabled = false;
         
         
     }
@@ -70,25 +75,28 @@ public class UIManager : MonoBehaviour
 
     //all below are functions to display the player or enemy turn text
     
-    public void ShowPlayerMessage() {
-         playerPhaseText.enabled = true;//Makes the text visible on screen
-         StartCoroutine(pause(false));
-        }
+    public void ShowPlayerMessage()
+    {
+        playerPhaseText.text = "Turn " + GameManager.instance.turnCount;//Makes the text visible on screen
+        playerPhaseText.gameObject.transform.parent.gameObject.SetActive(true);
+        StartCoroutine(pause(false));
+    }
 
-    public void ShowEnemyMessage() {
-         //should be the same as the ShowPlayerMessage
-         enemyPhaseText.enabled = true;
-         StartCoroutine(pause(true));
-        }
+    public void ShowEnemyMessage()
+    {
+        enemyPhaseText.text = "Turn " + GameManager.instance.turnCount;//Makes the text visible on screen
+        enemyPhaseText.gameObject.transform.parent.gameObject.SetActive(true);
+        StartCoroutine(pause(true));
+    }
 
     //Add in a pause to disable the text, player = true means the player ended their turn, false is the enemy ended their turn
     IEnumerator pause(bool player)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2f);
         if (player)
-            enemyPhaseText.enabled = false;
+            enemyPhaseText.gameObject.transform.parent.gameObject.SetActive(false);
         else
-            playerPhaseText.enabled = false;
+            playerPhaseText.gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     public void unitSelected(GameObject unit)
@@ -149,6 +157,7 @@ public class UIManager : MonoBehaviour
 
     public void selectAbility1()
     {
+        instance.currUnit.selectAbility = true;
         instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 0);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
         instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
@@ -156,6 +165,7 @@ public class UIManager : MonoBehaviour
 
     public void selectAbility2()
     {
+        instance.currUnit.selectAbility = true;
         instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 1);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
         instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
@@ -163,6 +173,7 @@ public class UIManager : MonoBehaviour
 
     public void selectAbility3()
     {
+        instance.currUnit.selectAbility = true;
         instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 2);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
         instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
@@ -195,6 +206,25 @@ public class UIManager : MonoBehaviour
 
         }
             
+    }
+
+    public void escapeClauseSelect()
+    {
+        instance.escapeClauseMenu.GetComponent<Canvas>().enabled = true;
+    }
+
+    public void escapeClauseDeposit()
+    {
+        Kennedy ken = (Kennedy)instance.currUnit;
+        ken.placeDepositSpot();
+        instance.escapeClauseMenu.GetComponent<Canvas>().enabled = false;
+    }
+
+    public void escapeClauseTeleport()
+    {
+        Kennedy ken = (Kennedy)instance.currUnit;
+        ken.teleportToSpot();
+        instance.escapeClauseMenu.GetComponent<Canvas>().enabled = false;
     }
 
 }

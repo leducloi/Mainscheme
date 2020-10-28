@@ -76,6 +76,21 @@ public abstract class Level : MonoBehaviour
             StartCoroutine(GameManager.instance.endEnemyTurn());
     }
 
+    public Unit getUnitAtLoc(Vector3 location)
+    {
+        foreach (EnemyUnit u in enemyUnits)
+        {
+            if (u.transform.position.x == location.x && u.transform.position.y == location.y)
+                return u;
+        }
+        foreach (PlayerUnit u in playerUnits)
+        {
+            if (u.transform.position.x == location.x && u.transform.position.y == location.y)
+                return u;
+        }
+        return null;
+    }
+
     public void levelSetup()
     {
         GameManager.instance.enemyPhase = true;
