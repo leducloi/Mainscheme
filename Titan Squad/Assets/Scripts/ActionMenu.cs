@@ -58,7 +58,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             UIManager.instance.clearOutlines();
         }
         //Cancel move command
-        if (currUnit != null && currUnit.canMove && Input.GetKeyDown(KeyCode.Escape))
+        if (currUnit != null && currUnit.canMove && Input.GetKeyDown(KeyCode.Escape) && !currUnit.bonusMove)
         {
             menu.enabled = true;
             CameraBehavior.instance.pauseWASD = true;

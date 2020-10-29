@@ -245,7 +245,8 @@ public class Kennedy : PlayerUnit
 
         foreach (Unit u in UIManager.instance.enemiesToOutline)
         {
-            u.hideOutline();
+            if (u != null)
+                u.hideOutline();
         }
 
         List<Unit> highlightUnits = null;
@@ -253,6 +254,17 @@ public class Kennedy : PlayerUnit
         //Highlight the shot path
         while (!Input.GetMouseButtonDown(0))
         {
+            //Cancel selection
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                MapBehavior.instance.eraseBFGLine();
+                if (highlightUnits != null)
+                    foreach (Unit u in highlightUnits)
+                        u.hideOutline();
+                usingAbility3 = false;
+                UIManager.instance.abilityMenu();
+                yield break;
+            }
             target = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             if (target != null && target != prevTile)
             {

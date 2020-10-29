@@ -46,7 +46,7 @@ public class EnemyUnit : Unit
             patrolEnemy = true;
         else
             patrolEnemy = false;
-        
+
 
         if (patrolEnemy)
         {
@@ -56,7 +56,7 @@ public class EnemyUnit : Unit
         hasControl = false;
         base.Start();
         shaderControl.setColor(false);
-        
+
     }
 
     // Update is called once per frame
@@ -84,7 +84,7 @@ public class EnemyUnit : Unit
             //If it's enemy phase and the unit can move, have it move
             if (GameManager.instance.enemyPhase && canMove)
             {
-                if(!mode.Equals("Chase"))
+                if (!mode.Equals("Chase"))
                     detectPlayerInRange(transform.position);
                 move();
             }
@@ -120,7 +120,7 @@ public class EnemyUnit : Unit
     {
         Vector3 currentPosition = transform.position;
         CollisionTile[] path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, null, true);
-        if(path != null)
+        if (path != null)
             path = path.Take(path.Length - 1).ToArray();
         yield return StartCoroutine(moveAlongPath(path, true));
         setFinishMove(currentPosition);
@@ -243,5 +243,25 @@ public class EnemyUnit : Unit
     {
         MapBehavior.instance.getMap().unitDefeated(transform.position, true);
         Destroy(gameObject);
+    }
+
+
+
+    private void OnMouseDown()
+    {
+        if ((UIManager.instance.currUnit != null && UIManager.instance.currUnit.selected) || GameManager.instance.enemyPhase)
+            return;
+        StartCoroutine(showAggroRadius());
+    }
+    
+    IEnumerator showAggroRadius()
+    {
+        MapBehavior.instance.setColor('r');
+        MapBehavior.instance.highlightTilesWithin(transform.position, (int)detectRange);
+
+        while (Input.GetMouseButton(0))
+            yield return null;
+
+        MapBehavior.instance.deleteHighlightTiles();
     }
 }

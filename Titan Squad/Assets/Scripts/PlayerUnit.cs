@@ -9,7 +9,9 @@ public abstract class PlayerUnit : Unit
     public bool canAttack;
     public bool selectAbility;
     public bool selected;
+    public bool cbDrugs = false;
     public int ultRange;
+    public bool bonusMove = false;
 
     protected const int ULT_COOLDOWN = 3;
     protected const int ABILITY_COOLDOWN = 1;
@@ -54,7 +56,7 @@ public abstract class PlayerUnit : Unit
     }
 
     //Trigger to detect when a player is clicked
-    void OnMouseDown()
+    public void OnMouseDown()
     {
         //Ensure no other player unit is selected
         foreach (PlayerUnit player in Level.instance.playerUnits)
@@ -97,6 +99,7 @@ public abstract class PlayerUnit : Unit
                 if (!showingHighlight)
                 {
                     showingHighlight = true;
+                    MapBehavior.instance.setColor('b');
                     MapBehavior.instance.highlightTilesInRange(transform.position, movement);
                 }
                 setArrowPath();
@@ -105,7 +108,12 @@ public abstract class PlayerUnit : Unit
                     move();
                     PathArrowControl.instance.destroyAllArrows();
                 }
-            }            
+            } 
+            else if (showingHighlight)
+            {
+                showingHighlight = false;
+                MapBehavior.instance.deleteHighlightTiles();
+            }
         }
     }
 
@@ -255,16 +263,18 @@ public abstract class PlayerUnit : Unit
     protected void useActionPoint(int cost)
     {
         actionPoints -= cost;
-        if (actionPoints == 0)
+        if (actionPoints <= 0)
             turnCompleted();
         else
+        {
             OnPlayerSelected?.Invoke(gameObject);
+        }
     }
 
     private void turnCompleted()
     {
         OnTurnCompleted?.Invoke();
-        actionPoints = 2;
+        //actionPoints = 2;
         setLowIntensity();
         hideOutline();
         hasTurn = false;
@@ -278,6 +288,9 @@ public abstract class PlayerUnit : Unit
     {
         //play hit animation
         hpRemaining -= damage;
+
+        if (hpRemaining > hpMax)
+            hpRemaining = hpMax;
         //check if death
     }
     

@@ -80,6 +80,8 @@ public abstract class Level : MonoBehaviour
     {
         foreach (EnemyUnit u in enemyUnits)
         {
+            if (u == null)
+                continue;
             if (u.transform.position.x == location.x && u.transform.position.y == location.y)
                 return u;
         }

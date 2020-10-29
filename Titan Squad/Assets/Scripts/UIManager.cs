@@ -200,6 +200,10 @@ public class UIManager : MonoBehaviour
 
     public void openPauseMenu()
     {
+        CollisionTile tileOn = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (tileOn.hasEnemy)
+            return;
+
         if (GameManager.instance.playerPhase && (instance.currUnit == null || !instance.currUnit.selected))
         {
             instance.pauseMenu.GetComponent<PauseMenu>().displayMenu();

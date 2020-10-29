@@ -30,15 +30,22 @@ public class MapBehavior : MonoBehaviour
     private Vector3 coordOffset;
 
     [SerializeField]
-    private GameObject tileHighlight;
+    private GameObject tileHighlight = null;
 
     private GameObject highlightHolder;
     private GameObject bfgHolder;
     private GameObject[] allPlayerObjects;
 
+    public Color red = new Color(207f / 255f, 42f / 255f, 61f / 255f);
+    public Color blue = new Color(45f / 255f, 150f / 255f, 1f);
+    public Color green = new Color(45f / 255f, 1f, 150f / 255f);
+
+    private Color currColor;
+
+
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         //If there are no instances of MapBehavior, just set it to this
         if (instance == null)
             instance = this;
@@ -76,7 +83,10 @@ public class MapBehavior : MonoBehaviour
 
         highlightHolder = new GameObject();
         bfgHolder = new GameObject();
+
         allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
+
+        currColor = blue;
     }
 
     private void Update()
@@ -133,10 +143,10 @@ public class MapBehavior : MonoBehaviour
         if (destination == null || !destination.passable || destination.hasEnemy)
         {
             if (!ignorePlayer && destination.hasPlayer)
-            { 
+            {
                 return null;
             }
-                
+
         }
         //openList is List of tiles that is actively being looked for path
         //closeList is List of tiles that has already been checked 
@@ -229,7 +239,7 @@ public class MapBehavior : MonoBehaviour
                             closeList.Add(eachNeighbor);
                         }
                     }
-                    
+
                 }
             }
         }
@@ -389,6 +399,34 @@ public class MapBehavior : MonoBehaviour
             }
         }
         
+        return ret;
+    }
+
+    public List<Unit> getAlliesInRange(Vector3 location, int range)
+    {
+        List<Unit> ret = new List<Unit>();
+
+        //Gets player units if it's the player
+        if (GameManager.instance.playerPhase)
+        {
+            foreach (Unit unit in Level.instance.playerUnits)
+            {
+                if (unit == null)
+                    continue;
+                if (hasLineTo(location, unit.transform.position, range))
+                    ret.Add(unit);
+            }
+        }
+        //Gets enemy units if it's the enemy
+        else if (GameManager.instance.enemyPhase)
+        {
+            foreach (Unit unit in Level.instance.enemyUnits)
+            {
+                if (hasLineTo(location, unit.transform.position, range))
+                    ret.Add(unit);
+            }
+        }
+
         return ret;
     }
 
@@ -623,7 +661,8 @@ public class MapBehavior : MonoBehaviour
             }
         }
 
-        tileHighlight.GetComponent<SpriteRenderer>().color = new Color (207f/255f, 42f/255f, 61f/255f);
+        setColor('r');
+        tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
         foreach (CollisionTile tile in path)
         {
             GameObject newTile = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
@@ -759,6 +798,30 @@ public class MapBehavior : MonoBehaviour
         return path;
     }
 
+    public void setColor(char color)
+    {
+        switch (color)
+        {
+            case 'r':
+            case 'R':
+                currColor = red;
+                break;
+
+            case 'b':
+            case 'B':
+                currColor = blue;
+                break;
+
+            case 'g':
+            case 'G':
+                currColor = green;
+                break;
+            default:
+                currColor = blue;
+                break;
+        }
+    }
+
     public void highlightTilesInRange(Vector3 currPos, int movement)
     {
         //Get the start tile
@@ -771,7 +834,7 @@ public class MapBehavior : MonoBehaviour
         //Call our recursive method
         path = getTilesInRange(start, movement, path);
 
-        tileHighlight.GetComponent<SpriteRenderer>().color = new Color(45f/255f, 150f/255f, 1f);
+        tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
 
         //Spawn in the highlight game objects
         foreach (CollisionTile tile in path)
@@ -818,37 +881,139 @@ public class MapBehavior : MonoBehaviour
         {
             //Get how much movement is remaining
             int remainder = movementLeft - E.tileCost;
-            //We need to create a new list identical to currentPath so that other paths don't add to the same list
-            //Instead of setting a new pointer to the list, copy the contents
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
             //Have path1 store the results of the first created path
             path1 = getTilesInRange(E, remainder, currentPath);
         }
         if (W != null)
         {
             int remainder = movementLeft - W.tileCost;
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
             path2 = getTilesInRange(W, remainder, currentPath);
         }
         if (N != null)
         {
             int remainder = movementLeft - N.tileCost;
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
             path3 = getTilesInRange(N, remainder, currentPath);
         }
         if (S != null)
         {
             int remainder = movementLeft - S.tileCost;
-            List<CollisionTile> temp = new List<CollisionTile>();
-            foreach (CollisionTile tile in currentPath)
-                temp.Add(tile);
             path4 = getTilesInRange(S, remainder, currentPath);
+        }
+        return currentPath;
+    }
+
+    public void highlightTilesWithin(Vector3 currPos, int range)
+    {
+        //Get the start tile
+        CollisionTile start = getTileAtPos(currPos);
+
+        //Our variable to hold our created path
+        //We use a List here since it is easier to add to it
+        List<CollisionTile> path = new List<CollisionTile>();
+
+        //Call our recursive method
+        path = getTilesWithin(start, range, path);
+
+        tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
+
+        //Spawn in the highlight game objects
+        foreach (CollisionTile tile in path)
+        {
+            GameObject highlight = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
+            highlight.transform.SetParent(highlightHolder.transform);
+        }
+    }
+
+    private List<CollisionTile> getTilesWithin(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
+    {
+        List<CollisionTile> pathEast = tilesWithinEast(currPos, rangeLeft, currentPath);
+
+        CollisionTile W = getTileAtPos(currPos.coordinate + new Vector3(-1, 0, 0)); //Tile to the West
+
+        List<CollisionTile> pathWest = tilesWithinWest(W, rangeLeft - 1, currentPath);
+
+        return currentPath;
+    }
+
+    private List<CollisionTile> tilesWithinEast(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
+    {
+        //If we didn't have enough movement to get here, stop looking
+        if (rangeLeft < 0)
+            return currentPath;
+
+        //Add the current tile to the path
+        if (!currentPath.Contains(currPos))
+            currentPath.Add(currPos);
+        else
+            return currentPath;
+
+        //Set up our possible paths
+        List<CollisionTile> path1 = null;
+        List<CollisionTile> path2 = null;
+        List<CollisionTile> path3 = null;
+
+        //If we're here, we still have movement and we've not reached our destination. We must now check all adjacent tiles
+        CollisionTile E = getTileAtPos(currPos.coordinate + new Vector3(1, 0, 0)); //Tile to the East
+        CollisionTile N = getTileAtPos(currPos.coordinate + new Vector3(0, 1, 0)); //Tile to the North
+        CollisionTile S = getTileAtPos(currPos.coordinate + new Vector3(0, -1, 0)); //Tile to the South
+
+        int remainder = rangeLeft - 1;
+
+        //If the tile is non-null, traverse along the path
+        if (E != null)
+        {
+            //Have path1 store the results of the first created path
+            path1 = tilesWithinEast(E, remainder, currentPath);
+        }
+        if (N != null)
+        {
+            path2 = tilesWithinEast(N, remainder, currentPath);
+        }
+        if (S != null)
+        {
+            path3 = tilesWithinEast(S, remainder, currentPath);
+        }
+
+        return currentPath;
+    }
+
+    private List<CollisionTile> tilesWithinWest(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
+    {
+        //If we didn't have enough movement to get here, stop looking
+        if (rangeLeft < 0)
+            return currentPath;
+
+        //Add the current tile to the path
+        if (!currentPath.Contains(currPos))
+            currentPath.Add(currPos);
+        else
+            return currentPath;
+
+        //Set up our possible paths
+        List<CollisionTile> path1 = null;
+        List<CollisionTile> path2 = null;
+        List<CollisionTile> path3 = null;
+
+        //If we're here, we still have movement and we've not reached our destination. We must now check all adjacent tiles
+        CollisionTile W = getTileAtPos(currPos.coordinate + new Vector3(-1, 0, 0)); //Tile to the West
+        CollisionTile N = getTileAtPos(currPos.coordinate + new Vector3(0, 1, 0)); //Tile to the North
+        CollisionTile S = getTileAtPos(currPos.coordinate + new Vector3(0, -1, 0)); //Tile to the South
+
+        int remainder = rangeLeft - 1;
+
+        //If the tile is non-null, traverse along the path
+        if (W != null)
+        {
+            //Have path1 store the results of the first created path
+            path1 = tilesWithinWest(W, remainder, currentPath);
+        }
+        if (N != null)
+        {
+            path2 = tilesWithinWest(N, remainder, currentPath);
+        }
+        if (S != null)
+        {
+            path3 = tilesWithinWest(S, remainder, currentPath);
         }
 
         return currentPath;
@@ -859,7 +1024,7 @@ public class MapBehavior : MonoBehaviour
     {
         GameObject closestPlayer = allPlayerObjects[0];
         float lowestDistance = Vector3.Distance(closestPlayer.transform.position, enemyPosition);
-        foreach(GameObject eachPlayer in allPlayerObjects)
+        foreach (GameObject eachPlayer in allPlayerObjects)
         {
             float currentDistance = Vector3.Distance(eachPlayer.transform.position, enemyPosition);
             if (currentDistance < lowestDistance)
@@ -868,7 +1033,8 @@ public class MapBehavior : MonoBehaviour
                 closestPlayer = eachPlayer;
             }
         }
+
+
         return closestPlayer;
     }
-
 }

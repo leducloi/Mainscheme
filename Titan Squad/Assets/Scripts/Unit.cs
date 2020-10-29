@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    protected Animator animator;
+    public Animator animator;
     public Transform movePoint;
-    protected bool hasTurn;
+    public bool hasTurn;
     protected ShaderController shaderControl;
 
     public int hpMax;
@@ -73,7 +73,7 @@ public abstract class Unit : MonoBehaviour
 
     protected void OnMouseExit()
     {
-        if (intensityLock)
+        if (intensityLock || !shaderControl.outlineShowing)
             return;
         if (shaderControl.highIntensity)
             shaderControl.setLowIntensity();
