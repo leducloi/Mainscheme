@@ -83,113 +83,117 @@ public class PathArrowControl : MonoBehaviour
     {
         //destroyAllArrows();
         int index = 0;
-        while (index < path.Length - 2)
+        if(path.Length > 1)
         {
-            CollisionTile currentTile = path[index]; float x0 = currentTile.coordinate.x, y0 = currentTile.coordinate.y;
-            CollisionTile nextFirstTile = path[index + 1]; float x1 = nextFirstTile.coordinate.x, y1 = nextFirstTile.coordinate.y;
-            CollisionTile nextSecondTile = path[index + 2]; float x2 = nextSecondTile.coordinate.x, y2 = nextSecondTile.coordinate.y;
-            if (y0 == y1 && y1 == y2)
+            while (index < path.Length - 2)
             {
-                Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(straightX, nextFirstTile.coordinate);
-                arrowSetMap.Add(newArrow);
+                CollisionTile currentTile = path[index]; float x0 = currentTile.coordinate.x, y0 = currentTile.coordinate.y;
+                CollisionTile nextFirstTile = path[index + 1]; float x1 = nextFirstTile.coordinate.x, y1 = nextFirstTile.coordinate.y;
+                CollisionTile nextSecondTile = path[index + 2]; float x2 = nextSecondTile.coordinate.x, y2 = nextSecondTile.coordinate.y;
+                if (y0 == y1 && y1 == y2)
+                {
+                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(straightX, nextFirstTile.coordinate);
+                    arrowSetMap.Add(newArrow);
+                }
+
+                if (x0 == x1 && x1 == x2)
+                {
+                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(straightY, nextFirstTile.coordinate);
+                    arrowSetMap.Add(newArrow);
+                }
+
+                if (x1 > x0 && x1 == x2 && y1 == y0)
+                {
+                    if (y2 > y1)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomRight, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+                    else if (y1 > y2)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopRight, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+
+                }
+
+                if (x1 < x0 && x1 == x2 && y1 == y0)
+                {
+                    if (y2 > y1)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomLeft, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+                    else if (y2 < y1)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopLeft, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+
+                }
+
+                if (x2 > x1 && y1 == y2 && x0 == x1)
+                {
+                    if (y0 > y1)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomLeft, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+                    else if (y1 > y0)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopLeft, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+                }
+
+                if (x2 < x1 && y1 == y2 && x0 == x1)
+                {
+                    if (y0 < y1)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopRight, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+                    else if (y0 > y1)
+                    {
+                        Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomRight, nextFirstTile.coordinate);
+                        arrowSetMap.Add(newArrow);
+                    }
+                }
+
+                index++;
             }
 
-            if (x0 == x1 && x1 == x2)
+            CollisionTile endTile = path[path.Length - 1]; float endX = endTile.coordinate.x, endY = endTile.coordinate.y;
+            CollisionTile beforeEndTile = path[path.Length - 2]; float bEndX = beforeEndTile.coordinate.x, bEndY = beforeEndTile.coordinate.y;
+            if (endY == bEndY)
             {
-                Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(straightY, nextFirstTile.coordinate);
-                arrowSetMap.Add(newArrow);
-            }
-
-            if (x1 > x0 && x1 == x2 && y1 == y0)
-            {
-                if (y2 > y1)
+                if (endX > bEndX)
                 {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomRight, nextFirstTile.coordinate);
+                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerRight, endTile.coordinate);
                     arrowSetMap.Add(newArrow);
                 }
-                else if (y1 > y2)
+                else if (endX < bEndX)
                 {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopRight, nextFirstTile.coordinate);
-                    arrowSetMap.Add(newArrow);
-                }
-
-            }
-
-            if (x1 < x0 && x1 == x2 && y1 == y0)
-            {
-                if (y2 > y1)
-                {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomLeft, nextFirstTile.coordinate);
-                    arrowSetMap.Add(newArrow);
-                }
-                else if (y2 < y1)
-                {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopLeft, nextFirstTile.coordinate);
-                    arrowSetMap.Add(newArrow);
-                }
-
-            }
-
-            if (x2 > x1 && y1 == y2 && x0 == x1)
-            {
-                if (y0 > y1)
-                {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomLeft, nextFirstTile.coordinate);
-                    arrowSetMap.Add(newArrow);
-                }
-                else if (y1 > y0)
-                {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopLeft, nextFirstTile.coordinate);
+                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerLeft, endTile.coordinate);
                     arrowSetMap.Add(newArrow);
                 }
             }
 
-            if (x2 < x1 && y1 == y2 && x0 == x1)
+            if (endX == bEndX)
             {
-                if (y0 < y1)
+                if (endY > bEndY)
                 {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerTopRight, nextFirstTile.coordinate);
+                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerUp, endTile.coordinate);
                     arrowSetMap.Add(newArrow);
                 }
-                else if (y0 > y1)
+                else if (endY < bEndY)
                 {
-                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(cornerBottomRight, nextFirstTile.coordinate);
+                    Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerDown, endTile.coordinate);
                     arrowSetMap.Add(newArrow);
                 }
             }
-
-            index++;
         }
-
-        CollisionTile endTile = path[path.Length - 1]; float endX = endTile.coordinate.x, endY = endTile.coordinate.y;
-        CollisionTile beforeEndTile = path[path.Length - 2]; float bEndX = beforeEndTile.coordinate.x, bEndY = beforeEndTile.coordinate.y;
-        if (endY == bEndY)
-        {
-            if (endX > bEndX)
-            {
-                Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerRight, endTile.coordinate);
-                arrowSetMap.Add(newArrow);
-            }
-            else if (endX < bEndX)
-            {
-                Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerLeft, endTile.coordinate);
-                arrowSetMap.Add(newArrow);
-            }
-        }
-
-        if (endX == bEndX)
-        {
-            if (endY > bEndY)
-            {
-                Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerUp, endTile.coordinate);
-                arrowSetMap.Add(newArrow);
-            }
-            else if (endY < bEndY)
-            {
-                Tuple<GameObject, Vector3> newArrow = new Tuple<GameObject, Vector3>(pointerDown, endTile.coordinate);
-                arrowSetMap.Add(newArrow);
-            }
-        }
+        
     }
 
     void renderArrowSetMap()
