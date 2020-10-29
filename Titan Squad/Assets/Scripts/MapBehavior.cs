@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Xml.XPath;
@@ -33,11 +34,11 @@ public class MapBehavior : MonoBehaviour
 
     private GameObject highlightHolder;
     private GameObject bfgHolder;
-    
+    private GameObject[] allPlayerObjects;
 
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         //If there are no instances of MapBehavior, just set it to this
         if (instance == null)
             instance = this;
@@ -75,6 +76,7 @@ public class MapBehavior : MonoBehaviour
 
         highlightHolder = new GameObject();
         bfgHolder = new GameObject();
+        allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
     }
 
     private void Update()
@@ -106,7 +108,7 @@ public class MapBehavior : MonoBehaviour
 
     }
 
-    public CollisionTile[] getPathTo(Vector3 currPos, Vector3 tile, int? movement = null)
+    public CollisionTile[] getPathTo(Vector3 currPos, Vector3 tile, int? movement = null, bool ignorePlayer = false)
     {
         //Get the start and destination tiles
         CollisionTile destination = getTileAtPos(tile);
@@ -116,7 +118,7 @@ public class MapBehavior : MonoBehaviour
         //We use a List here since it is easier to add to it
         List<CollisionTile> path = new List<CollisionTile>();
         //Call our recursive pathfinding method
-        path = getPath(ref start, ref destination, movement);
+        path = getPath(ref start, ref destination, movement, ignorePlayer);
 
         //If the path we created was valid, turn it into an array and return it
         if (path != null)
@@ -125,14 +127,17 @@ public class MapBehavior : MonoBehaviour
         return null;
     }
 
-    private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null)
+    private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null, bool ignorePlayer = false)
     {
         //check if destination is a valid, unoccupied tile
-        if (destination == null || destination.hasEnemy || destination.hasPlayer || !destination.passable)
+        if (destination == null || !destination.passable || destination.hasEnemy)
         {
-            return null;
+            if (!ignorePlayer && destination.hasPlayer)
+            { 
+                return null;
+            }
+                
         }
-
         //openList is List of tiles that is actively being looked for path
         //closeList is List of tiles that has already been checked 
         List<CollisionTile> openList = new List<CollisionTile>();
@@ -176,27 +181,55 @@ public class MapBehavior : MonoBehaviour
                 {
                     int newGCost = currentTile.gCost + calculateGCostDistance(currentTile, eachNeighbor);
                     //check if tile is walkable
-                    if (eachNeighbor.isWalkable())
+                    if (ignorePlayer)
                     {
-                        if (newGCost < eachNeighbor.gCost)
+                        if (eachNeighbor.passable && !eachNeighbor.hasEnemy)
                         {
-                            //this tile is potentially closer to the end tile
-                            eachNeighbor.cameFromTile = currentTile;
-                            eachNeighbor.gCost = newGCost;
-                            eachNeighbor.hCost = calculateDistance(eachNeighbor, endTile);
-                            eachNeighbor.calculateFCost();
-                            if (!openList.Contains(eachNeighbor))
+                            if (newGCost < eachNeighbor.gCost)
                             {
-                                //check in the tile
-                                openList.Add(eachNeighbor);
+                                //this tile is potentially closer to the end tile
+                                eachNeighbor.cameFromTile = currentTile;
+                                eachNeighbor.gCost = newGCost;
+                                eachNeighbor.hCost = calculateDistance(eachNeighbor, endTile);
+                                eachNeighbor.calculateFCost();
+                                if (!openList.Contains(eachNeighbor))
+                                {
+                                    //check in the tile
+                                    openList.Add(eachNeighbor);
+                                }
                             }
+                        }
+                        else
+                        {
+                            //check out the tile
+                            closeList.Add(eachNeighbor);
                         }
                     }
                     else
                     {
-                        //check out the tile
-                        closeList.Add(eachNeighbor);
+                        if (eachNeighbor.isWalkable())
+                        {
+                            if (newGCost < eachNeighbor.gCost)
+                            {
+                                //this tile is potentially closer to the end tile
+                                eachNeighbor.cameFromTile = currentTile;
+                                eachNeighbor.gCost = newGCost;
+                                eachNeighbor.hCost = calculateDistance(eachNeighbor, endTile);
+                                eachNeighbor.calculateFCost();
+                                if (!openList.Contains(eachNeighbor))
+                                {
+                                    //check in the tile
+                                    openList.Add(eachNeighbor);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //check out the tile
+                            closeList.Add(eachNeighbor);
+                        }
                     }
+                    
                 }
             }
         }
@@ -819,6 +852,23 @@ public class MapBehavior : MonoBehaviour
         }
 
         return currentPath;
+    }
+
+    //Get player objects based on position
+    public GameObject getClosestPlayerObject(Vector3 enemyPosition)
+    {
+        GameObject closestPlayer = allPlayerObjects[0];
+        float lowestDistance = Vector3.Distance(closestPlayer.transform.position, enemyPosition);
+        foreach(GameObject eachPlayer in allPlayerObjects)
+        {
+            float currentDistance = Vector3.Distance(eachPlayer.transform.position, enemyPosition);
+            if (currentDistance < lowestDistance)
+            {
+                lowestDistance = currentDistance;
+                closestPlayer = eachPlayer;
+            }
+        }
+        return closestPlayer;
     }
 
 }

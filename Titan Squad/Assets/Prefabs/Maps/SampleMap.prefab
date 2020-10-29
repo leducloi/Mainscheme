@@ -6275,6 +6275,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Santias
       objectReference: {fileID: 0}
+    - target: {fileID: 6184468256516491428, guid: 46274d1909c870a4cbb8a181e7db8bc5, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6184468256516491431, guid: 46274d1909c870a4cbb8a181e7db8bc5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.5
@@ -6546,6 +6550,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Haley
       objectReference: {fileID: 0}
+    - target: {fileID: 1719514652399234779, guid: 41735012db6216a458dc80ff0f08dc8f, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4939434921559574080, guid: 41735012db6216a458dc80ff0f08dc8f, type: 3}
       propertyPath: hpMax
       value: 10
@@ -6707,6 +6715,10 @@ PrefabInstance:
     - target: {fileID: 1819650275926554454, guid: 646453daead51c8439165f021616c5fd, type: 3}
       propertyPath: m_Name
       value: Kennedy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819650275926554454, guid: 646453daead51c8439165f021616c5fd, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 646453daead51c8439165f021616c5fd, type: 3}

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class EnemyUnit : Unit
@@ -25,8 +27,10 @@ public class EnemyUnit : Unit
     //Boolean to only try to move while it can still move
     private bool canMove;
 
-    private int movement;
+    private int movement = 5;
     private float moveSpeed = 5f;
+    private float detectRange = 10f;
+    private GameObject detectedPlayerObject;
 
     //Mode affects what actions the enemy will take
     public string mode;
@@ -80,8 +84,22 @@ public class EnemyUnit : Unit
             //If it's enemy phase and the unit can move, have it move
             if (GameManager.instance.enemyPhase && canMove)
             {
+                if(!mode.Equals("Chase"))
+                    detectPlayerInRange(transform.position);
                 move();
             }
+        }
+    }
+
+    private void detectPlayerInRange(Vector3 currentPosition)
+    {
+        GameObject playerObject = MapBehavior.instance.getClosestPlayerObject(currentPosition);
+        Vector3 playerPosition = playerObject.transform.position;
+        float actualDistance = Mathf.Abs(playerPosition.x - currentPosition.x) + Mathf.Abs(playerPosition.y - currentPosition.y);
+        if (actualDistance <= detectRange)
+        {
+            mode = "Chase";
+            detectedPlayerObject = playerObject;
         }
     }
 
@@ -94,6 +112,19 @@ public class EnemyUnit : Unit
             StartCoroutine(patroling());
         else if (mode.Equals("Guard"))
             StartCoroutine(guarding());
+        else if (mode.Equals("Chase"))
+            StartCoroutine(chasingPlayer());
+    }
+
+    IEnumerator chasingPlayer()
+    {
+        Vector3 currentPosition = transform.position;
+        CollisionTile[] path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, null, true);
+        if(path != null)
+            path = path.Take(path.Length - 1).ToArray();
+        yield return StartCoroutine(moveAlongPath(path, true));
+        setFinishMove(currentPosition);
+        yield return null;
     }
 
     IEnumerator guarding()
@@ -145,7 +176,7 @@ public class EnemyUnit : Unit
     }
 
     //move along the path of patrol or path when detects player
-    IEnumerator moveAlongPath(CollisionTile[] path)
+    IEnumerator moveAlongPath(CollisionTile[] path, bool withMomentCost = false)
     {
         if (path == null)
             yield break;
@@ -155,6 +186,11 @@ public class EnemyUnit : Unit
         animator.SetTrigger("Walking");
         while (index < path.Length)
         {
+            if (withMomentCost && index > movement)
+            {
+                yield return null;
+                break;
+            }
             if (Vector3.Distance(transform.position, movePoint.position) == 0)
             {
                 movePoint.position = path[index].coordinate;
