@@ -8,25 +8,25 @@ public class PathArrowControl : MonoBehaviour
     public static PathArrowControl instance = null;
     // Start is called before the first frame update
     [SerializeField]
-    private GameObject straightX;
+    private GameObject straightX = null;
     [SerializeField]
-    private GameObject straightY;
+    private GameObject straightY = null;
     [SerializeField]
-    private GameObject cornerTopLeft;
+    private GameObject cornerTopLeft = null;
     [SerializeField]
-    private GameObject cornerBottomLeft;
+    private GameObject cornerBottomLeft = null;
     [SerializeField]
-    private GameObject cornerTopRight;
+    private GameObject cornerTopRight = null;
     [SerializeField]
-    private GameObject cornerBottomRight;
+    private GameObject cornerBottomRight = null;
     [SerializeField]
-    private GameObject pointerDown;
+    private GameObject pointerDown = null;
     [SerializeField]
-    private GameObject pointerUp;
+    private GameObject pointerUp = null;
     [SerializeField]
-    private GameObject pointerLeft;
+    private GameObject pointerLeft = null;
     [SerializeField]
-    private GameObject pointerRight;
+    private GameObject pointerRight = null;
 
     private Transform cursorHolder;
 
