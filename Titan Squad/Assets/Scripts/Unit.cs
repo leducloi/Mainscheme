@@ -7,6 +7,7 @@ public abstract class Unit : MonoBehaviour
     public Animator animator;
     public Transform movePoint;
     public bool hasTurn;
+    public bool isCloaked = false;
     protected ShaderController shaderControl;
 
     public int hpMax;
@@ -62,7 +63,7 @@ public abstract class Unit : MonoBehaviour
 
     protected void OnMouseEnter()
     {
-        if (!hasTurn || GameManager.instance.enemyPhase)
+        if ((!hasTurn && !shaderControl.outlineShowing) || GameManager.instance.enemyPhase)
             return;
 
         if (!shaderControl.outlineShowing)

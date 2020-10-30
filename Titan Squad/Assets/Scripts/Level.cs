@@ -16,6 +16,8 @@ public abstract class Level : MonoBehaviour
     public Unit[] playerUnits;
     public GameObject[] objectives;
 
+    public bool pauseAutoEnd = false;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -37,7 +39,7 @@ public abstract class Level : MonoBehaviour
     virtual protected void Update()
     {
         //The level script handles automatically ending phases
-        if (GameManager.instance.playerPhase)
+        if (GameManager.instance.playerPhase && !pauseAutoEnd)
             autoEndPlayerPhase();
         if (GameManager.instance.enemyPhase)
             autoEndEnemyPhase();

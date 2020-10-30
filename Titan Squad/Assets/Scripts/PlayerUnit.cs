@@ -251,6 +251,7 @@ public abstract class PlayerUnit : Unit
             enemy.hit(equippedWeapon.damage);
 
         useActionPoint(1);
+        canAttack = false;
         yield break;
     }
 

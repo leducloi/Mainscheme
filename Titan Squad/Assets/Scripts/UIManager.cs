@@ -129,6 +129,9 @@ public class UIManager : MonoBehaviour
         Vector3 unitLocation = target.GetComponent<Unit>().transform.position;
         foreach (Unit u in instance.enemiesToOutline)
         {
+            if (u == null)
+                continue;
+
             if (u != currTarget)
             {
                 u.hideOutline();

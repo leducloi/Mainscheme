@@ -1026,6 +1026,8 @@ public class MapBehavior : MonoBehaviour
         float lowestDistance = Vector3.Distance(closestPlayer.transform.position, enemyPosition);
         foreach (GameObject eachPlayer in allPlayerObjects)
         {
+            if (eachPlayer == null || eachPlayer.GetComponent<PlayerUnit>().isCloaked)
+                continue;
             float currentDistance = Vector3.Distance(eachPlayer.transform.position, enemyPosition);
             if (currentDistance < lowestDistance)
             {

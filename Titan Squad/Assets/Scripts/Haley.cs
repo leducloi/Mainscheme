@@ -154,12 +154,20 @@ public class Haley : PlayerUnit
         usingAbility1 = false;
         while (GameManager.instance.turnCount != endTurn)
             yield return null;
+        target.cbDrugs = false;
         while (!GameManager.instance.playerPhase)
             yield return null;
 
-        //Remove buff from the target
-        target.cbDrugs = false;
+        //Stop particle system
         target.GetComponent<ParticleSystem>().Stop();
+
+        //Just fix color if cloaked
+        if (target.isCloaked)
+        {
+            targetShader.SetFloat("_OverlayAmount", 0.3f);
+            targetShader.SetColor("_OverlayColor", new Color(0f, 1f, 224f / 255f));
+            yield break;
+        }
 
         //Fade out the red
         while (redAmt > 0)
@@ -225,6 +233,7 @@ public class Haley : PlayerUnit
             //If the selection was on a valid unit, we're done
             target = (PlayerUnit)temp;
         }
+
 
         //Get rid of outlines
         MapBehavior.instance.deleteHighlightTiles();
@@ -364,6 +373,9 @@ public class Haley : PlayerUnit
             yield return null;
         }
 
+
+        Level.instance.pauseAutoEnd = true;
+
         MapBehavior.instance.deleteHighlightTiles();
         foreach (Unit u in selectableUnits)
         {
@@ -404,6 +416,7 @@ public class Haley : PlayerUnit
             yield return new WaitForSeconds(0.1f);
         }
 
+        Level.instance.pauseAutoEnd = false;
 
         int endTurn = ULT_COOLDOWN + GameManager.instance.turnCount;
         while (endTurn != GameManager.instance.turnCount)

@@ -120,7 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8415cbd2069a08241873bab81e3bb302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   movePoint: {fileID: 4394110860412699224}
+  hasTurn: 0
+  isCloaked: 0
   hpMax: 10
   hpRemaining: 10
   combatTraining: 0
@@ -133,7 +136,9 @@ MonoBehaviour:
   canAttack: 0
   selectAbility: 0
   selected: 0
+  cbDrugs: 0
   ultRange: 0
+  bonusMove: 0
   movement: 5
   abilityNames: []
   abilityDescriptions: []
