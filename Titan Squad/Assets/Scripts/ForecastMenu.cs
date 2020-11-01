@@ -27,7 +27,7 @@ public class ForecastMenu : MonoBehaviour
         if (menu.enabled)
             smartPosition();
 
-        if (menu.enabled && Input.GetKeyDown(KeyCode.Escape))
+        if (menu.enabled && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
             menu.enabled = false;
             UIManager.instance.attackSelected();

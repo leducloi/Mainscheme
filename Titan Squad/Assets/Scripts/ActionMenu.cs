@@ -44,13 +44,13 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (menu.enabled && currUnit != null)
             smartMenuPosition();
         //Cancel unit select
-        if (menu.enabled && Input.GetKeyDown(KeyCode.Escape) && actionMenu)
+        if (menu.enabled && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) && actionMenu)
         {
             hideMenu();
             currUnit.deselected();
         }
         //Cancel attack select
-        if (currUnit != null && currUnit.canAttack && Input.GetKeyDown(KeyCode.Escape))
+        if (currUnit != null && currUnit.canAttack && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
             menu.enabled = true;
             currUnit.canAttack = false;
@@ -58,7 +58,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             UIManager.instance.clearOutlines();
         }
         //Cancel move command
-        if (currUnit != null && currUnit.canMove && Input.GetKeyDown(KeyCode.Escape) && !currUnit.bonusMove)
+        if (currUnit != null && currUnit.canMove && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) && !currUnit.bonusMove)
         {
             menu.enabled = true;
             CameraBehavior.instance.pauseWASD = true;
@@ -117,7 +117,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             }
         }
 
-        if (menu.enabled && !actionMenu && Input.GetKeyDown(KeyCode.Escape))
+        if (menu.enabled && !actionMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
             switchToActionMenu();
         }

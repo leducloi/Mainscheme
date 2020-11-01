@@ -30,6 +30,11 @@ public class Santias : PlayerUnit
 
         hook.GetComponent<SpriteRenderer>().enabled = false;
         hook.transform.SetParent(null);
+
+        hpMax = 10;
+        hpRemaining = 10;
+        shieldMax = 8;
+        shieldRemaining = 8;
     }
 
     // Update is called once per frame

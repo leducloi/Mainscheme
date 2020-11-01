@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject forecastMenu;
     public GameObject combatCalculator;
     public GameObject abilityInfoWindow;
+    public GameObject missText;
 
     public GameObject escapeClauseMenu;
 
@@ -234,4 +235,8 @@ public class UIManager : MonoBehaviour
         instance.escapeClauseMenu.GetComponent<Canvas>().enabled = false;
     }
 
+    public void attackMissed(Vector3 location)
+    {
+        Instantiate(instance.missText);
+    }
 }

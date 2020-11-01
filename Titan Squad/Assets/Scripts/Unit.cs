@@ -13,6 +13,11 @@ public abstract class Unit : MonoBehaviour
     public int hpMax;
     public int hpRemaining;
 
+    public int shieldMax;
+    public int shieldRemaining;
+    
+    public HealthBarControl healthBar;
+
     //Keep track of weapons held by the unit
     protected Weapon[] weapons = new Weapon[2];
     public Weapon equippedWeapon;
@@ -39,6 +44,8 @@ public abstract class Unit : MonoBehaviour
         weapons[0] = new Weapon("Pistol");
         weapons[1] = new Weapon("Rifle");
         equippedWeapon = weapons[0];
+
+
     }
 
     // Update is called once per frame

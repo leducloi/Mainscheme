@@ -24,7 +24,7 @@ public abstract class PlayerUnit : Unit
     public string[] abilityDescriptions;
 
     public int actionPoints = 2;
-    
+
 
     public UnitEvent OnPlayerSelected;
     public UnityEvent OnTurnCompleted;
@@ -53,6 +53,7 @@ public abstract class PlayerUnit : Unit
         base.Start();
         shaderControl.setColor(true);
         hasTurn = true;
+
     }
 
     //Trigger to detect when a player is clicked
@@ -246,9 +247,13 @@ public abstract class PlayerUnit : Unit
 
     private IEnumerator playAttack(Unit enemy)
     {
-        yield return new WaitForSeconds(.5f);
         if (CombatCalculator.instance.doesHit)
-            enemy.hit(equippedWeapon.damage);
+            enemy.hit(CombatCalculator.instance.damageDone);
+        else
+            UIManager.instance.attackMissed(enemy.transform.position);
+
+
+        yield return new WaitForSeconds(.5f);
 
         useActionPoint(1);
         canAttack = false;
@@ -287,14 +292,29 @@ public abstract class PlayerUnit : Unit
     override
     public void hit(int damage)
     {
+        StartCoroutine(playHit(damage));
+    }
+
+    IEnumerator playHit(int damage)
+    {
+        
         //play hit animation
-        hpRemaining -= damage;
+        healthBar.takeDamage(damage);
+
+        yield return null;
+
+        while (healthBar.reducingUnderlay)
+            yield return null;
+
+        hpRemaining = healthBar.health;
+        shieldRemaining = healthBar.shields;
 
         if (hpRemaining > hpMax)
             hpRemaining = hpMax;
         //check if death
+        
     }
-    
+
 
     public abstract void ability1();
     public abstract void ability2();

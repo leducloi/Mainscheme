@@ -41,6 +41,13 @@ public class EnemyUnit : Unit
     // Start is called before the first frame update
     protected override void Start()
     {
+        hpMax = 8;
+        hpRemaining = 8;
+
+        shieldMax = 3;
+        shieldRemaining = 3;
+
+
         if (patrolPath == null)
             mode = "Guard";
 
@@ -97,7 +104,7 @@ public class EnemyUnit : Unit
     IEnumerator takeTurn()
     {
         performingAction = false;
-
+        showOutline();
         //Find the closest player and detect them if they are in range
         detectPlayerInRange(transform.position);
 
@@ -260,6 +267,7 @@ public class EnemyUnit : Unit
     {
         MapBehavior.instance.unitMoved(startPosition, transform.position);
         actionPoints = 2;
+        hideOutline();
         takingTurn = false;
         hasTurn = false;
         hasControl = false;
@@ -268,15 +276,35 @@ public class EnemyUnit : Unit
 
     //WIP - Used to have a unit attack an enemy
     override
-        public void attack(Unit enemy)
+    public void attack(Unit enemy)
     {
+        enemy.showOutline();
         StartCoroutine(playAttack(enemy));
     }
 
     override
     public void hit(int damage)
     {
-        hpRemaining -= damage;
+        StartCoroutine(playHit(damage));
+    }
+
+    IEnumerator playHit(int damage)
+    {
+        //play hit animation
+        healthBar.takeDamage(damage);
+
+        yield return null;
+
+        while (healthBar.reducingUnderlay)
+            yield return null;
+
+        hpRemaining = healthBar.health;
+        shieldRemaining = healthBar.shields;
+
+        if (hpRemaining > hpMax)
+            hpRemaining = hpMax;
+        //check if death
+
     }
 
     private void unitDefeated()
@@ -296,8 +324,11 @@ public class EnemyUnit : Unit
         //Do damage
         if (CombatCalculator.instance.doesHit)
             target.hit(CombatCalculator.instance.damageDone);
+        else
+            UIManager.instance.attackMissed(target.transform.position);
 
         performingAction = false;
+        target.hideOutline();
     }
 
     private PlayerUnit selectTarget()

@@ -42,6 +42,11 @@ public class Kennedy : PlayerUnit
         abilityDescriptions[1] = "Kennedy places down a deposit location. She can later either move this location or teleport to it.";
         abilityDescriptions[2] = "Kennedy fires a charged shot from her Railgun, hitting all targets in a 3-tile wide line.";
 
+        //Set durability
+        hpMax = 10;
+        hpRemaining = 10;
+        shieldMax = 3;
+        shieldRemaining = 3;
     }
 
     // Update is called once per frame

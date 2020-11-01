@@ -24,6 +24,10 @@ public class Haley : PlayerUnit
         abilityDescriptions[1] = "Haley jams a potent herbal mixture into an ally, healing them for " + HEALING_AMOUNT + " hitpoints.";
         abilityDescriptions[2] = "Haley makes an attack with her Glove of Power and empowers all allies within " + GLOVE_RANGE + " tiles of the enemy hit with the ability to move.";
 
+        hpMax = 10;
+        hpRemaining = 10;
+        shieldMax = 5;
+        shieldRemaining = 5;
     }
 
     // Update is called once per frame

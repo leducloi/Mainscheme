@@ -23,7 +23,7 @@ public class AbilityInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (menu.enabled && Input.GetKeyDown(KeyCode.Escape))
+        if (menu.enabled && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
             menu.enabled = false;
             UIManager.instance.abilityMenu();
