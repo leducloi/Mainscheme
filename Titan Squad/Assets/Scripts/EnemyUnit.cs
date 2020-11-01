@@ -25,7 +25,9 @@ public class EnemyUnit : Unit
     //Boolean to tell the unit if it has control
     public bool hasControl;
     //Boolean to only try to move while it can still move
-    private bool canMove;
+    private bool takingTurn = false;
+    private bool performingAction = false;
+    private int actionPoints = 2;
 
     private int movement = 5;
     private float moveSpeed = 5f;
@@ -55,6 +57,7 @@ public class EnemyUnit : Unit
         }
         hasControl = false;
         base.Start();
+        equippedWeapon.damage = 1;
         shaderControl.setColor(false);
 
     }
@@ -74,7 +77,8 @@ public class EnemyUnit : Unit
         if (!GameManager.instance.enemyPhase)
         {
             hasTurn = true;
-            canMove = true;
+            takingTurn = false;
+            actionPoints = 2;
         }
 
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
@@ -82,13 +86,48 @@ public class EnemyUnit : Unit
         if (hasControl)
         {
             //If it's enemy phase and the unit can move, have it move
-            if (GameManager.instance.enemyPhase && canMove)
+            if (GameManager.instance.enemyPhase && !takingTurn)
             {
-                if (!mode.Equals("Chase"))
-                    detectPlayerInRange(transform.position);
-                move();
+                takingTurn = true;
+                StartCoroutine(takeTurn());
             }
         }
+    }
+
+    IEnumerator takeTurn()
+    {
+        performingAction = false;
+
+        //Find the closest player and detect them if they are in range
+        detectPlayerInRange(transform.position);
+
+        //If the unit has not detected the player, have them patrol or guard and end their turn.
+        if (mode != "Chase")
+        {
+            move();
+            yield break;
+        }
+        while (actionPoints > 0)
+        {
+            yield return null;
+
+            PlayerUnit target = selectTarget();
+            if (target == null)
+            {
+                yield return StartCoroutine(chasingPlayer());
+            }
+            else
+            {
+                performingAction = true;
+                attack(target);
+            }
+            while (performingAction)
+                yield return null;
+
+            yield return new WaitForSeconds(0.1f);
+            actionPoints--;
+        }
+        setFinishMove(transform.position);
     }
 
     private void detectPlayerInRange(Vector3 currentPosition)
@@ -107,7 +146,6 @@ public class EnemyUnit : Unit
     override
     public void move()
     {
-        canMove = false;
         if (mode.Equals("Patrol"))
             StartCoroutine(patroling());
         else if (mode.Equals("Guard"))
@@ -123,7 +161,7 @@ public class EnemyUnit : Unit
         if (path != null)
             path = path.Take(path.Length - 1).ToArray();
         yield return StartCoroutine(moveAlongPath(path, true));
-        setFinishMove(currentPosition);
+        MapBehavior.instance.unitMoved(currentPosition, transform.position);
         yield return null;
     }
 
@@ -186,7 +224,7 @@ public class EnemyUnit : Unit
         animator.SetTrigger("Walking");
         while (index < path.Length)
         {
-            if (withMomentCost && index > movement)
+            if (withMomentCost && index >= movement)
             {
                 yield return null;
                 break;
@@ -221,6 +259,8 @@ public class EnemyUnit : Unit
     private void setFinishMove(Vector3 startPosition)
     {
         MapBehavior.instance.unitMoved(startPosition, transform.position);
+        actionPoints = 2;
+        takingTurn = false;
         hasTurn = false;
         hasControl = false;
     }
@@ -230,7 +270,7 @@ public class EnemyUnit : Unit
     override
         public void attack(Unit enemy)
     {
-
+        StartCoroutine(playAttack(enemy));
     }
 
     override
@@ -243,6 +283,54 @@ public class EnemyUnit : Unit
     {
         MapBehavior.instance.getMap().unitDefeated(transform.position, true);
         Destroy(gameObject);
+    }
+
+    IEnumerator playAttack(Unit target)
+    {
+        //Play attack animation
+        yield return new WaitForSeconds(0.25f);
+
+        //Calculate results
+        CombatCalculator.instance.calculate(this, target);
+
+        //Do damage
+        if (CombatCalculator.instance.doesHit)
+            target.hit(CombatCalculator.instance.damageDone);
+
+        performingAction = false;
+    }
+
+    private PlayerUnit selectTarget()
+    {
+        List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange);
+        if (unitsInRange.Count == 0)
+            return null;
+
+        float[] damagePotentials = new float[unitsInRange.Count];
+
+        int index = 0;
+        /* Calculate potential for damage for each unit
+         * Define damage potential as (Damage Done) * (Hit Chance)
+         */
+        foreach (Unit target in unitsInRange)
+        {
+            CombatCalculator.instance.calculate(this, target);
+            damagePotentials[index] = (float)CombatCalculator.instance.damageDone * (float)CombatCalculator.instance.hitChanceDisplay;
+            index++;
+        }
+
+        //Find the maximum damage potential
+        int maxIndex = 0;
+        for (index = 0; index < damagePotentials.Length; index++)
+        {
+            if (damagePotentials[index] > damagePotentials[maxIndex])
+                maxIndex = index;
+        }
+
+        //Return the unit we have the biggest damage potential against
+        PlayerUnit ret = (PlayerUnit)unitsInRange.ElementAt(maxIndex);
+
+        return ret;
     }
 
 
