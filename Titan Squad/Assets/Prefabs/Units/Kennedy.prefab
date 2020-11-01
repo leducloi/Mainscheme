@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 5593629295580208993}
   - component: {fileID: -4772836377633958202}
   - component: {fileID: -5201794382936186830}
+  - component: {fileID: 8011863745640299215}
   m_Layer: 0
   m_Name: Kennedy
   m_TagString: Untagged
@@ -247,7 +248,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8ea6e387137ffd1438c2fc67efc102af, type: 2}
@@ -313,7 +314,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccbab669a1fd6042b574ae86ab117f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   movePoint: {fileID: 8099745781558721962}
+  hasTurn: 0
+  isCloaked: 0
   hpMax: 10
   hpRemaining: 10
   combatTraining: 0
@@ -328,6 +332,7 @@ MonoBehaviour:
   selected: 0
   cbDrugs: 0
   ultRange: 0
+  bonusMove: 0
   movement: 5
   abilityNames: []
   abilityDescriptions: []
@@ -5178,6 +5183,17 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!210 &8011863745640299215
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819650275926554454}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &2442288792418209876
 GameObject:
   m_ObjectHideFlags: 0

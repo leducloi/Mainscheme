@@ -449,6 +449,7 @@ public class MapBehavior : MonoBehaviour
                 return checkLineHigh(start, destination, range);
         }
     }
+
     //Helper for hasLineTo, checks low slope lines
     private bool checkLineLow(Vector3 start, Vector3 destination, int range)
     {
@@ -501,6 +502,7 @@ public class MapBehavior : MonoBehaviour
         }
         return false;
     }
+
     //Helper for hasLineTo, checks high slope lines
     private bool checkLineHigh(Vector3 start, Vector3 destination, int range)
     {
@@ -676,7 +678,7 @@ public class MapBehavior : MonoBehaviour
             Destroy(t.gameObject);
     }
 
-    //Helper for hasLineTo, checks low slope lines
+    //Helper for BFGLine, checks low slope lines
     private List<CollisionTile> getLineLow(Vector3 start, Vector3 destination, bool xDir)
     {
         //Get our differentials
@@ -736,7 +738,8 @@ public class MapBehavior : MonoBehaviour
         }
         return path;
     }
-    //Helper for hasLineTo, checks high slope lines
+
+    //Helper for BFGLine, checks high slope lines
     private List<CollisionTile> getLineHigh(Vector3 start, Vector3 destination, bool yDir)
     {
         //Get our differentials
@@ -924,7 +927,7 @@ public class MapBehavior : MonoBehaviour
         }
     }
 
-    private List<CollisionTile> getTilesWithin(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
+    public List<CollisionTile> getTilesWithin(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
     {
         List<CollisionTile> pathEast = tilesWithinEast(currPos, rangeLeft, currentPath);
 
@@ -1038,5 +1041,47 @@ public class MapBehavior : MonoBehaviour
 
 
         return closestPlayer;
+    }
+
+    public void hightlightCustomTiles(List<CollisionTile> tilesToHighlight, char color)
+    {
+        //Set color
+        setColor(color);
+        tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
+        
+        //Spawn highlight tiles
+        foreach (CollisionTile tile in tilesToHighlight)
+        {
+            GameObject highlight = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
+            highlight.transform.SetParent(highlightHolder.transform);
+        }
+    }
+
+    public List<CollisionTile> getJumpableTiles(Vector3 position, int range)
+    {
+        CollisionTile currPos = getTileAtPos(position);
+
+        //Get every tile within range to narrow later
+        List<CollisionTile> allTilesInRange = new List<CollisionTile>();
+        allTilesInRange = getTilesWithin(currPos, range, allTilesInRange);
+
+        List<CollisionTile> tilesToHighlight = new List<CollisionTile>();
+        foreach (CollisionTile tile in allTilesInRange)
+        {
+            //If the tile is walkable, we can't grapple to it
+            if (tile.passable)
+                continue;
+
+            //Get all the adjacent tiles to the grapple tile
+            List<CollisionTile> adjTiles = findNeighborTiles(tile);
+            foreach (CollisionTile neighbor in adjTiles)
+            {
+                //Add to the highlight list the walkable tiles
+                if (neighbor.passable)
+                    tilesToHighlight.Add(neighbor);
+            }
+        }
+
+        return tilesToHighlight;
     }
 }

@@ -17,8 +17,8 @@ public abstract class PlayerUnit : Unit
     protected const int ABILITY_COOLDOWN = 1;
 
     [SerializeField]
-    private int movement;
-    private float moveSpeed = 5f;
+    protected int movement;
+    protected float moveSpeed = 5f;
 
     public string[] abilityNames;
     public string[] abilityDescriptions;
