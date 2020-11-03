@@ -24,6 +24,9 @@ public class CameraBehavior : MonoBehaviour
     private float storedResolution;
 
     public bool pauseWASD = false;
+    public bool pauseMovement = false;
+
+    private bool following = false;
 
     private int ScreenSizeX = 0;
     private int ScreenSizeY = 0;
@@ -70,6 +73,9 @@ public class CameraBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pauseMovement)
+            return;
+
         readjustCamera();
         
 
@@ -82,49 +88,58 @@ public class CameraBehavior : MonoBehaviour
     //Moves the movePoint of the camera on certain criteria
     private Vector3 moveCamera(Vector3 cameraPos)
     {
+
         Vector3 mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         // For mouse movement when it is over the top of the map
-        if (mousePosition.y >= 1f)
+        if (mousePosition.y >= .95f)
         {
             cameraPos.y += moveSpeed * Time.deltaTime;
+            following = false;
         }
 
         if (Input.GetKeyDown("w") && !pauseWASD)
         {
             cameraPos.y += moveUnit;
+            following = false;
         }
 
         //For mouse movement when it is below the bottom of the map
-        if (mousePosition.y <= 0f)
+        if (mousePosition.y <= 0.05f)
         {
             cameraPos.y -= moveSpeed * Time.deltaTime;
+            following = false;
         }
 
         if (Input.GetKeyDown("s") && !pauseWASD)
         {
             cameraPos.y -= moveUnit;
+            following = false;
         }
 
         //For mouse movement when it is over the right side of the map
-        if (mousePosition.x >= 1f)
+        if (mousePosition.x >= .95f)
         {
             cameraPos.x += moveSpeed * Time.deltaTime;
+            following = false;
         }
 
         if (Input.GetKeyDown("d") && !pauseWASD)
         {
             cameraPos.x += moveUnit;
+            following = false;
         }
 
         //For mouse movement when it is over the left side of the map
-        if (mousePosition.x <= 0f)
+        if (mousePosition.x <= 0.05f)
         {
             cameraPos.x -= moveSpeed * Time.deltaTime;
+            following = false;
         }
 
         if (Input.GetKeyDown("a") && !pauseWASD)
         {
             cameraPos.x -= moveUnit;
+            following = false;
         }
 
         //Set limit of camera width and height
@@ -185,17 +200,70 @@ public class CameraBehavior : MonoBehaviour
         ScreenSizeY = Screen.height;
     }
 
-    //Not working yet
-    //Used to pan the camera to a specific point
-    //public void panCameraTo(Vector3 destination)
-    //{
-    //    movePoint.position = destination;
-    //}
+    public IEnumerator panCameraTo(Vector3 destination, float seconds = 0)
+    {
+        following = false;
 
-    ////Used to snap the camera immediately to a specific point
-    //public void snapCameraTo(Vector3 destination)
-    //{
-    //    transform.position = destination;
-    //    movePoint.position = destination;
-    //}
+        pauseMovement = true;
+
+        destination.z = transform.position.z;
+
+        seconds *= 60;
+
+        //Check zero/negative time, if so snap immediately to target
+        if (seconds <= 0)
+        {
+            destination.x = Mathf.Clamp(destination.x, cameraLimitX[0], cameraLimitX[1]);
+            destination.y = Mathf.Clamp(destination.y, cameraLimitY[0], cameraLimitY[1]);
+            transform.position = destination;
+            pauseMovement = false;
+            yield break;
+        }
+
+        //Calculate how far in 1 frame to move
+        float moveFactor = Vector3.Distance(transform.position, destination) / seconds;
+        
+        for (int s = 0; s < seconds; s++)
+        {
+            yield return null;
+
+            Vector3 pos = Vector3.MoveTowards(transform.position, destination, moveFactor);
+            float x0 = pos.x;
+            float y0 = pos.y;
+            pos.x = Mathf.Clamp(pos.x, cameraLimitX[0], cameraLimitX[1]);
+            pos.y = Mathf.Clamp(pos.y, cameraLimitY[0], cameraLimitY[1]);
+            transform.position = pos;
+
+            //If both x and y were clamped, we can move no further towards the target and should end
+            if (x0 != pos.x && y0 != pos.y)
+                break;
+        }
+
+        pauseMovement = false;
+    }
+
+    public IEnumerator follow(GameObject target)
+    {
+        if (following)
+        {
+            following = false;
+            yield return null;
+            yield return null;
+        }
+
+        following = true;
+        
+        while (following)
+        {
+            Vector3 pos = target.transform.position;
+            pos.z = transform.position.z;
+
+            pos.x = Mathf.Clamp(pos.x, cameraLimitX[0], cameraLimitX[1]);
+            pos.y = Mathf.Clamp(pos.y, cameraLimitY[0], cameraLimitY[1]);
+
+            transform.position = pos;
+            yield return null;
+        }
+    }
+    
 }

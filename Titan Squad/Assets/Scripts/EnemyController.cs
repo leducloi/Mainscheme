@@ -49,6 +49,10 @@ public class EnemyController : MonoBehaviour
 
             enemies = true;
 
+            yield return StartCoroutine(CameraBehavior.instance.panCameraTo(enemy.transform.position, 1));
+
+            StartCoroutine(CameraBehavior.instance.follow(enemy.gameObject));
+
             //Give control to the current enemy
             enemy.giveControl();
 

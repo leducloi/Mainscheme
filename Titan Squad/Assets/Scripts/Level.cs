@@ -116,6 +116,8 @@ public abstract class Level : MonoBehaviour
             MapBehavior.instance.unitMoved(u.transform.position, u.transform.position);
         GameManager.instance.playerPhase = false;
         StartCoroutine(GameManager.instance.endEnemyTurn());
+
+        StartCoroutine(CameraBehavior.instance.panCameraTo(selectedUnits.ToArray()[0].transform.position, 1f));
     }
 
     public abstract IEnumerator cutscene();

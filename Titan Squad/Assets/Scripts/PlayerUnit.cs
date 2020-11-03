@@ -68,6 +68,8 @@ public abstract class PlayerUnit : Unit
         //If it's the player phase, then we select the unit
         if (GameManager.instance.playerPhase && hasTurn && !selected)
         {
+            StartCoroutine(CameraBehavior.instance.follow(gameObject));
+
             shaderControl.showOutline();
             setAndLockHighIntensity();
 
