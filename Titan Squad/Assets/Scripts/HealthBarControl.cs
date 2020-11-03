@@ -14,7 +14,7 @@ public class HealthBarControl : MonoBehaviour
     public int health;
     public int shields;
 
-    public bool reducingUnderlay = false;
+    public bool movingBar = false;
 
     private Vector3 lowPosition;
     private Vector3 highPosition;
@@ -47,8 +47,6 @@ public class HealthBarControl : MonoBehaviour
     private void Update()
     {
         smartPosition();
-        if (!reducingUnderlay && (shieldUnderlay.value > shieldControl.value || healthUnderlay.value > healthControl.value))
-            StartCoroutine(reduceUnderlay());
     }
 
     public void takeDamage(int damage)
@@ -60,12 +58,65 @@ public class HealthBarControl : MonoBehaviour
         if (leftoverDamage > 0)
             healthControl.value -= leftoverDamage;
 
+        StartCoroutine(reduceUnderlay());
+    }
+
+    public void resetShields()
+    {
+        display.enabled = true;
+
+        shieldUnderlay.value = shieldControl.maxValue;
+
+        StartCoroutine(increaseOverlay());
+    }
+
+    public void recieveHealing(int healing)
+    {
+        display.enabled = true;
+
+        healthUnderlay.value += healing;
+
+        StartCoroutine(increaseOverlay());
+    }
+
+    IEnumerator increaseOverlay()
+    {
+        if (movingBar)
+            yield break;
+
+        movingBar = true;
+
+        yield return new WaitForSeconds(0.3f);
+
+        while (shieldUnderlay.value > shieldControl.value || healthUnderlay.value > healthControl.value)
+        {
+            yield return null;
+
+            if (shieldUnderlay.value > shieldControl.value)
+                shieldControl.value += .05f;
+
+            if (healthUnderlay.value > healthControl.value)
+                healthControl.value += .05f;
+        }
+
+        shields = (int)shieldControl.value;
+        health = (int)healthControl.value;
+
+        movingBar = false;
+
+        yield return new WaitForSeconds(1f);
+
+        if (!movingBar)
+            display.enabled = false;
     }
     
 
     IEnumerator reduceUnderlay()
     {
-        reducingUnderlay = true;
+        if (movingBar)
+            yield break;
+
+        movingBar = true;
 
         yield return new WaitForSeconds(0.3f);
 
@@ -76,18 +127,18 @@ public class HealthBarControl : MonoBehaviour
             if (shieldUnderlay.value > shieldControl.value)
                 shieldUnderlay.value -= .05f;
 
-            if (healthUnderlay.value > healthControl.value)
+            else if (healthUnderlay.value > healthControl.value)
                 healthUnderlay.value -= .05f;
         }
 
         shields = (int)shieldControl.value;
         health = (int)healthControl.value;
 
-        reducingUnderlay = false;
+        movingBar = false;
 
         yield return new WaitForSeconds(1f);
 
-        if (!reducingUnderlay)
+        if (!movingBar)
             display.enabled = false;
     }
 
@@ -100,5 +151,15 @@ public class HealthBarControl : MonoBehaviour
             gameObject.GetComponent<RectTransform>().localPosition = highPosition;
         else
             gameObject.GetComponent<RectTransform>().localPosition = lowPosition;
+    }
+
+    public void showBar()
+    {
+        display.enabled = true;
+    }
+
+    public void hideBar()
+    {
+        display.enabled = false;
     }
 }

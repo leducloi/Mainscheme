@@ -13,6 +13,9 @@ public class Haley : PlayerUnit
     override
     protected void Start()
     {
+        weapons[0] = new Weapon("Glove of Power");
+        weapons[1] = new Weapon("Medical Syringe");
+
         base.Start();
 
 
@@ -313,7 +316,7 @@ public class Haley : PlayerUnit
 
         yield return null;
 
-        List<Unit> selectableUnits = MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange);
+        List<Unit> selectableUnits = MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange, equippedWeapon.minRange);
 
         foreach (Unit u in selectableUnits)
         {

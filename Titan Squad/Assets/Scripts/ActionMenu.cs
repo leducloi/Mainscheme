@@ -190,7 +190,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         UIManager.instance.currUnit = currUnit;
 
         buttons[currButton].OnSelect(null);
-        if (MapBehavior.instance.getUnitsInRange(currUnit.transform.position, currUnit.equippedWeapon.maxRange).Count == 0)
+        if (MapBehavior.instance.getUnitsInRange(currUnit.transform.position, currUnit.equippedWeapon.maxRange, currUnit.equippedWeapon.minRange).Count == 0)
         {
             buttons[1].interactable = false;
         }

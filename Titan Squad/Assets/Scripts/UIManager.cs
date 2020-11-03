@@ -114,7 +114,7 @@ public class UIManager : MonoBehaviour
     public void attackSelected()
     {
         selectingAttack = true;
-        List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(instance.currUnit.transform.position, instance.currUnit.equippedWeapon.maxRange);
+        List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(instance.currUnit.transform.position, instance.currUnit.equippedWeapon.maxRange, instance.currUnit.equippedWeapon.minRange);
         
         foreach (Unit u in unitsInRange)
         {
@@ -211,9 +211,7 @@ public class UIManager : MonoBehaviour
         if (GameManager.instance.playerPhase && (instance.currUnit == null || !instance.currUnit.selected))
         {
             instance.pauseMenu.GetComponent<PauseMenu>().displayMenu();
-
         }
-            
     }
 
     public void escapeClauseSelect()

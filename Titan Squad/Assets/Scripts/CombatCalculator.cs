@@ -61,7 +61,7 @@ public class CombatCalculator : MonoBehaviour
         hitChance -= defenderTile.tileDodge + target.bonusDodge;
 
         //If the target is outside of the effective range, include a range penalty
-        if (!MapBehavior.instance.hasLineTo(attacker.transform.position, target.transform.position, attacker.equippedWeapon.effectiveRange))
+        if (!MapBehavior.instance.hasLineTo(attacker.transform.position, target.transform.position, attacker.equippedWeapon.effectiveRange, attacker.equippedWeapon.minRange))
         {
             hitChance += RANGE_PENALTY;
         }

@@ -72,7 +72,13 @@ public class GameManager : MonoBehaviour
     {
         playerPhase = false;
         UIManager.instance.ShowEnemyMessage();
+        foreach (Unit u in Level.instance.enemyUnits)
+        {
+            if (u != null)
+                u.healthBar.resetShields();
+        }
         yield return new WaitForSeconds(2);
+        
         enemyPhase = true;
         turnCount++;
     }
@@ -82,7 +88,14 @@ public class GameManager : MonoBehaviour
     {
         enemyPhase = false;
         UIManager.instance.ShowPlayerMessage();
+        foreach (Unit u in Level.instance.playerUnits)
+        {
+            if (u != null)
+                u.healthBar.resetShields();
+        }
+        StartCoroutine(CameraBehavior.instance.panCameraTo(Level.instance.selectedUnits.ToArray()[0].transform.position, .5f));
         yield return new WaitForSeconds(2);
+        
         playerPhase = true;
     }
 }

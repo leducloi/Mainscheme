@@ -41,6 +41,9 @@ public class EnemyController : MonoBehaviour
     {
         controllingEnemies = true;
         bool enemies = false;
+
+        //yield return new WaitForSeconds(0.33f);
+
         foreach (EnemyUnit enemy in Level.instance.enemyUnits)
         {
             //If the slot is null, it means the enemy has been defeated and should be skipped
@@ -49,7 +52,7 @@ public class EnemyController : MonoBehaviour
 
             enemies = true;
 
-            yield return StartCoroutine(CameraBehavior.instance.panCameraTo(enemy.transform.position, 1));
+            yield return StartCoroutine(CameraBehavior.instance.panCameraTo(enemy.transform.position, .5f));
 
             StartCoroutine(CameraBehavior.instance.follow(enemy.gameObject));
 
@@ -62,6 +65,8 @@ public class EnemyController : MonoBehaviour
 
             //Add slight pause between units moving
             yield return new WaitForSeconds(0.25f);
+
+            
         }
         //In order to give the player their turn, add a slight pause if all enemies are defeated
         if (!enemies)

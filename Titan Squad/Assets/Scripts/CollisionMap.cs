@@ -50,8 +50,8 @@ public class CollisionMap
     {
         if (player)
         {
-            tileAt(start + new Vector3(-0.5f, -0.5f, 0)).hasPlayer = false;
-            tileAt(destination + new Vector3(-0.5f, -0.5f, 0)).hasPlayer = true;
+            tileAt(start).hasPlayer = false;
+            tileAt(destination).hasPlayer = true;
             return;
         }
         tileAt(start + new Vector3(-0.5f, -0.5f, 0)).hasEnemy = false;

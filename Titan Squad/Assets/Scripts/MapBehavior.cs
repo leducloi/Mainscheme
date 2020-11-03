@@ -127,8 +127,28 @@ public class MapBehavior : MonoBehaviour
         //Our variable to hold our created path
         //We use a List here since it is easier to add to it
         List<CollisionTile> path = new List<CollisionTile>();
+
+        if (ignorePlayer)
+        {
+            List<CollisionTile> neighbors = findNeighborTiles(destination);
+            int lowestHCost = int.MaxValue;
+            int index = 0;
+            foreach(CollisionTile neighbor in neighbors)
+            {
+                if (!neighbor.isWalkable())
+                    continue;
+
+                int hCost = calculateDistance(start, neighbor);
+                if (hCost < lowestHCost)
+                {
+                    lowestHCost = hCost;
+                    index = neighbors.IndexOf(neighbor);
+                }
+            }
+            destination = neighbors[index];
+        }
         //Call our recursive pathfinding method
-        path = getPath(ref start, ref destination, movement, ignorePlayer);
+        path = getPath(ref start, ref destination, movement);
 
         //If the path we created was valid, turn it into an array and return it
         if (path != null)
@@ -140,14 +160,11 @@ public class MapBehavior : MonoBehaviour
     private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null, bool ignorePlayer = false)
     {
         //check if destination is a valid, unoccupied tile
-        if (destination == null || !destination.passable || destination.hasEnemy)
+        if (destination == null || !destination.passable || destination.hasEnemy || (!ignorePlayer && destination.hasPlayer))
         {
-            if (!ignorePlayer && destination.hasPlayer)
-            {
-                return null;
-            }
-
+            return null;
         }
+        
         //openList is List of tiles that is actively being looked for path
         //closeList is List of tiles that has already been checked 
         List<CollisionTile> openList = new List<CollisionTile>();
@@ -374,7 +391,7 @@ public class MapBehavior : MonoBehaviour
 
 
     //Gets the enemy units that are within a certain range
-    public List<Unit> getUnitsInRange(Vector3 location, int range)
+    public List<Unit> getUnitsInRange(Vector3 location, int range, int minRange)
     {
         List<Unit> ret = new List<Unit>();
 
@@ -383,9 +400,9 @@ public class MapBehavior : MonoBehaviour
         {
             foreach (Unit unit in Level.instance.enemyUnits)
             {
-                if (unit == null)
+                if (unit == null || unit.isCloaked)
                     continue;
-                if (hasLineTo(location, unit.transform.position, range))
+                if (hasLineTo(location, unit.transform.position, range, minRange))
                     ret.Add(unit);
             }
         }
@@ -394,7 +411,9 @@ public class MapBehavior : MonoBehaviour
         {
             foreach (Unit unit in Level.instance.playerUnits)
             {
-                if (hasLineTo(location, unit.transform.position, range))
+                if (unit == null || unit.isCloaked)
+                    continue;
+                if (hasLineTo(location, unit.transform.position, range, minRange))
                     ret.Add(unit);
             }
         }
@@ -413,7 +432,7 @@ public class MapBehavior : MonoBehaviour
             {
                 if (unit == null)
                     continue;
-                if (hasLineTo(location, unit.transform.position, range))
+                if (hasLineTo(location, unit.transform.position, range, 0))
                     ret.Add(unit);
             }
         }
@@ -422,7 +441,7 @@ public class MapBehavior : MonoBehaviour
         {
             foreach (Unit unit in Level.instance.enemyUnits)
             {
-                if (hasLineTo(location, unit.transform.position, range))
+                if (hasLineTo(location, unit.transform.position, range, 0))
                     ret.Add(unit);
             }
         }
@@ -430,28 +449,62 @@ public class MapBehavior : MonoBehaviour
         return ret;
     }
 
+    public void drawLineTo(Vector3 position, Vector3 target)
+    {
+        List<CollisionTile> path;
+        if (Mathf.Abs(target.y - position.y) < Mathf.Abs(target.x - position.x))
+        {
+            if (position.x > target.x)
+            {
+                path = getLineLow(position, target, false, true);
+            }
+            else
+            {
+                path = getLineLow(position, target, true, true);
+            }
+        }
+        else
+        {
+            if (position.y > target.y)
+            {
+                path = getLineHigh(position, target, false, true);
+            }
+            else
+            {
+                path = getLineHigh(position, target, true, true);
+            }
+        }
+
+        setColor('r');
+        tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
+        foreach (CollisionTile tile in path)
+        {
+            GameObject newTile = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
+            newTile.transform.SetParent(bfgHolder.transform);
+        }
+    }
 
     //Draws a grid-based line to the target, checking tile collision on the way
-    public bool hasLineTo(Vector3 start, Vector3 destination, int range)
+    public bool hasLineTo(Vector3 start, Vector3 destination, int range, int minRange)
     {
         if (Mathf.Abs(destination.y - start.y) < Mathf.Abs(destination.x - start.x))
         {
             if (start.x > destination.x)
-                return checkLineLow(destination, start, range);
+                return checkLineLow(destination, start, range, minRange);
             else
-                return checkLineLow(start, destination, range);
+                return checkLineLow(start, destination, range, minRange);
         }
         else
         {
             if (start.y > destination.y)
-                return checkLineHigh(destination, start, range);
+                return checkLineHigh(destination, start, range, minRange);
             else
-                return checkLineHigh(start, destination, range);
+                return checkLineHigh(start, destination, range, minRange);
         }
     }
 
     //Helper for hasLineTo, checks low slope lines
-    private bool checkLineLow(Vector3 start, Vector3 destination, int range)
+    private bool checkLineLow(Vector3 start, Vector3 destination, int range, int minRange)
     {
         int distanceChecked = 0;
 
@@ -475,7 +528,7 @@ public class MapBehavior : MonoBehaviour
         for (int x = (int)start.x; x <= (int)destination.x; x++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-            if (currTile.coordinate.Equals(destination))
+            if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                 return true;
             if (!currTile.passable)
                 return false;
@@ -489,7 +542,7 @@ public class MapBehavior : MonoBehaviour
                 y = y + yIncrement;
                 d = d + (2 * (yDif - xDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-                if (currTile.coordinate.Equals(destination))
+                if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                     return true;
                 if (!currTile.passable)
                     return false;
@@ -504,7 +557,7 @@ public class MapBehavior : MonoBehaviour
     }
 
     //Helper for hasLineTo, checks high slope lines
-    private bool checkLineHigh(Vector3 start, Vector3 destination, int range)
+    private bool checkLineHigh(Vector3 start, Vector3 destination, int range, int minRange)
     {
         int distanceChecked = 0;
 
@@ -528,7 +581,7 @@ public class MapBehavior : MonoBehaviour
         for (int y = (int)start.y; y <= (int)destination.y; y++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-            if (currTile.coordinate.Equals(destination))
+            if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                 return true;
             if (!currTile.passable)
                 return false;
@@ -542,7 +595,7 @@ public class MapBehavior : MonoBehaviour
                 x = x + xIncrement;
                 d = d + (2 * (xDif - yDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-                if (currTile.coordinate.Equals(destination))
+                if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                     return true;
                 if (!currTile.passable)
                     return false;
@@ -679,7 +732,7 @@ public class MapBehavior : MonoBehaviour
     }
 
     //Helper for BFGLine, checks low slope lines
-    private List<CollisionTile> getLineLow(Vector3 start, Vector3 destination, bool xDir)
+    private List<CollisionTile> getLineLow(Vector3 start, Vector3 destination, bool xDir, bool hasCollision = false)
     {
         //Get our differentials
         int xDif = (int)(destination.x - start.x);
@@ -711,7 +764,7 @@ public class MapBehavior : MonoBehaviour
 
         while (currTile != null && currTile.passable)
         {
-            if (!currTile.passable)
+            if (!currTile.passable || (hasCollision && !currTile.isWalkable()) )
                 return path;
 
             path.Add(currTile);
@@ -722,10 +775,11 @@ public class MapBehavior : MonoBehaviour
                 y = y + yIncrement;
                 d = d + (2 * (yDif - xDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-                if (currTile == null || !currTile.passable)
+                if (currTile == null || !currTile.passable || (hasCollision && !currTile.isWalkable()))
                     return path;
 
-                //path.Add(currTile);
+                if (hasCollision && currTile.isWalkable())
+                    path.Add(currTile);
             }
             else
                 d = d + 2 * yDif;
@@ -740,7 +794,7 @@ public class MapBehavior : MonoBehaviour
     }
 
     //Helper for BFGLine, checks high slope lines
-    private List<CollisionTile> getLineHigh(Vector3 start, Vector3 destination, bool yDir)
+    private List<CollisionTile> getLineHigh(Vector3 start, Vector3 destination, bool yDir, bool hasCollision = false)
     {
         //Get our differentials
         int xDif = (int)(destination.x - start.x);
@@ -772,7 +826,7 @@ public class MapBehavior : MonoBehaviour
 
         while (currTile != null && currTile.passable)
         {
-            if (!currTile.passable)
+            if (!currTile.passable || (hasCollision && !currTile.isWalkable()))
                 return path;
 
             path.Add(currTile);
@@ -783,10 +837,11 @@ public class MapBehavior : MonoBehaviour
                 x = x + xIncrement;
                 d = d + (2 * (xDif - yDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-                if (currTile == null || !currTile.passable)
+                if (currTile == null || !currTile.passable || (hasCollision && !currTile.isWalkable()))
                     return path;
-
-                //path.Add(currTile);
+                
+                if (hasCollision && currTile.isWalkable())
+                    path.Add(currTile);
             }
             else
                 d = d + 2 * xDif;
@@ -1077,7 +1132,7 @@ public class MapBehavior : MonoBehaviour
             foreach (CollisionTile neighbor in adjTiles)
             {
                 //Add to the highlight list the walkable tiles
-                if (neighbor.passable)
+                if (neighbor.isWalkable())
                     tilesToHighlight.Add(neighbor);
             }
         }

@@ -42,7 +42,7 @@ public class AbilityInfo : MonoBehaviour
                     break;
                 case 2:
                     currUnit.ability3();
-                    List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(currUnit.transform.position, currUnit.ultRange);
+                    List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(currUnit.transform.position, currUnit.ultRange, 0);
                     foreach (Unit u in unitsInRange)
                     {
                         u.showOutline();

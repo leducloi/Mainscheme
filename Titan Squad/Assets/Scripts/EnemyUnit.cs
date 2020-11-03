@@ -63,8 +63,11 @@ public class EnemyUnit : Unit
             allPathPatterns = patrolPath.transform;
         }
         hasControl = false;
+
+        weapons[0] = new Weapon("Krimbar Rifle");
+        weapons[1] = new Weapon("--");
+
         base.Start();
-        equippedWeapon.damage = 1;
         shaderControl.setColor(false);
 
     }
@@ -271,6 +274,8 @@ public class EnemyUnit : Unit
         takingTurn = false;
         hasTurn = false;
         hasControl = false;
+
+        hpTypeFlesh = true;
     }
 
 
@@ -295,7 +300,7 @@ public class EnemyUnit : Unit
 
         yield return null;
 
-        while (healthBar.reducingUnderlay)
+        while (healthBar.movingBar)
             yield return null;
 
         hpRemaining = healthBar.health;
@@ -327,13 +332,16 @@ public class EnemyUnit : Unit
         else
             UIManager.instance.attackMissed(target.transform.position);
 
+        while (target.healthBar.movingBar)
+            yield return null;
+
         performingAction = false;
         target.hideOutline();
     }
 
     private PlayerUnit selectTarget()
     {
-        List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange);
+        List<Unit> unitsInRange = MapBehavior.instance.getUnitsInRange(transform.position, equippedWeapon.maxRange, equippedWeapon.minRange);
         if (unitsInRange.Count == 0)
             return null;
 
@@ -345,6 +353,7 @@ public class EnemyUnit : Unit
          */
         foreach (Unit target in unitsInRange)
         {
+            
             CombatCalculator.instance.calculate(this, target);
             damagePotentials[index] = (float)CombatCalculator.instance.damageDone * (float)CombatCalculator.instance.hitChanceDisplay;
             index++;

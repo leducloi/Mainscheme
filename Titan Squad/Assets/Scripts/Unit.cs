@@ -8,6 +8,7 @@ public abstract class Unit : MonoBehaviour
     public Transform movePoint;
     public bool hasTurn;
     public bool isCloaked = false;
+    public bool hpTypeFlesh;
     protected ShaderController shaderControl;
 
     public int hpMax;
@@ -26,6 +27,8 @@ public abstract class Unit : MonoBehaviour
     public int evasiveTactics = 0;
     public int bionicEnhancement = 0;
     public int luck = 0;
+    public int criticalTargeting = 0;
+    public int advancedShielding = 0;
 
     public bool takingCover = false;
     public int bonusDodge = 0;
@@ -41,8 +44,6 @@ public abstract class Unit : MonoBehaviour
         hasTurn = false;
         shaderControl = GetComponent<ShaderController>();
         
-        weapons[0] = new Weapon("Pistol");
-        weapons[1] = new Weapon("Rifle");
         equippedWeapon = weapons[0];
 
 
@@ -70,8 +71,14 @@ public abstract class Unit : MonoBehaviour
 
     protected void OnMouseEnter()
     {
-        if ((!hasTurn && !shaderControl.outlineShowing) || GameManager.instance.enemyPhase)
+        if (!GameManager.instance.playerPhase)
             return;
+
+        healthBar.showBar();
+
+        if (!hasTurn && !shaderControl.outlineShowing)
+            return;
+        
 
         if (!shaderControl.outlineShowing)
             shaderControl.showOutline();
@@ -81,6 +88,7 @@ public abstract class Unit : MonoBehaviour
 
     protected void OnMouseExit()
     {
+        healthBar.hideBar();
         if (intensityLock || !shaderControl.outlineShowing)
             return;
         if (shaderControl.highIntensity)
@@ -139,7 +147,7 @@ public abstract class Unit : MonoBehaviour
         if (!takingCover)
             return true;
 
-        if (MapBehavior.instance.hasLineTo(transform.position, enemy.transform.position, enemy.equippedWeapon.maxRange))
+        if (MapBehavior.instance.hasLineTo(transform.position, enemy.transform.position, enemy.equippedWeapon.maxRange, enemy.equippedWeapon.minRange))
         {
             Vector3 difference = enemy.transform.position - transform.position;
 

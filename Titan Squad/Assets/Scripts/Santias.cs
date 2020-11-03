@@ -18,6 +18,9 @@ public class Santias : PlayerUnit
     override
     protected void Start()
     {
+        weapons[0] = new Weapon("Energy Blade");
+        weapons[1] = new Weapon("Grappling Hook");
+
         base.Start();
 
         abilityNames[0] = "Grapple Jump";
@@ -150,11 +153,13 @@ public class Santias : PlayerUnit
         //Reset movement speed
         moveSpeed = 5f;
 
-        MapBehavior.instance.unitMoved(startPosition, transform.position);
         movePoint.transform.position = validSelection.coordinate;
 
         while (transform.position != movePoint.transform.position)
             yield return null;
+
+
+        MapBehavior.instance.unitMoved(startPosition, transform.position);
 
         useActionPoint(1);
 
@@ -312,7 +317,7 @@ public class Santias : PlayerUnit
 
                 List<CollisionTile> tilesToHighlight = new List<CollisionTile>();
 
-                enemiesInRange = MapBehavior.instance.getUnitsInRange(transform.position, 1);
+                enemiesInRange = MapBehavior.instance.getUnitsInRange(transform.position, 1, 1);
 
                 //If there are no enemies once we teleport, end the ability
                 if (enemiesInRange.Count == 0)
@@ -357,6 +362,9 @@ public class Santias : PlayerUnit
                                 u.hideOutline();
                         }
                         MapBehavior.instance.deleteHighlightTiles();
+
+                        while (target.healthBar.movingBar)
+                            yield return null;
 
                         //If unit was killed, we get another move
                         if (target.hpRemaining <= 0)

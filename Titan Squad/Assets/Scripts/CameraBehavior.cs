@@ -225,7 +225,7 @@ public class CameraBehavior : MonoBehaviour
         
         for (int s = 0; s < seconds; s++)
         {
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f/60f);
 
             Vector3 pos = Vector3.MoveTowards(transform.position, destination, moveFactor);
             float x0 = pos.x;

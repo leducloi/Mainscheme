@@ -5,9 +5,10 @@ using UnityEngine;
 public class Weapon
 {
     public int damage;
+    public int techDamage;
     public int effectiveRange;
     public int maxRange;
-    public int noise;
+    public int minRange;
 
     public string type;
 
@@ -15,19 +16,73 @@ public class Weapon
     {
         type = name;
 
-        if (name.Equals("Pistol"))
+        switch (name)
         {
-            damage = 10;
-            effectiveRange = 5;
-            maxRange = 6;
-            noise = 2;
+            case "Pistol":
+                damage = 5;
+                techDamage = 0;
+                effectiveRange = 5;
+                maxRange = 6;
+                minRange = 1;
+                break;
+            case "Glove of Power":
+                damage = 5;
+                techDamage = 0;
+                effectiveRange = 5;
+                maxRange = 6;
+                minRange = 1;
+                break;
+            case "Railgun":
+                damage = 10;
+                techDamage = 0;
+                effectiveRange = 12;
+                maxRange = 12;
+                minRange = 6;
+                break;
+            case "Grenade Launcher":
+                damage = 8;
+                techDamage = 3;
+                effectiveRange = 10;
+                maxRange = 10;
+                minRange = 5;
+                break;
+            case "Energy Blade":
+                damage = 12;
+                techDamage = 8;
+                effectiveRange = 1;
+                maxRange = 1;
+                minRange = 1;
+                break;
+            case "V1rus":
+                damage = 3;
+                techDamage = 6;
+                effectiveRange = 6;
+                maxRange = 7;
+                minRange = 1;
+                break;
+            case "Krimbar Rifle":
+                damage = 5;
+                techDamage = 0;
+                effectiveRange = 6;
+                maxRange = 10;
+                minRange = 3;
+                break;
+            case "Krimbar Power Sword":
+                damage = 8;
+                techDamage = 2;
+                effectiveRange = 1;
+                maxRange = 1;
+                minRange = 1;
+                break;
+            default:
+                damage = 0;
+                techDamage = 0;
+                effectiveRange = 0;
+                maxRange = 0;
+                minRange = 0;
+                break;
+
         }
-        else
-        {
-            damage = 10;
-            effectiveRange = 20;
-            maxRange = 30;
-            noise = 5;
-        }
+        
     }
 }

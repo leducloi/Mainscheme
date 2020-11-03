@@ -26,6 +26,9 @@ public class Kennedy : PlayerUnit
     override
     protected void Start()
     {
+        weapons[0] = new Weapon("Railgun");
+        weapons[1] = new Weapon("Cloak and Dagger");
+
         base.Start();
 
         blur1.GetComponent<SpriteRenderer>().enabled = false;
@@ -306,6 +309,7 @@ public class Kennedy : PlayerUnit
             foreach (Unit enemy in targetsHit)
             {
                 enemy.hit(equippedWeapon.damage);
+                enemy.hideOutline();
             }
         }
 

@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 1
-  m_WholeNumbers: 1
+  m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 3876638134727591763}
   - component: {fileID: 3876638134727591762}
   m_Layer: 5
-  m_Name: HealthBarUI 1
+  m_Name: HealthBarUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -436,7 +436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.55}
+  m_AnchoredPosition: {x: 0, y: -0.55000305}
   m_SizeDelta: {x: 1, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3876638134727591788
@@ -555,6 +555,9 @@ MonoBehaviour:
   healthUnderlay: {fileID: 2078131910439637383}
   shieldUnderlay: {fileID: 219301707885931247}
   displayUnit: {fileID: 0}
+  health: 0
+  shields: 0
+  movingBar: 0
 --- !u!1 &3876638135191352564
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +716,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 1
-  m_WholeNumbers: 1
+  m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:

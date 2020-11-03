@@ -33,11 +33,17 @@ public abstract class PlayerUnit : Unit
     //private CollisionTile[] currentPath;
     private CollisionTile lastTile;
 
+    public LineRenderer[] sightlines;
+    public Material lineMaterial;
+
     public bool usingAbility1 = false;
     public bool usingAbility2 = false;
     public bool usingAbility3 = false;
 
     private bool showingHighlight = false;
+
+    GameObject sightlineHolder;
+    public GameObject projectedPosition;
     
 
     // Start is called before the first frame update
@@ -45,7 +51,8 @@ public abstract class PlayerUnit : Unit
     {
         abilityNames = new string[3];
         abilityDescriptions = new string[3];
-        
+
+        hpTypeFlesh = true;
 
         movement = 5;
         canMove = false;
@@ -55,6 +62,13 @@ public abstract class PlayerUnit : Unit
         shaderControl.setColor(true);
         hasTurn = true;
 
+        sightlineHolder = new GameObject();
+
+        Color c = Color.white;
+        c.a = 0.5f;
+        projectedPosition.GetComponent<SpriteRenderer>().color = c;
+        projectedPosition.GetComponent<Animator>().SetTrigger("Walking");
+        projectedPosition.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     //Trigger to detect when a player is clicked
@@ -86,6 +100,9 @@ public abstract class PlayerUnit : Unit
     protected void Update()
     {
         base.Update();
+
+        
+
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (!GameManager.instance.playerPhase)
         {
@@ -111,11 +128,15 @@ public abstract class PlayerUnit : Unit
                 {
                     move();
                     PathArrowControl.instance.destroyAllArrows();
+                    removeSightlines();
+                    projectedPosition.GetComponent<SpriteRenderer>().enabled = false;
                 }
             } 
             else if (showingHighlight)
             {
                 showingHighlight = false;
+                removeSightlines();
+                projectedPosition.GetComponent<SpriteRenderer>().enabled = false;
                 MapBehavior.instance.deleteHighlightTiles();
             }
         }
@@ -206,16 +227,24 @@ public abstract class PlayerUnit : Unit
 
         lastTile = newTile;
         PathArrowControl.instance.destroyAllArrows();
+        removeSightlines();
+        projectedPosition.GetComponent<SpriteRenderer>().enabled = false;
 
         Vector3 destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
         if (path != null)
+        {
             PathArrowControl.instance.setPathArrow(path);
+            drawSightlines(lastTile.coordinate);
+            projectedPosition.transform.position = lastTile.coordinate;
+            projectedPosition.GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 
     //Used to select a valid target to attack
     public IEnumerator selectTarget(List<Unit> enemiesInRange)
     {
+        drawSightlines(transform.position);
         Unit target = null;
         while (target == null)
         {
@@ -237,7 +266,7 @@ public abstract class PlayerUnit : Unit
             yield return null;
         }
         UIManager.instance.targetChosen(target.gameObject);
-
+        removeSightlines();
         yield break;
     }
 
@@ -289,6 +318,7 @@ public abstract class PlayerUnit : Unit
         hasTurn = false;
         selected = false;
         animator.SetTrigger("Stopped");
+        MapBehavior.instance.deleteHighlightTiles();
         PathArrowControl.instance.destroyAllArrows();
     }
 
@@ -302,11 +332,18 @@ public abstract class PlayerUnit : Unit
     {
         
         //play hit animation
-        healthBar.takeDamage(damage);
+        if (damage >= 0)
+        {
+            healthBar.takeDamage(damage);
+        }
+        else
+        {
+            healthBar.recieveHealing(-damage);
+        }
 
         yield return null;
 
-        while (healthBar.reducingUnderlay)
+        while (healthBar.movingBar)
             yield return null;
 
         hpRemaining = healthBar.health;
@@ -380,6 +417,57 @@ public abstract class PlayerUnit : Unit
         dragging = false;
     }
 
+    private void removeSightlines()
+    {
+        Destroy(sightlineHolder);
+        sightlineHolder = new GameObject();
+    }
+    
+    private void setUpSightline(int numLines, Vector3 position)
+    {
+        Color sightColor = Color.red;
+        sightColor.a = 0.8f;
+
+        
+
+        for (int x = 0; x < numLines; x++)
+        {
+            GameObject sightline = new GameObject();
+            sightline.transform.SetParent(sightlineHolder.transform);
+
+            sightline.AddComponent<LineRenderer>();
+        }
+
+        sightlines = sightlineHolder.GetComponentsInChildren<LineRenderer>();
+
+        for (int lineNum = 0; lineNum < numLines; lineNum++)
+        {
+            sightlines[lineNum].startColor = sightColor;
+            sightlines[lineNum].endColor = sightColor;
+            sightlines[lineNum].startWidth = .05f;
+            sightlines[lineNum].endWidth = .05f;
+
+            sightlines[lineNum].loop = false;
+            sightlines[lineNum].material = lineMaterial;
+
+            sightlines[lineNum].positionCount = 2;
+            sightlines[lineNum].SetPosition(0, position);
+        }
+    }
+
+    private void drawSightlines(Vector3 position)
+    {
+        List<Unit> enemiesInRange = MapBehavior.instance.getUnitsInRange(position, equippedWeapon.maxRange, equippedWeapon.minRange);
+
+        setUpSightline(enemiesInRange.Count, position);
+
+        int index = 0;
+        foreach (Unit enemy in enemiesInRange)
+        {
+            sightlines[index].SetPosition(1, enemy.transform.position);
+            index++;
+        }
+    }
 
     public abstract void ability1();
     public abstract void ability2();
