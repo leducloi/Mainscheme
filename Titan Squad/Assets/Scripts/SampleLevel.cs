@@ -26,8 +26,9 @@ public class SampleLevel : Level
     }
 
     override
-    public void cutscene()
+    public IEnumerator cutscene()
     {
         //TODO
+        yield return null;
     }
 }

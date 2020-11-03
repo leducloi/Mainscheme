@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     void loadNextMap()
     {
         mapMan.loadMap(currMap++);
-        playerPhase = true;
+        playerPhase = false;
         enemyPhase = false;
         turnCount = 1;
     }

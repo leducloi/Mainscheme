@@ -25,6 +25,7 @@ public abstract class PlayerUnit : Unit
 
     public int actionPoints = 2;
 
+    private bool dragging = false;
 
     public UnitEvent OnPlayerSelected;
     public UnityEvent OnTurnCompleted;
@@ -313,6 +314,68 @@ public abstract class PlayerUnit : Unit
             hpRemaining = hpMax;
         //check if death
         
+    }
+
+    private void OnMouseDrag()
+    {
+        if (!Level.instance.donePlanning && !dragging)
+        {
+            StartCoroutine(planningDrag());
+        }
+    }
+
+    private IEnumerator planningDrag()
+    {
+        if (dragging)
+            yield break;
+
+        dragging = true;
+        animator.SetTrigger("Walking");
+
+        Vector3 temp = transform.position;
+
+        while (Input.GetMouseButton(0))
+        {
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            movePoint.transform.position = transform.position;
+            yield return null;
+        }
+
+        Vector3 endPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        endPoint.z = 0;
+        foreach (Vector3 position in Level.instance.startPositions)
+        {
+            if (Mathf.Abs(Vector3.Distance(endPoint, position)) <= 0.7f)
+            {
+                Unit switchWith = Level.instance.getUnitAtLoc(position);
+                if (switchWith != null)
+                {
+                    switchWith.movePoint.transform.position = temp;
+                    switchWith.transform.position = temp;
+
+                    transform.position = position;
+                    movePoint.transform.position = position;
+                    animator.SetTrigger("Stopped");
+                    dragging = false;
+                    yield break;
+                }
+                else
+                {
+                    transform.position = position;
+                    movePoint.position = position;
+                    animator.SetTrigger("Stopped");
+                    dragging = false;
+                    yield break;
+                }
+            }
+        }
+
+        transform.position = temp;
+        movePoint.position = temp;
+        animator.SetTrigger("Stopped");
+
+
+        dragging = false;
     }
 
 

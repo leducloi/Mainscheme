@@ -15,8 +15,17 @@ public abstract class Level : MonoBehaviour
     public Unit[] enemyUnits;
     public Unit[] playerUnits;
     public GameObject[] objectives;
+    public Vector3[] startPositions;
+    public GameObject unitSelectMenu;
+
+    public int numUnitsSelected = 0;
+
+    private List<CollisionTile> startTiles;
+    public List<PlayerUnit> selectedUnits;
 
     public bool pauseAutoEnd = false;
+
+    public bool donePlanning = false;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -32,7 +41,8 @@ public abstract class Level : MonoBehaviour
         }
         Instantiate(enemyController);
 
-        
+        startTiles = new List<CollisionTile>();
+        selectedUnits = new List<PlayerUnit>();
     }
 
     // Update is called once per frame
@@ -106,10 +116,53 @@ public abstract class Level : MonoBehaviour
             MapBehavior.instance.unitMoved(u.transform.position, u.transform.position);
         GameManager.instance.playerPhase = false;
         StartCoroutine(GameManager.instance.endEnemyTurn());
-        Instantiate(GameManager.instance.cursor);
     }
 
-    public abstract void cutscene();
+    public abstract IEnumerator cutscene();
+
+    public IEnumerator planning()
+    {
+        yield return null;
+
+        GameObject menu = Instantiate(unitSelectMenu);
+
+        for (int index = 0; index < startPositions.Length; index++)
+        {
+            startTiles.Add(MapBehavior.instance.getTileAtPos(startPositions[index]));
+        }
+
+        Vector3 pos = new Vector3(-1, -1, 0);
+        foreach (Unit u in playerUnits)
+        {
+            u.movePoint.transform.position = pos;
+            u.transform.position = pos;
+        }
+
+        MapBehavior.instance.hightlightCustomTiles(startTiles, 'b');
+        Instantiate(GameManager.instance.cursor);
 
 
+        while (!donePlanning)
+        {
+            yield return null;
+        }
+
+        MapBehavior.instance.deleteHighlightTiles();
+
+        Destroy(menu);
+
+        levelSetup();
+    }
+
+    public void finishPlanning()
+    {
+        Level.instance.donePlanning = true;
+    }
+
+    public void selectUnit(PlayerUnit selected)
+    {
+        if (selectedUnits.Count >= 3)
+            selectedUnits.RemoveAt(0);
+        selectedUnits.Add(selected);
+    }
 }

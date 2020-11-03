@@ -78,7 +78,7 @@ public class MapBehavior : MonoBehaviour
         //Finally, create the CollisionMap from the tilemap data
         map = new CollisionMap(allTiles, bounds.size.x, bounds.size.y);
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
-        Level.instance.levelSetup();
+        StartCoroutine(Level.instance.planning());
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
 
         highlightHolder = new GameObject();
