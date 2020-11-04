@@ -31,6 +31,13 @@ public class Haley : PlayerUnit
         hpRemaining = 10;
         shieldMax = 5;
         shieldRemaining = 5;
+
+        combatTraining = 20;
+        evasiveTactics = 20;
+        bionicEnhancement = 0;
+        luck = 10;
+        criticalTargeting = 0;
+        advancedShielding = 1;
     }
 
     // Update is called once per frame

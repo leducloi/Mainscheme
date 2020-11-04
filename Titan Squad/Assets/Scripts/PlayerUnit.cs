@@ -9,7 +9,6 @@ public abstract class PlayerUnit : Unit
     public bool canAttack;
     public bool selectAbility;
     public bool selected;
-    public bool cbDrugs = false;
     public int ultRange;
     public bool bonusMove = false;
 
@@ -277,6 +276,15 @@ public abstract class PlayerUnit : Unit
 
     private IEnumerator playAttack(Unit enemy)
     {
+        float addX = (enemy.transform.position.x - transform.position.x) / 2;
+        float addY = (enemy.transform.position.y - transform.position.y) / 2;
+
+        Vector3 moveTo = transform.position;
+        moveTo.x += addX;
+        moveTo.y += addY;
+
+        yield return StartCoroutine(CameraBehavior.instance.panCameraTo(moveTo, 1));
+
         if (CombatCalculator.instance.doesHit)
             enemy.hit(CombatCalculator.instance.damageDone);
         else
@@ -328,16 +336,19 @@ public abstract class PlayerUnit : Unit
 
     IEnumerator playHit(int damage)
     {
-        
+
         //play hit animation
+
         if (damage >= 0)
         {
             healthBar.takeDamage(damage);
+            StartCoroutine(CameraBehavior.instance.cameraShake());
         }
         else
         {
             healthBar.recieveHealing(-damage);
         }
+
 
         yield return null;
 
@@ -351,6 +362,7 @@ public abstract class PlayerUnit : Unit
             hpRemaining = hpMax;
         //check if death
         
+            
     }
 
     private void OnMouseDrag()
@@ -426,7 +438,7 @@ public abstract class PlayerUnit : Unit
         Color sightColor = Color.red;
         sightColor.a = 0.8f;
 
-        
+        position.y += 0.4f;
 
         for (int x = 0; x < numLines; x++)
         {
@@ -462,7 +474,7 @@ public abstract class PlayerUnit : Unit
         int index = 0;
         foreach (Unit enemy in enemiesInRange)
         {
-            sightlines[index].SetPosition(1, enemy.transform.position);
+            sightlines[index].SetPosition(1, enemy.transform.position + new Vector3(0, 0.5f, 0));
             index++;
         }
     }

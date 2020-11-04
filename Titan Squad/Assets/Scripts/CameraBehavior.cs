@@ -305,5 +305,27 @@ public class CameraBehavior : MonoBehaviour
             yield return null;
         }
     }
-    
+
+    public IEnumerator cameraShake()
+    {
+        pauseMovement = true;
+
+        yield return new WaitForSeconds(0.1f);
+
+        Vector3 originalPos = transform.localPosition;
+
+        Vector3 move = originalPos;
+
+        for (int x = 0; x < 10; x++)
+        {
+            move.y += Random.insideUnitCircle.y * 0.5f;
+            transform.localPosition = move;
+            move.y = originalPos.y;
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        transform.localPosition = originalPos;
+
+        pauseMovement = false;
+    }
 }

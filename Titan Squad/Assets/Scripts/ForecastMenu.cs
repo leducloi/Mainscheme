@@ -35,14 +35,15 @@ public class ForecastMenu : MonoBehaviour
         else if (menu.enabled && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0) ))
         {
             UIManager.instance.targetConfirmed();
+            hideMenu();
         }
     }
 
     public void displayMenu()
     {
-        healthText.text = "" + CombatCalculator.instance.currEnemy.hpRemaining;
+        healthText.text = "" + (CombatCalculator.instance.currEnemy.hpRemaining + CombatCalculator.instance.currEnemy.shieldRemaining);
         hitText.text = "" + CombatCalculator.instance.hitChanceDisplay + "%";
-        damageText.text = "" + CombatCalculator.instance.currUnit.equippedWeapon.damage;
+        damageText.text = "" + CombatCalculator.instance.damageDone;
         smartPosition();
 
         menu.enabled = true;

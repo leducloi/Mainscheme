@@ -30,8 +30,13 @@ public abstract class Unit : MonoBehaviour
     public int criticalTargeting = 0;
     public int advancedShielding = 0;
 
+    public bool isEnemy = false;
     public bool takingCover = false;
+
+    public bool cbDrugs = false;
     public int bonusDodge = 0;
+
+    public CombatData cbData;
 
 
     private bool intensityLock = false;
@@ -46,7 +51,8 @@ public abstract class Unit : MonoBehaviour
         
         equippedWeapon = weapons[0];
 
-
+        cbData = gameObject.AddComponent<CombatData>();
+        cbData.unit = this;
     }
 
     // Update is called once per frame
@@ -57,6 +63,8 @@ public abstract class Unit : MonoBehaviour
         else if (hasTurn && shaderControl.currGreyscale)
             shaderControl.makeGreyscale(false);
 
+        if (GameManager.instance.playerPhase || GameManager.instance.enemyPhase)
+            cbData.calculateData();
     }
 
     public bool hasMoved()

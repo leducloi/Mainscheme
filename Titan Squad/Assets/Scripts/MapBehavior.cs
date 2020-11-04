@@ -127,25 +127,41 @@ public class MapBehavior : MonoBehaviour
         //Our variable to hold our created path
         //We use a List here since it is easier to add to it
         List<CollisionTile> path = new List<CollisionTile>();
+        
 
         if (ignorePlayer)
         {
-            List<CollisionTile> neighbors = findNeighborTiles(destination);
-            int lowestHCost = int.MaxValue;
-            int index = 0;
-            foreach(CollisionTile neighbor in neighbors)
+            //Keep finding the nearest tile back if the current nearest is occupied
+            while (destination.hasPlayer || destination.hasEnemy)
             {
-                if (!neighbor.isWalkable())
-                    continue;
-
-                int hCost = calculateDistance(start, neighbor);
-                if (hCost < lowestHCost)
+                List<CollisionTile> neighbors = findNeighborTiles(destination);
+                int lowestHCost = int.MaxValue;
+                int index = 0;
+                CollisionTile backup = null;
+                foreach (CollisionTile neighbor in neighbors)
                 {
-                    lowestHCost = hCost;
-                    index = neighbors.IndexOf(neighbor);
+                    if (!neighbor.isWalkable())
+                        continue;
+
+                    if (neighbor.hasEnemy)
+                    {
+                        backup = neighbor;
+                        continue;
+                    }
+
+                    int hCost = calculateDistance(start, neighbor);
+                    if (hCost < lowestHCost)
+                    {
+                        lowestHCost = hCost;
+                        index = neighbors.IndexOf(neighbor);
+                    }
                 }
+                if (lowestHCost == int.MaxValue && backup != null)
+                    destination = backup;
+                else
+                    destination = neighbors[index];
             }
-            destination = neighbors[index];
+            
         }
         //Call our recursive pathfinding method
         path = getPath(ref start, ref destination, movement);
@@ -160,7 +176,7 @@ public class MapBehavior : MonoBehaviour
     private List<CollisionTile> getPath(ref CollisionTile currPos, ref CollisionTile destination, int? movementCost = null, bool ignorePlayer = false)
     {
         //check if destination is a valid, unoccupied tile
-        if (destination == null || !destination.passable || destination.hasEnemy || (!ignorePlayer && destination.hasPlayer))
+        if (destination == null || !destination.passable || destination.hasEnemy || destination.hasPlayer)
         {
             return null;
         }
@@ -192,6 +208,7 @@ public class MapBehavior : MonoBehaviour
             if (currentTile == endTile)
             {
                 List<CollisionTile> path = calculatePath(endTile, movementCost);
+                
                 return path;
             }
 

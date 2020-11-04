@@ -11,10 +11,13 @@ Text size for the UI, font, and other design aspects still need to be worked on.
 
 public class TileInfoPanelText : MonoBehaviour
 {
+
+    public RectTransform bounds;
     //Text UI objects used to display the text on screen
     public Text tileTypeText;
     public Text tileCostText;
     public Text tileDodgeText;
+    public Text objectiveText;
     //This collision tile is used below to find the tile that the mouse is hovering over.
     CollisionTile tile;
     
@@ -24,45 +27,55 @@ public class TileInfoPanelText : MonoBehaviour
     void Awake()
     { 
       //Initailizes the text objects
-      tileTypeText.text = "Terrain Type: ";
-      tileCostText.text = "Terrain Cost: ";
-      tileDodgeText.text = "Terrain Dodge: ";
-        
+        tileTypeText.text = "Terrain Type: ";
+        tileCostText.text = "Terrain Cost: ";
+        tileDodgeText.text = "Terrain Dodge: ";
+        objectiveText.text = "--";
     }
 
     // Update is called once per frame
     void Update()
-    {  
-      //This is borrowed from the cameraBehavior script and could probably be cleaned up but it works as needed
-      //Without it, whenever the mouse is out of bounds you receieve errors.
-      moveUnit = MapBehavior.instance.getGridCellSize();
-      //if (Input.mousePosition.y >= Screen.height - moveUnit)
-      //  {
-      //      return;
-      //  }
-      //if (Input.mousePosition.y <= moveUnit)
-      //  {
-      //    return;
-      //  }
-      //if (Input.mousePosition.x >= Screen.width - moveUnit)
-      //  {
-      //      return;
-      //  }
-      //if (Input.mousePosition.x <= moveUnit)
-      //  {
-      //     return; 
-      //  }
-      //else{
+    {
+        smartPosition();
+
         tile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)); 
         if (tile != null)
-            {
-                string cost = (tile.tileCost == 99) ? "--" : "" + tile.tileCost;
-                tileTypeText.text = "Type: " + tile.tileType;
-                tileCostText.text = "Cost: " + cost;
-                tileDodgeText.text = "Dodge: " + tile.tileDodge;
-            }
+        {
+            string cost = (tile.tileCost == 99) ? "--" : "" + tile.tileCost;
+            tileTypeText.text = "Type: " + tile.tileType;
+            tileCostText.text = "Cost: " + cost;
+            tileDodgeText.text = "Dodge: " + tile.tileDodge;
+            objectiveText.text = "Pos: " + tile.coordinate;
+        }
         
       
+    }
+
+    void smartPosition()
+    {
+        Vector3 mouse = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        Vector3 moveTo;
+        Vector3 settings;
+        if (mouse.x > .5f && Level.instance.donePlanning)
+        {
+            if (mouse.y < .5f)
+            {
+                settings = new Vector3(1, 1, 0);
+                bounds.anchorMin = settings;
+                bounds.anchorMax = settings;
+                bounds.pivot = settings;
+                moveTo = new Vector3(Screen.width - Screen.height * 0.02f, Screen.height - Screen.height * 0.02f, 0);
+                bounds.position = moveTo;
+                return;
+            }
+        }
+        settings = new Vector3(1, 0, 0);
+        bounds.anchorMin = settings;
+        bounds.anchorMax = settings;
+        bounds.pivot = settings;
+
+        moveTo = new Vector3(Screen.width - Screen.height * 0.02f, Screen.height * .02f, 0);
+        bounds.position = moveTo;
     }
 
 }

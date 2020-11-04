@@ -429,6 +429,10 @@ PrefabInstance:
       propertyPath: m_CullingMask.m_Bits
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 4879489135267028823, guid: 15ba370ae7c0aad48aef89115f02996a, type: 3}
+      propertyPath: orthographic size
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4879489135267028904, guid: 15ba370ae7c0aad48aef89115f02996a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12

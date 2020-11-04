@@ -9,6 +9,7 @@ public class Weapon
     public int effectiveRange;
     public int maxRange;
     public int minRange;
+    public int hitChance;
 
     public string type;
 
@@ -24,6 +25,7 @@ public class Weapon
                 effectiveRange = 5;
                 maxRange = 6;
                 minRange = 1;
+                hitChance = 75;
                 break;
             case "Glove of Power":
                 damage = 5;
@@ -31,6 +33,7 @@ public class Weapon
                 effectiveRange = 5;
                 maxRange = 6;
                 minRange = 1;
+                hitChance = 75;
                 break;
             case "Railgun":
                 damage = 10;
@@ -38,6 +41,7 @@ public class Weapon
                 effectiveRange = 12;
                 maxRange = 12;
                 minRange = 6;
+                hitChance = 75;
                 break;
             case "Grenade Launcher":
                 damage = 8;
@@ -45,6 +49,7 @@ public class Weapon
                 effectiveRange = 10;
                 maxRange = 10;
                 minRange = 5;
+                hitChance = 75;
                 break;
             case "Energy Blade":
                 damage = 12;
@@ -52,6 +57,7 @@ public class Weapon
                 effectiveRange = 1;
                 maxRange = 1;
                 minRange = 1;
+                hitChance = 85;
                 break;
             case "V1rus":
                 damage = 3;
@@ -59,6 +65,7 @@ public class Weapon
                 effectiveRange = 6;
                 maxRange = 7;
                 minRange = 1;
+                hitChance = 75;
                 break;
             case "Krimbar Rifle":
                 damage = 5;
@@ -66,6 +73,7 @@ public class Weapon
                 effectiveRange = 6;
                 maxRange = 10;
                 minRange = 3;
+                hitChance = 75;
                 break;
             case "Krimbar Power Sword":
                 damage = 8;
@@ -73,6 +81,7 @@ public class Weapon
                 effectiveRange = 1;
                 maxRange = 1;
                 minRange = 1;
+                hitChance = 85;
                 break;
             default:
                 damage = 0;

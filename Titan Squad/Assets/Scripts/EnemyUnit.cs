@@ -28,7 +28,7 @@ public class EnemyUnit : Unit
     private bool performingAction = false;
     private int actionPoints = 2;
 
-    private int movement = 5;
+    protected int movement = 5;
     private float moveSpeed = 5f;
     private float detectRange = 10f;
     private GameObject detectedPlayerObject;
@@ -40,13 +40,6 @@ public class EnemyUnit : Unit
     // Start is called before the first frame update
     protected override void Start()
     {
-        hpMax = 8;
-        hpRemaining = 8;
-
-        shieldMax = 3;
-        shieldRemaining = 3;
-
-
         if (patrolPath == null)
             mode = "Guard";
 
@@ -63,12 +56,30 @@ public class EnemyUnit : Unit
         }
         hasControl = false;
 
-        weapons[0] = new Weapon("Krimbar Rifle");
+        weapons[0] = new Weapon("Krimbar Power Sword");
         weapons[1] = new Weapon("--");
 
         base.Start();
         shaderControl.setColor(false);
 
+        isEnemy = true;
+
+        
+
+        hpMax = 5;
+        hpRemaining = 5;
+
+        shieldMax = 2;
+        shieldRemaining = 2;
+
+        movement = 6;
+
+        combatTraining = 15;
+        evasiveTactics = 20;
+        bionicEnhancement = 5;
+        luck = 6;
+        criticalTargeting = 2;
+        advancedShielding = 0;
     }
 
     // Update is called once per frame
@@ -166,9 +177,9 @@ public class EnemyUnit : Unit
     IEnumerator chasingPlayer()
     {
         Vector3 currentPosition = transform.position;
-        CollisionTile[] path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, null, true);
-        if (path != null)
-            path = path.Take(path.Length - 1).ToArray();
+        detectPlayerInRange(transform.position);
+        CollisionTile[] path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, int.MaxValue, true);
+        
         yield return StartCoroutine(moveAlongPath(path, true));
         MapBehavior.instance.unitMoved(currentPosition, transform.position);
         yield return null;
@@ -231,17 +242,32 @@ public class EnemyUnit : Unit
         int index = 0;
         Vector3 start = transform.position;
         animator.SetTrigger("Walking");
-        while (index < path.Length)
+
+        int movementLeft = movement;
+        int maxIndex = 1;
+        foreach(CollisionTile tile in path)
         {
-            if (withMomentCost && index >= movement)
-            {
-                yield return null;
+            if (tile.coordinate == transform.position)
+                continue;
+
+            movementLeft -= tile.tileCost;
+            if (movementLeft < 0)
                 break;
-            }
+
+            maxIndex++;
+        }
+
+        while (index < maxIndex)
+        {
             if (Vector3.Distance(transform.position, movePoint.position) == 0)
             {
                 movePoint.position = path[index].coordinate;
                 index++;
+                if (index < path.Length && path[index].hasEnemy)
+                {
+                    if (index + 1 == maxIndex)
+                        break;
+                }
             }
             //So we don't infinite loop, we pause this coroutine at the end of each iteration
             yield return null;
@@ -295,7 +321,11 @@ public class EnemyUnit : Unit
     IEnumerator playHit(int damage)
     {
         //play hit animation
+
+
         healthBar.takeDamage(damage);
+
+        StartCoroutine(CameraBehavior.instance.cameraShake());
 
         yield return null;
 
@@ -319,6 +349,15 @@ public class EnemyUnit : Unit
 
     IEnumerator playAttack(Unit target)
     {
+        float addX = (target.transform.position.x - transform.position.x) / 2;
+        float addY = (target.transform.position.y - transform.position.y) / 2;
+
+        Vector3 moveTo = transform.position;
+        moveTo.x += addX;
+        moveTo.y += addY;
+
+        yield return StartCoroutine(CameraBehavior.instance.panCameraTo(moveTo, 1));
+
         //Play attack animation
         yield return new WaitForSeconds(0.25f);
 

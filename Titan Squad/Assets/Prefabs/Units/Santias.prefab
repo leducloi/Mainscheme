@@ -446,7 +446,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4338527649548007661, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -505,13 +505,15 @@ MonoBehaviour:
   luck: 0
   criticalTargeting: 0
   advancedShielding: 0
+  isEnemy: 0
   takingCover: 0
+  cbDrugs: 0
   bonusDodge: 0
+  cbData: {fileID: 0}
   canMove: 0
   canAttack: 0
   selectAbility: 0
   selected: 0
-  cbDrugs: 0
   ultRange: 0
   bonusMove: 0
   movement: 5

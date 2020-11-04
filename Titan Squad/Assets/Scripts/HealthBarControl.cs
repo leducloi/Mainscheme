@@ -53,6 +53,12 @@ public class HealthBarControl : MonoBehaviour
 
     public void takeDamage(int damage)
     {
+        if (damage < 0)
+        {
+            recieveHealing(-damage);
+            return;
+        }
+
         display.enabled = true;
 
         int leftoverDamage = damage - (int)shieldControl.value;
@@ -74,6 +80,12 @@ public class HealthBarControl : MonoBehaviour
 
     public void recieveHealing(int healing)
     {
+        if (healing < 0)
+        {
+            takeDamage(-healing);
+            return;
+        }
+
         display.enabled = true;
 
         healthUnderlay.value += healing;
@@ -151,7 +163,13 @@ public class HealthBarControl : MonoBehaviour
     private void smartPosition()
     {
         CollisionTile bottomLeft = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)));
-        float minY = bottomLeft.coordinate.y;
+
+        float minY;
+
+        if (bottomLeft == null)
+            minY = 0;
+        else
+            minY = bottomLeft.coordinate.y;
 
         if (displayUnit.transform.position.y <= minY)
             gameObject.GetComponent<RectTransform>().localPosition = highPosition;

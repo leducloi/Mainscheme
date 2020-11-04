@@ -193,7 +193,8 @@ public class UIManager : MonoBehaviour
     public void clearOutlines()
     {
         foreach (Unit u in instance.enemiesToOutline)
-            u.hideOutline();
+            if (u != null)
+                u.hideOutline();
         instance.enemiesToOutline.Clear();
     }
 

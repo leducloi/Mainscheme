@@ -52,6 +52,8 @@ public class EnemyController : MonoBehaviour
 
             enemies = true;
 
+            enemy.showOutline();
+
             yield return StartCoroutine(CameraBehavior.instance.panCameraTo(enemy.transform.position, 1f));
 
             StartCoroutine(CameraBehavior.instance.follow(enemy.gameObject));
@@ -63,10 +65,10 @@ public class EnemyController : MonoBehaviour
             while (enemy.hasControl)
                 yield return null;
 
-            //Add slight pause between units moving
-            yield return new WaitForSeconds(0.25f);
+            enemy.hideOutline();
 
-            
+            //Add slight pause between units moving
+            yield return new WaitForSeconds(0.33f);
         }
         //In order to give the player their turn, add a slight pause if all enemies are defeated
         if (!enemies)

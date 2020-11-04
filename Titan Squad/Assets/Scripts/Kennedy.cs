@@ -50,6 +50,13 @@ public class Kennedy : PlayerUnit
         hpRemaining = 10;
         shieldMax = 3;
         shieldRemaining = 3;
+
+        combatTraining = 30;
+        evasiveTactics = 5;
+        bionicEnhancement = 0;
+        luck = 18;
+        criticalTargeting = 4;
+        advancedShielding = 0;
     }
 
     // Update is called once per frame

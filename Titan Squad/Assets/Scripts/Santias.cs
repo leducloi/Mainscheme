@@ -36,8 +36,15 @@ public class Santias : PlayerUnit
 
         hpMax = 10;
         hpRemaining = 10;
-        shieldMax = 8;
-        shieldRemaining = 8;
+        shieldMax = 5;
+        shieldRemaining = 5;
+
+        combatTraining = 20;
+        evasiveTactics = 0;
+        bionicEnhancement = 6;
+        luck = 2;
+        criticalTargeting = 3;
+        advancedShielding = 2;
     }
 
     // Update is called once per frame
@@ -303,6 +310,7 @@ public class Santias : PlayerUnit
 
                 Vector3 targetLoc = new Vector3(0, 0.5f, 0);
 
+
                 while (teleportMask.transform.localPosition != targetLoc)
                 {
                     teleportMask.transform.localPosition = Vector3.MoveTowards(teleportMask.transform.localPosition, targetLoc, teleportSpeed * Time.deltaTime);
@@ -311,6 +319,7 @@ public class Santias : PlayerUnit
 
                 movePoint.transform.position = clicked.coordinate;
                 transform.position = clicked.coordinate;
+                StartCoroutine(CameraBehavior.instance.follow(gameObject));
 
                 targetLoc = new Vector3(0, 2, 0);
                 while (teleportMask.transform.localPosition != targetLoc)
@@ -358,7 +367,9 @@ public class Santias : PlayerUnit
                         target = Level.instance.getUnitAtLoc(clicked.coordinate);
                         if (target == null)
                             continue;
-                        
+
+                        //CombatCalculator.instance.doesHit = true;
+                        //CombatCalculator.instance.damageDone = equippedWeapon.damage;
                         target.hit(equippedWeapon.damage);
                         foreach (Unit u in enemiesInRange)
                         {
