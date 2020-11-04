@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
             if (u != null)
                 u.healthBar.resetShields();
         }
-        StartCoroutine(CameraBehavior.instance.panCameraTo(Level.instance.selectedUnits.ToArray()[0].transform.position, .5f));
+        StartCoroutine(CameraBehavior.instance.panCameraTo(Level.instance.selectedUnits.ToArray()[0].transform.position, 1f));
         yield return new WaitForSeconds(2);
         
         playerPhase = true;

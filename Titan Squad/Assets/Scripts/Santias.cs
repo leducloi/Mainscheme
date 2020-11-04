@@ -82,7 +82,7 @@ public class Santias : PlayerUnit
         {
             yield return null;
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
             {
                 usingAbility1 = false;
                 MapBehavior.instance.deleteHighlightTiles();
@@ -129,6 +129,7 @@ public class Santias : PlayerUnit
         rope.SetPosition(0, transform.position);
 
         hook.GetComponent<SpriteRenderer>().enabled = true;
+        hook.GetComponent<LineRenderer>().enabled = true;
 
         while (hook.transform.position != pullTo.coordinate)
         {
@@ -148,6 +149,7 @@ public class Santias : PlayerUnit
             yield return null;
         }
 
+        hook.GetComponent<LineRenderer>().enabled = false;
         hook.GetComponent<SpriteRenderer>().enabled = false;
 
         //Reset movement speed
@@ -188,6 +190,7 @@ public class Santias : PlayerUnit
         while (shrinkTo.x > 0)
         {
             shrinkTo.x -= .1f;
+            shrinkTo.x = Mathf.Clamp(shrinkTo.x, 0, 1);
             transform.localScale = shrinkTo;
             yield return null;
         }
@@ -207,10 +210,10 @@ public class Santias : PlayerUnit
         float fadeAmount = 0f;
         while (fadeAmount < 150)
         {
-            fadeAmount += 0.5f;
+            fadeAmount += 3f;
             fadeIn.a = fadeAmount / 255f;
             sprite.color = fadeIn;
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f/60f);
         }
 
         useActionPoint(1);
@@ -237,10 +240,11 @@ public class Santias : PlayerUnit
                 overlayAmount -= 0.1f;
                 sprite.material.SetFloat("_OverlayAmount", overlayAmount);
             }
-            fadeAmount += 0.25f;
+            fadeAmount += .5f;
             fadeIn.a = fadeAmount / 255f;
+            fadeIn.a = Mathf.Clamp(fadeIn.a, 0, 1);
             sprite.color = fadeIn;
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f / 60f);
         }
 
         isCloaked = false;

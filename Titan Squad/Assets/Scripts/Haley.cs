@@ -92,7 +92,7 @@ public class Haley : PlayerUnit
 
             while (!Input.GetMouseButtonDown(0))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
                 {
                     yield return null;
                     foreach (Unit u in selectableUnits)
@@ -139,9 +139,9 @@ public class Haley : PlayerUnit
         //Gradually reduce the red amount until at the proper amount
         while (redAmt > .25f)
         {
-            redAmt -= 0.001f;
+            redAmt -= 0.05f;
             targetShader.SetFloat("_OverlayAmount", redAmt);
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f / 60f);
         }
         //Start particle effect
         ParticleSystem.MainModule ma = target.GetComponent<ParticleSystem>().main;
@@ -179,9 +179,9 @@ public class Haley : PlayerUnit
         //Fade out the red
         while (redAmt > 0)
         {
-            redAmt -= .01f;
+            redAmt -= .05f;
             targetShader.SetFloat("_OverlayAmount", redAmt);
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f / 60f);
         }
     }
 
@@ -211,7 +211,7 @@ public class Haley : PlayerUnit
 
             while (!Input.GetMouseButtonDown(0))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
                 {
                     yield return null;
                     foreach (Unit u in unitsInRange)
@@ -271,16 +271,16 @@ public class Haley : PlayerUnit
         //Glow green
         while (colorAmount < 1f)
         {
-            colorAmount += 0.001f;
+            colorAmount += 0.05f;
             shader.SetFloat("_OverlayAmount", colorAmount);
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f / 60f);
         }
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.33f);
         while (colorAmount > 0f)
         {
-            colorAmount -= 0.001f;
+            colorAmount -= 0.05f;
             shader.SetFloat("_OverlayAmount", colorAmount);
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f / 60f);
         }
 
         //Activate ability effect
@@ -298,7 +298,7 @@ public class Haley : PlayerUnit
         {
             colorAmount += 0.001f;
             shader.SetFloat("_OverlayAmount", colorAmount);
-            yield return null;
+            yield return new WaitForSecondsRealtime(1f / 60f);
         }
 
 

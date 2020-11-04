@@ -208,8 +208,6 @@ public class CameraBehavior : MonoBehaviour
 
         destination.z = transform.position.z;
 
-        seconds *= 60;
-
         //Check zero/negative time, if so snap immediately to target
         if (seconds <= 0)
         {
@@ -220,23 +218,65 @@ public class CameraBehavior : MonoBehaviour
             yield break;
         }
 
-        //Calculate how far in 1 frame to move
-        float moveFactor = Vector3.Distance(transform.position, destination) / seconds;
-        
-        for (int s = 0; s < seconds; s++)
+        float[] xLimits = new float[2];
+        float[] yLimits = new float[2];
+        if (destination.x > transform.position.x)
         {
-            yield return new WaitForSecondsRealtime(1f/60f);
+            xLimits[0] = cameraLimitX[0];
+            xLimits[1] = Mathf.Min(destination.x, cameraLimitX[1]);
+        }
+        else
+        {
+            xLimits[1] = cameraLimitX[1];
+            xLimits[0] = Mathf.Max(destination.x, cameraLimitX[0]);
+        }
 
-            Vector3 pos = Vector3.MoveTowards(transform.position, destination, moveFactor);
-            float x0 = pos.x;
-            float y0 = pos.y;
-            pos.x = Mathf.Clamp(pos.x, cameraLimitX[0], cameraLimitX[1]);
-            pos.y = Mathf.Clamp(pos.y, cameraLimitY[0], cameraLimitY[1]);
+        if (destination.y > transform.position.y)
+        {
+            yLimits[0] = cameraLimitY[0];
+            yLimits[1] = Mathf.Min(destination.y, cameraLimitY[1]);
+        }
+        else
+        {
+            yLimits[1] = cameraLimitY[1];
+            yLimits[0] = Mathf.Max(destination.y, cameraLimitY[0]);
+        }
+
+        Vector3 firstLeg = destination;
+        if (Mathf.Abs(destination.x - transform.position.x) > Mathf.Abs(destination.y - transform.position.y))
+            firstLeg.y = transform.position.y;
+        else
+            firstLeg.x = transform.position.x;
+
+        destination.x = Mathf.Clamp(destination.x, xLimits[0], xLimits[1]);
+        destination.y = Mathf.Clamp(destination.y, yLimits[0], yLimits[1]);
+
+        Vector3 lastPos = transform.position;
+        Vector3 pos;
+        while (Vector2.Distance(transform.position, destination) != 0f)
+        {
+            yield return null;
+            
+
+            pos = Vector3.MoveTowards(transform.position, firstLeg, 10f * Time.deltaTime);
+            pos.x = Mathf.Clamp(pos.x, xLimits[0], xLimits[1]);
+            pos.y = Mathf.Clamp(pos.y, yLimits[0], yLimits[1]);
             transform.position = pos;
+            
+
+            if (Vector2.Distance(transform.position, firstLeg) == 0)
+                firstLeg = destination;
 
             //If both x and y were clamped, we can move no further towards the target and should end
-            if (x0 != pos.x && y0 != pos.y)
-                break;
+            if (lastPos.x == pos.x && lastPos.y == pos.y)
+            {
+                if (firstLeg != destination)
+                    firstLeg = destination;
+                else
+                    break;
+            }
+
+            lastPos = pos;
         }
 
         pauseMovement = false;

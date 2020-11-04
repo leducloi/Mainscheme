@@ -21,6 +21,8 @@ public class HealthBarControl : MonoBehaviour
 
     private Canvas display;
 
+
+
     private void Start()
     {
         shieldControl.maxValue = displayUnit.shieldMax;
@@ -86,17 +88,19 @@ public class HealthBarControl : MonoBehaviour
 
         movingBar = true;
 
-        yield return new WaitForSeconds(0.3f);
+        //yield return new WaitForSeconds(0.3f);
+
+        float adjustmentFactor = ((shieldUnderlay.value - shieldControl.value) + (healthUnderlay.value - healthControl.value)) / 60f;
 
         while (shieldUnderlay.value > shieldControl.value || healthUnderlay.value > healthControl.value)
         {
-            yield return null;
+            yield return new WaitForSeconds(1f / 60f);
 
             if (shieldUnderlay.value > shieldControl.value)
-                shieldControl.value += .05f;
+                shieldControl.value += adjustmentFactor;
 
             if (healthUnderlay.value > healthControl.value)
-                healthControl.value += .05f;
+                healthControl.value += adjustmentFactor;
         }
 
         shields = (int)shieldControl.value;
@@ -118,17 +122,19 @@ public class HealthBarControl : MonoBehaviour
 
         movingBar = true;
 
-        yield return new WaitForSeconds(0.3f);
+        //yield return new WaitForSeconds(0.3f);
+
+        float adjustmentFactor = ((shieldUnderlay.value - shieldControl.value) + (healthUnderlay.value - healthControl.value)) / 60f;
 
         while (shieldUnderlay.value > shieldControl.value || healthUnderlay.value > healthControl.value)
         {
-            yield return null;
+            yield return new WaitForSeconds(1f / 60f);
 
             if (shieldUnderlay.value > shieldControl.value)
-                shieldUnderlay.value -= .05f;
+                shieldUnderlay.value -= adjustmentFactor;
 
             else if (healthUnderlay.value > healthControl.value)
-                healthUnderlay.value -= .05f;
+                healthUnderlay.value -= adjustmentFactor;
         }
 
         shields = (int)shieldControl.value;

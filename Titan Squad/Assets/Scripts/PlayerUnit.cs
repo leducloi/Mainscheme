@@ -100,9 +100,7 @@ public abstract class PlayerUnit : Unit
     protected void Update()
     {
         base.Update();
-
         
-
         //If it's the enemy's phase, give this unit a turn for when it becomes the player phase
         if (!GameManager.instance.playerPhase)
         {

@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour
 
             enemies = true;
 
-            yield return StartCoroutine(CameraBehavior.instance.panCameraTo(enemy.transform.position, .5f));
+            yield return StartCoroutine(CameraBehavior.instance.panCameraTo(enemy.transform.position, 1f));
 
             StartCoroutine(CameraBehavior.instance.follow(enemy.gameObject));
 

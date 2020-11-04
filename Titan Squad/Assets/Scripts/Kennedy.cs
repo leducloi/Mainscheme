@@ -263,7 +263,7 @@ public class Kennedy : PlayerUnit
         while (!Input.GetMouseButtonDown(0))
         {
             //Cancel selection
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
             {
                 MapBehavior.instance.eraseBFGLine();
                 if (highlightUnits != null)
