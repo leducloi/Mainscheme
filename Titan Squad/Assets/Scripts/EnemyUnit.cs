@@ -33,6 +33,8 @@ public class EnemyUnit : Unit
     private float detectRange = 10f;
     private GameObject detectedPlayerObject;
 
+    public bool isBoss;
+
     //Mode affects what actions the enemy will take
     public string mode;
     //Possible modes: Guard, Patrol, Investigate, Attack (+ maybe more)
@@ -63,7 +65,7 @@ public class EnemyUnit : Unit
         shaderControl.setColor(false);
 
         isEnemy = true;
-
+        isBoss = false;
         
 
         hpMax = 5;

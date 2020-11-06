@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ShowEnemyMessage();
         foreach (Unit u in Level.instance.enemyUnits)
         {
-            if (u != null)
+            if (u != null && u.isActiveAndEnabled)
                 u.healthBar.resetShields();
         }
         yield return new WaitForSeconds(2);
@@ -90,12 +90,17 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ShowPlayerMessage();
         foreach (Unit u in Level.instance.playerUnits)
         {
-            if (u != null)
+            if (u != null && u.isActiveAndEnabled)
                 u.healthBar.resetShields();
         }
         StartCoroutine(CameraBehavior.instance.panCameraTo(Level.instance.selectedUnits.ToArray()[0].transform.position, 1f));
         yield return new WaitForSeconds(2);
         
         playerPhase = true;
+    }
+
+    public void levelFinished()
+    {
+        loadNextMap();
     }
 }

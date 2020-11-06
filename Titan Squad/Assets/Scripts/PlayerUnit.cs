@@ -11,6 +11,7 @@ public abstract class PlayerUnit : Unit
     public bool selected;
     public int ultRange;
     public bool bonusMove = false;
+    public bool exfilled;
 
     protected const int ULT_COOLDOWN = 3;
     protected const int ABILITY_COOLDOWN = 1;
@@ -290,8 +291,10 @@ public abstract class PlayerUnit : Unit
         else
             UIManager.instance.attackMissed(enemy.transform.position);
 
+        while (enemy.healthBar.movingBar)
+            yield return null;
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
 
         useActionPoint(1);
         canAttack = false;
@@ -304,7 +307,7 @@ public abstract class PlayerUnit : Unit
         canMove = true;
     }
 
-    protected void useActionPoint(int cost)
+    public void useActionPoint(int cost)
     {
         actionPoints -= cost;
         if (actionPoints <= 0)

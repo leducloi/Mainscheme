@@ -12,9 +12,10 @@ public abstract class Level : MonoBehaviour
 {
     public static Level instance = null;
     public EnemyController enemyController;
-    public Unit[] enemyUnits;
+    public List<Unit> enemyUnits;
     public Unit[] playerUnits;
-    public GameObject[] objectives;
+    [SerializeField]
+    protected GameObject[] objectives;
     public Vector3[] startPositions;
     public GameObject unitSelectMenu;
 
@@ -26,6 +27,10 @@ public abstract class Level : MonoBehaviour
     public bool pauseAutoEnd = false;
 
     public bool donePlanning = false;
+
+    public List<GameObject> activeObjectives;
+
+    public int unitsExfilled = 0;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -43,16 +48,80 @@ public abstract class Level : MonoBehaviour
 
         startTiles = new List<CollisionTile>();
         selectedUnits = new List<PlayerUnit>();
+
+        foreach (GameObject objective in activeObjectives)
+        {
+            objective.GetComponent<Objective>().beginObjective();
+        }
     }
 
     // Update is called once per frame
     virtual protected void Update()
     {
+        if (unitsExfilled == 3)
+        {
+            levelCompleted();
+            pauseAutoEnd = true;
+            unitsExfilled = 4;
+        }
+
         //The level script handles automatically ending phases
         if (GameManager.instance.playerPhase && !pauseAutoEnd)
             autoEndPlayerPhase();
-        if (GameManager.instance.enemyPhase)
+        if (GameManager.instance.enemyPhase && !pauseAutoEnd)
             autoEndEnemyPhase();
+    }
+
+    public void updateObjectives()
+    {
+        List<GameObject> updatedList = new List<GameObject>();
+        foreach (GameObject objective in activeObjectives)
+        {
+            if (objective.GetComponent<Objective>().completed)
+            {
+                if (objective.GetComponent<Objective>().type == "Exfill")
+                {
+                    unitsExfilled = 0;
+                    foreach (PlayerUnit u in playerUnits)
+                        if (u.exfilled)
+                            unitsExfilled++;
+                }
+                continue;
+            }
+            updatedList.Add(objective);
+        }
+        if (updatedList.Count == 0)
+        {
+            foreach (GameObject obj in objectives)
+            {
+                if (obj.GetComponent<Objective>().type == "Exfill")
+                {
+                    obj.GetComponent<Objective>().beginObjective();
+                    updatedList.Add(obj);
+                }
+            }
+        }
+
+        activeObjectives.Clear();
+        activeObjectives = updatedList;
+    }
+
+    public int getObjectiveCount(string id)
+    {
+        int ret = 0;
+        if (id == "Route")
+        {
+            foreach (EnemyUnit u in enemyUnits)
+                if (u != null)
+                    ret++;
+
+            return ret;
+        }
+        foreach (GameObject o in objectives)
+            if (o.GetComponent<Objective>() != null && o.GetComponent<Objective>().type == id)
+                ret++;
+
+        return ret;
     }
 
     //Checks if the player phase is over and ends it automatically
@@ -103,6 +172,17 @@ public abstract class Level : MonoBehaviour
                 return u;
         }
         return null;
+    }
+
+    public List<EnemyUnit> getAssasinationTargets()
+    {
+        List<EnemyUnit> ret = new List<EnemyUnit>();
+        foreach (EnemyUnit enemy in enemyUnits)
+        {
+            if (enemy.isBoss)
+                ret.Add(enemy);
+        }
+        return ret;
     }
 
     public void levelSetup()
@@ -165,5 +245,21 @@ public abstract class Level : MonoBehaviour
         if (selectedUnits.Count >= 3)
             selectedUnits.RemoveAt(0);
         selectedUnits.Add(selected);
+    }
+
+    protected virtual void levelCompleted()
+    {
+        pauseAutoEnd = true;
+        GameManager.instance.enemyPhase = false;
+        GameManager.instance.playerPhase = false;
+        StartCoroutine(postMapScreen());
+    }
+
+    IEnumerator postMapScreen()
+    {
+        while (!Input.GetKeyDown(KeyCode.Return))
+            yield return null;
+
+        GameManager.instance.levelFinished();
     }
 }

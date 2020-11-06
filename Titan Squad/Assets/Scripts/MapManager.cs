@@ -18,6 +18,9 @@ public class MapManager : MonoBehaviour
     //Called by GameManager to load in a new map
     public void loadMap(int mapNumber)
     {
-        Instantiate(mapList[mapNumber]);
+        if (mapNumber >= mapList.Length)
+            Application.Quit();
+        else
+            Instantiate(mapList[mapNumber]);
     }
 }

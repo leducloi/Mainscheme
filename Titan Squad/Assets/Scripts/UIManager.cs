@@ -238,4 +238,11 @@ public class UIManager : MonoBehaviour
     {
         Instantiate(instance.missText);
     }
+    
+    public void completeObjective()
+    {
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().currObjective.completeObjective();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
+        instance.currUnit.useActionPoint(1);
+    }
 }

@@ -12,7 +12,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public PlayerUnit currUnit;
 
-    public Button[] buttons;
+    public List<Button> buttons;
     public Button[] buttons2;
 
     private int currButton;
@@ -21,6 +21,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool usingMouse = false;
     private bool actionMenu = true;
 
+    public Objective currObjective;
 
 
     // Start is called before the first frame update
@@ -76,10 +77,15 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     buttons[currButton].OnDeselect(null);
                     currButton--;
                     if (!buttons[currButton].interactable)
-                        currButton--;
+                    {
+                        if (currButton > 0)
+                            currButton--;
+                        else
+                            currButton++;
+                    }
                     buttons[currButton].OnSelect(null);
                 }
-                else if (Input.GetKeyDown("s") && currButton < buttons.Length)
+                else if (Input.GetKeyDown("s") && currButton < buttons.Count)
                 {
                     buttons[currButton].OnDeselect(null);
                     currButton++;
@@ -132,6 +138,9 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         foreach (Button b in buttons)
             b.gameObject.SetActive(true);
 
+        if (currObjective == null)
+            buttons[0].gameObject.SetActive(false);
+
         currButton = 0;
         currButton2 = 0;
 
@@ -183,16 +192,27 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         currButton = 0;
 
-        buttons[1].interactable = true;
+        
+        buttons[2].interactable = true;
         currUnit = unitSelected.GetComponent<PlayerUnit>();
         smartMenuPosition();
         CameraBehavior.instance.pauseWASD = true;
         UIManager.instance.currUnit = currUnit;
 
+        getInteractableObjective();
+        if (currObjective == null)
+            buttons[0].gameObject.SetActive(false);
+        else
+        {
+            buttons[0].gameObject.SetActive(true);
+            buttons[0].GetComponentInChildren<Text>().text = currObjective.interactText;
+        }
+
+
         buttons[currButton].OnSelect(null);
         if (MapBehavior.instance.getUnitsInRange(currUnit.transform.position, currUnit.equippedWeapon.maxRange, currUnit.equippedWeapon.minRange).Count == 0)
         {
-            buttons[1].interactable = false;
+            buttons[2].interactable = false;
         }
         StartCoroutine(finishDraw());
     }
@@ -200,7 +220,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void hideMenu()
     {
         menu.enabled = false;
-        if (!currUnit.canAttack && !currUnit.canMove && !currUnit.selectAbility)
+        if (currUnit != null && !currUnit.canAttack && !currUnit.canMove && !currUnit.selectAbility)
             currUnit.deselected();
         CameraBehavior.instance.pauseWASD = false;
         foreach (Button b in buttons2)
@@ -323,5 +343,20 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         yield return new WaitForSeconds(0.025f);
         menu.enabled = true;
+    }
+
+    void getInteractableObjective()
+    {
+        CollisionTile playerTile = MapBehavior.instance.getTileAtPos(currUnit.transform.position);
+        foreach (GameObject objective in Level.instance.activeObjectives)
+        {
+            foreach (CollisionTile tile in objective.GetComponent<Objective>().tilesToHighlight)
+                if (tile.coordinate == playerTile.coordinate)
+                {
+                    currObjective = objective.GetComponent<Objective>();
+                    return;
+                }
+        }
+        currObjective = null;
     }
 }

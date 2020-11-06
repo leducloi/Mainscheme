@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Net.WebSockets;
-using System.Xml.XPath;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -34,11 +31,13 @@ public class MapBehavior : MonoBehaviour
 
     private GameObject highlightHolder;
     private GameObject bfgHolder;
+    private GameObject objectiveHolder;
     private GameObject[] allPlayerObjects;
 
     public Color red = new Color(207f / 255f, 42f / 255f, 61f / 255f);
     public Color blue = new Color(45f / 255f, 150f / 255f, 1f);
     public Color green = new Color(45f / 255f, 1f, 150f / 255f);
+    public Color orange = new Color(1f, 42f / 255f, 150f / 255f);
 
     private Color currColor;
 
@@ -83,6 +82,7 @@ public class MapBehavior : MonoBehaviour
 
         highlightHolder = new GameObject();
         bfgHolder = new GameObject();
+        objectiveHolder = new GameObject();
 
         allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
 
@@ -91,11 +91,7 @@ public class MapBehavior : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("q"))
-        {
-            foreach (CollisionTile t in map.map)
-                Debug.Log(t.toString());
-        }
+        
     }
 
     public CollisionMap getMap()
@@ -873,9 +869,9 @@ public class MapBehavior : MonoBehaviour
         return path;
     }
 
-    public void setColor(char color)
+    public void setColor(char colorChar)
     {
-        switch (color)
+        switch (colorChar)
         {
             case 'r':
             case 'R':
@@ -891,6 +887,12 @@ public class MapBehavior : MonoBehaviour
             case 'G':
                 currColor = green;
                 break;
+
+            case 'o':
+            case 'O':
+                currColor = orange;
+                break;
+
             default:
                 currColor = blue;
                 break;
@@ -1155,5 +1157,37 @@ public class MapBehavior : MonoBehaviour
         }
 
         return tilesToHighlight;
+    }
+
+    public void deleteObjectiveTiles(GameObject toDelete)
+    {
+        foreach (Transform t in toDelete.transform)
+            Destroy(t.gameObject);
+        Destroy(toDelete);
+    }
+
+    public void deleteAllObjectiveTiles()
+    {
+        foreach (Transform t in objectiveHolder.transform)
+            deleteObjectiveTiles(t.gameObject);
+    }
+
+    public GameObject highlightObjectiveTiles(List<CollisionTile> tilesToHighlight)
+    {
+        setColor('o');
+        tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
+
+        GameObject objective = new GameObject();
+        
+        objective.transform.SetParent(objectiveHolder.transform);
+
+        //Spawn highlight tiles
+        foreach (CollisionTile tile in tilesToHighlight)
+        {
+            GameObject highlight = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
+            highlight.transform.SetParent(objective.transform);
+        }
+
+        return objective;
     }
 }

@@ -16,6 +16,9 @@ public class SampleLevel : Level
     // Start is called before the first frame update
     protected override void Start()
     {
+        activeObjectives = new List<GameObject>();
+        activeObjectives.Add(objectives[0]);
+
         base.Start();
     }
 
@@ -26,9 +29,18 @@ public class SampleLevel : Level
     }
 
     override
+    protected void levelCompleted()
+    {
+        base.levelCompleted();
+    }
+
+
+    override
     public IEnumerator cutscene()
     {
         //TODO
         yield return null;
     }
+
+    
 }

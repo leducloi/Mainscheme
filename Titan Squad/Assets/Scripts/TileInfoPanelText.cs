@@ -45,10 +45,9 @@ public class TileInfoPanelText : MonoBehaviour
             tileTypeText.text = "Type: " + tile.tileType;
             tileCostText.text = "Cost: " + cost;
             tileDodgeText.text = "Dodge: " + tile.tileDodge;
-            objectiveText.text = "Pos: " + tile.coordinate;
         }
+        setObjectiveText();
         
-      
     }
 
     void smartPosition()
@@ -78,4 +77,37 @@ public class TileInfoPanelText : MonoBehaviour
         bounds.position = moveTo;
     }
 
+    void setObjectiveText()
+    {
+        string objText = "";
+        foreach (GameObject obj in Level.instance.activeObjectives)
+        {
+            Objective objective = obj.GetComponent<Objective>();
+            switch (objective.type)
+            {
+                case "Route":
+                    if (Level.instance.getObjectiveCount("Route") == 0)
+                    {
+                        objective.completeObjective();
+                        return;
+                    }
+                    objText += objective.description + " (" + Level.instance.getObjectiveCount(objective.type) + ")";
+                    break;
+                case "Assassination":
+                case "Sabotage":
+                case "Rescue":
+                    objText += objective.description + " (" + Level.instance.getObjectiveCount(objective.type) + ")";
+                    break;
+                case "Data Retrieval":
+                case "Exfill":
+                    objText += objective.description;
+                    break;
+
+            }
+
+            objText += '\n';
+        }
+        objText.Remove(objText.Length - 1);
+        objectiveText.text = objText;
+    }
 }

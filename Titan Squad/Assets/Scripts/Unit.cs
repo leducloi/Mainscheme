@@ -96,7 +96,8 @@ public abstract class Unit : MonoBehaviour
 
     protected void OnMouseExit()
     {
-        healthBar.hideBar();
+        if (!healthBar.movingBar)
+            healthBar.hideBar();
         if (intensityLock || !shaderControl.outlineShowing)
             return;
         if (shaderControl.highIntensity)
