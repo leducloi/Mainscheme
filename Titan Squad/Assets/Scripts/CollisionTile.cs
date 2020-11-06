@@ -52,26 +52,35 @@ public class CollisionTile
         hasPlayer = false;
 
         //If the tile is a Grasslands tile, set its statistics to that of grasslands
-        foreach (string name in grassTiles)
+        
+        if (tileName.Contains("grass"))
         {
-            if (tileName.Equals(name))
-            {
-                tileType = "Grass";
-                tileCost = 1;
-                tileDodge = 0;
-                return;
-            }
+            tileType = "Grass";
+            tileCost = 1;
+            tileDodge = 0;
+            return;
         }
         //If the tile is a Desert tile, set its statistics to that of desert
-        foreach (string name in sandTiles)
+        if (tileName.Contains("dirt"))
         {
-            if (tileName.Equals(name))
-            {
-                tileType = "Dirt";
-                tileCost = 2;
-                tileDodge = -10;
-                return;
-            }
+            tileType = "Dirt";
+            tileCost = 2;
+            tileDodge = -10;
+            return;
+        }
+        if (tileName.Contains("concrete"))
+        {
+            tileType = "Floor";
+            tileCost = 1;
+            tileDodge = 0;
+            return;
+        }
+        if (tileName.Contains("river"))
+        {
+            tileType = "River";
+            tileCost = 4;
+            tileDodge = -20;
+            return;
         }
         //TODO - Other tile types
 

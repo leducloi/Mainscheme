@@ -34,10 +34,10 @@ public class MapBehavior : MonoBehaviour
     private GameObject objectiveHolder;
     private GameObject[] allPlayerObjects;
 
-    public Color red = new Color(207f / 255f, 42f / 255f, 61f / 255f);
-    public Color blue = new Color(45f / 255f, 150f / 255f, 1f);
-    public Color green = new Color(45f / 255f, 1f, 150f / 255f);
-    public Color orange = new Color(1f, 42f / 255f, 150f / 255f);
+    private Color red = new Color(207f / 255f, 42f / 255f, 61f / 255f);
+    private Color blue = new Color(45f / 255f, 150f / 255f, 1f);
+    private Color green = new Color(45f / 255f, 1f, 150f / 255f);
+    private Color orange = new Color(1f, 142f / 255f, 42f / 255f);
 
     private Color currColor;
 
