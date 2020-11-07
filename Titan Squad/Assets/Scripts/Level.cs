@@ -256,7 +256,7 @@ public abstract class Level : MonoBehaviour
             finishPlanning();
         }
 
-        
+        MapBehavior.instance.setPlayerArray();
         levelSetup();
     }
 

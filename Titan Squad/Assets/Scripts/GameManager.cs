@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
         playerPhase = false;
         enemyPhase = false;
-        turnCount = 1;
+        turnCount = 0;
         Instantiate(UIMan);
     }
 
@@ -114,12 +114,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         
         enemyPhase = true;
-        turnCount++;
     }
 
     //Called to end the enemy's turn
     public IEnumerator endEnemyTurn()
     {
+        turnCount++;
         enemyPhase = false;
         UIManager.instance.ShowPlayerMessage();
         foreach (Unit u in Level.instance.playerUnits)

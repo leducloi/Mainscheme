@@ -157,7 +157,7 @@ public class EnemyUnit : Unit
         GameObject playerObject = MapBehavior.instance.getClosestPlayerObject(currentPosition);
         Vector3 playerPosition = playerObject.transform.position;
         float actualDistance = Mathf.Abs(playerPosition.x - currentPosition.x) + Mathf.Abs(playerPosition.y - currentPosition.y);
-        if (actualDistance <= detectRange)
+        if (actualDistance <= detectRange && !playerObject.GetComponent<PlayerUnit>().isCloaked)
         {
             mode = "Chase";
             detectedPlayerObject = playerObject;

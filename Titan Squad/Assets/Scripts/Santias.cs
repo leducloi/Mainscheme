@@ -233,7 +233,8 @@ public class Santias : PlayerUnit
             yield return null;
         while (!GameManager.instance.playerPhase)
             yield return null;
-        
+
+        usingAbility2 = false;
 
         if (cbDrugs)
         {
@@ -257,7 +258,6 @@ public class Santias : PlayerUnit
         }
 
         isCloaked = false;
-        usingAbility2 = false;
     }
 
     IEnumerator fullForce()

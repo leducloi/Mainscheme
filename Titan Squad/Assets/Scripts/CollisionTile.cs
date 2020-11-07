@@ -82,6 +82,14 @@ public class CollisionTile
             tileDodge = -20;
             return;
         }
+        if (tileName.Contains("Void"))
+        {
+            tileType = null;
+            tileCost = 99;
+            tileDodge = 0;
+            passable = false;
+            return;
+        }
         //TODO - Other tile types
 
         //Tiles not in a category are simply marked impassible.

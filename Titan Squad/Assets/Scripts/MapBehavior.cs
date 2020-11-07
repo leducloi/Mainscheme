@@ -90,7 +90,7 @@ public class MapBehavior : MonoBehaviour
         bfgHolder.transform.SetParent(transform);
         objectiveHolder.transform.SetParent(transform);
 
-        allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
+        
 
         currColor = blue;
 
@@ -430,7 +430,7 @@ public class MapBehavior : MonoBehaviour
         //Gets player units if it's the enemy
         else if (GameManager.instance.enemyPhase)
         {
-            foreach (Unit unit in Level.instance.playerUnits)
+            foreach (Unit unit in Level.instance.selectedUnits)
             {
                 if (unit == null || unit.isCloaked)
                     continue;
@@ -1197,5 +1197,13 @@ public class MapBehavior : MonoBehaviour
         }
 
         return objective;
+    }
+
+    public void setPlayerArray()
+    {
+        List<GameObject> pObj = new List<GameObject>();
+        foreach (Unit u in Level.instance.selectedUnits)
+            pObj.Add(u.gameObject);
+        allPlayerObjects = pObj.ToArray();
     }
 }

@@ -76,7 +76,7 @@ public class CollisionMap
         int index = (int)(Mathf.Floor(location.x) + Mathf.Floor(location.y) * cols);
 
         //Return the value of that index or null if the generated index was invalid
-        if (index < 0 || index >= map.Length)
+        if (index < 0 || index >= map.Length || map[index].tileType == null)
             return null;
         return map[index];
     }
