@@ -382,8 +382,9 @@ public abstract class PlayerUnit : Unit
         if (hpRemaining > hpMax)
             hpRemaining = hpMax;
         //check if death
-        
-            
+
+        if (hpRemaining <= 0)
+            Level.instance.levelFailed();
     }
 
     private void OnMouseDrag()

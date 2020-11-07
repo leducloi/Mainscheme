@@ -171,6 +171,20 @@ public class GameManager : MonoBehaviour
         }
         Destroy(overlay);
     }
+
+    public void resetMission()
+    {
+        if (onTutorial)
+        {
+            currTutorial--;
+            loadTutorial(currTutorial);
+        }
+        else
+        {
+            currMap--;
+            loadLevel(currMap);
+        }
+    }
     
 
     public void loadTutorial(int tutNum)

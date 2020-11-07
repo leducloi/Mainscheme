@@ -19,6 +19,8 @@ public abstract class Level : MonoBehaviour
     public Vector3[] startPositions;
     public GameObject unitSelectMenu;
 
+    public bool victory = false;
+
     public int numUnitsSelected = 0;
 
     private List<CollisionTile> startTiles;
@@ -35,6 +37,8 @@ public abstract class Level : MonoBehaviour
     public int unitsExfilled = 0;
 
     protected bool isTutorial;
+
+    public int turnLimit = int.MaxValue;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -65,11 +69,15 @@ public abstract class Level : MonoBehaviour
     // Update is called once per frame
     virtual protected void Update()
     {
-        if (unitsExfilled == 3 || Input.GetKeyDown(KeyCode.Tab))
+        if (donePlanning && (unitsExfilled == selectedUnits.Count || Input.GetKeyDown(KeyCode.Tab)))
         {
             levelCompleted();
             pauseAutoEnd = true;
-            unitsExfilled = 4;
+            unitsExfilled = 0;
+        }
+        else if (GameManager.instance.turnCount >= turnLimit)
+        {
+            levelFailed();
         }
 
         //The level script handles automatically ending phases
@@ -266,8 +274,21 @@ public abstract class Level : MonoBehaviour
 
     protected virtual void levelCompleted()
     {
+        victory = true;
+
         pauseAutoEnd = true;
         GameManager.instance.enemyPhase = false;
+        GameManager.instance.playerPhase = false;
+        if (!levelDone)
+            StartCoroutine(postMapScreen());
+        levelDone = true;
+    }
+
+    public virtual void levelFailed()
+    {
+        unitsExfilled = 0;
+
+        pauseAutoEnd = true; GameManager.instance.enemyPhase = false;
         GameManager.instance.playerPhase = false;
         if (!levelDone)
             StartCoroutine(postMapScreen());

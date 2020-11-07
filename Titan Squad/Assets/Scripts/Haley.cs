@@ -402,6 +402,7 @@ public class Haley : PlayerUnit
         if (target.hpRemaining <= equippedWeapon.damage)
             enemiesKilled++;
         target.hit(equippedWeapon.damage);
+        damageDone += equippedWeapon.damage;
 
         abilitiesUsed++;
         ultimatesUsed++;

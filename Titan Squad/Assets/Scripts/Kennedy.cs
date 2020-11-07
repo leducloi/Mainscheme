@@ -321,6 +321,7 @@ public class Kennedy : PlayerUnit
                 if (enemy.hpRemaining <= equippedWeapon.damage)
                     enemiesKilled++;
                 enemy.hit(equippedWeapon.damage);
+                damageDone += equippedWeapon.damage;
                 enemy.hideOutline();
             }
         }

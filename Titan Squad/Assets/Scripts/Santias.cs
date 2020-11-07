@@ -373,6 +373,7 @@ public class Santias : PlayerUnit
                         //CombatCalculator.instance.doesHit = true;
                         //CombatCalculator.instance.damageDone = equippedWeapon.damage;
                         target.hit(equippedWeapon.damage);
+                        damageDone += equippedWeapon.damage;
                         foreach (Unit u in enemiesInRange)
                         {
                             if (u != null)
