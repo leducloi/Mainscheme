@@ -13,6 +13,14 @@ public abstract class PlayerUnit : Unit
     public bool bonusMove = false;
     public bool exfilled;
 
+    public int damageDone;
+    public int enemiesKilled;
+    public int objectivesCompleted;
+    public int attacksMissed;
+    public int damageTaken;
+    public int abilitiesUsed;
+    public int ultimatesUsed;
+
     protected const int ULT_COOLDOWN = 3;
     protected const int ABILITY_COOLDOWN = 1;
 
@@ -62,7 +70,8 @@ public abstract class PlayerUnit : Unit
         shaderControl.setColor(true);
         hasTurn = true;
 
-        sightlineHolder = new GameObject();
+        sightlineHolder = new GameObject("Sightline");
+        sightlineHolder.transform.SetParent(transform);
 
         Color c = Color.white;
         c.a = 0.5f;
@@ -287,9 +296,17 @@ public abstract class PlayerUnit : Unit
         yield return StartCoroutine(CameraBehavior.instance.panCameraTo(moveTo, 1));
 
         if (CombatCalculator.instance.doesHit)
+        {
+            damageDone += CombatCalculator.instance.damageDone;
+            if (enemy.hpRemaining <= CombatCalculator.instance.damageDone)
+                enemiesKilled++;
             enemy.hit(CombatCalculator.instance.damageDone);
+        }
         else
+        {
             UIManager.instance.attackMissed(enemy.transform.position);
+            attacksMissed++;
+        }
 
         while (enemy.healthBar.movingBar)
             yield return null;
@@ -345,6 +362,7 @@ public abstract class PlayerUnit : Unit
         if (damage >= 0)
         {
             healthBar.takeDamage(damage);
+            damageTaken += damage;
             StartCoroutine(CameraBehavior.instance.cameraShake());
         }
         else
@@ -433,7 +451,8 @@ public abstract class PlayerUnit : Unit
     private void removeSightlines()
     {
         Destroy(sightlineHolder);
-        sightlineHolder = new GameObject();
+        sightlineHolder = new GameObject("Sightline Holder");
+        sightlineHolder.transform.SetParent(transform);
     }
     
     private void setUpSightline(int numLines, Vector3 position)
@@ -445,7 +464,7 @@ public abstract class PlayerUnit : Unit
 
         for (int x = 0; x < numLines; x++)
         {
-            GameObject sightline = new GameObject();
+            GameObject sightline = new GameObject("New Sightline");
             sightline.transform.SetParent(sightlineHolder.transform);
 
             sightline.AddComponent<LineRenderer>();

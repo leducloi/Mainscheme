@@ -44,11 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256bac32f6eaedd49bb67a657a59112f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenu: {fileID: 5891529609399690599, guid: 2d65aa828864f7847b947ed5426e7874, type: 3}
   UIMan: {fileID: 5488265728788554245, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
   playerPhase: 0
   enemyPhase: 0
   currMap: 0
+  currTutorial: 0
+  turnCount: 0
   cursor: {fileID: 7587641514887190598, guid: c68a5c44cfdd8ef42baeb37bea88c34f, type: 3}
+  fade: {fileID: 6792965577639057709, guid: 1ff97515e95913c45b1a87782e5eb92e, type: 3}
 --- !u!114 &2597409426896943077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,3 +67,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapList:
   - {fileID: 7941583577103735558, guid: a5c00954c1f8d9a43ae1dcdbda35851c, type: 3}
+  tutorialList:
+  - {fileID: 8926999197525555641, guid: 8df07920e795dab46aad6b167ef49dc9, type: 3}
+  currMap: {fileID: 0}

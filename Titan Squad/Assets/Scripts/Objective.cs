@@ -133,7 +133,9 @@ public class Objective : MonoBehaviour
         completed = true;
 
         if (type != "Exfill")
+        {
             active = false;
+        }
         else
         {
             foreach (CollisionTile tile in tilesToHighlight)
@@ -144,7 +146,7 @@ public class Objective : MonoBehaviour
                     player.exfilled = true;
                     player.useActionPoint(2);
                     player.gameObject.SetActive(false);
-                    MapBehavior.instance.getMap().unitDefeated(transform.position, false);
+                    MapBehavior.instance.getMap().unitDefeated(player.transform.position, false);
                 }
             }
         }

@@ -47,7 +47,7 @@ public class PathArrowControl : MonoBehaviour
         instantiateAllArrows();
         hideAllArrows();
         cursorHolder = new GameObject("CursorHolder").transform;
-        cursorHolder = Instantiate(cursorHolder);
+        cursorHolder = Instantiate(cursorHolder, transform);
     }
 
     void Update()

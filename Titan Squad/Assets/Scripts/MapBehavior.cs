@@ -51,6 +51,9 @@ public class MapBehavior : MonoBehaviour
         //If there is more than one instance of MapBehavior, destroy the copy and reset it
         else if (instance != this)
         {
+            Destroy(instance.objectiveHolder);
+            Destroy(instance.highlightHolder);
+            Destroy(instance.bfgHolder);
             Destroy(instance);
             instance = this;
         }
@@ -80,13 +83,18 @@ public class MapBehavior : MonoBehaviour
         StartCoroutine(Level.instance.planning());
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
 
-        highlightHolder = new GameObject();
-        bfgHolder = new GameObject();
-        objectiveHolder = new GameObject();
+        highlightHolder = new GameObject("Highlight Holder");
+        bfgHolder = new GameObject("BFG Holder");
+        objectiveHolder = new GameObject("Objective Holder");
+        highlightHolder.transform.SetParent(transform);
+        bfgHolder.transform.SetParent(transform);
+        objectiveHolder.transform.SetParent(transform);
 
         allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
 
         currColor = blue;
+
+        CameraBehavior.instance.pauseMovement = false;
     }
 
     private void Update()

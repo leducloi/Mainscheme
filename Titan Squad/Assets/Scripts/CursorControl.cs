@@ -12,6 +12,8 @@ public class CursorControl : MonoBehaviour
 
     void Update()
     {
+        if (MapBehavior.instance == null)
+            return;
         Vector3 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         currentPos = FollowMouseCursor(currentPos);
         transform.position = currentPos;

@@ -38,6 +38,9 @@ public class TileInfoPanelText : MonoBehaviour
     {
         smartPosition();
 
+        if (MapBehavior.instance == null)
+            return;
+
         tile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)); 
         if (tile != null)
         {

@@ -184,6 +184,7 @@ public class Kennedy : PlayerUnit
 
         StartCoroutine(blurAnimation());
 
+        abilitiesUsed++;
         useActionPoint(1);
 
         while (endTurn != GameManager.instance.turnCount)
@@ -207,6 +208,7 @@ public class Kennedy : PlayerUnit
             depositSpotDown = true;
         }
 
+        abilitiesUsed++;
         useActionPoint(1);
 
         int endTurn = GameManager.instance.turnCount + ABILITY_COOLDOWN;
@@ -239,6 +241,7 @@ public class Kennedy : PlayerUnit
             teleportMask.transform.localPosition = Vector3.MoveTowards(teleportMask.transform.localPosition, targetLoc, teleportSpeed * Time.deltaTime);
             yield return null;
         }
+        abilitiesUsed++;
         useActionPoint(1);
 
         int endTurn = GameManager.instance.turnCount + ABILITY_COOLDOWN;
@@ -315,6 +318,8 @@ public class Kennedy : PlayerUnit
         {
             foreach (Unit enemy in targetsHit)
             {
+                if (enemy.hpRemaining <= equippedWeapon.damage)
+                    enemiesKilled++;
                 enemy.hit(equippedWeapon.damage);
                 enemy.hideOutline();
             }
@@ -333,6 +338,8 @@ public class Kennedy : PlayerUnit
         
 
         selectAbility = false;
+        abilitiesUsed++;
+        ultimatesUsed++;
         useActionPoint(2);
 
         int endTurn = GameManager.instance.turnCount + ULT_COOLDOWN;

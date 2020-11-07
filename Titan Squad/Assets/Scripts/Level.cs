@@ -27,10 +27,14 @@ public abstract class Level : MonoBehaviour
     public bool pauseAutoEnd = false;
 
     public bool donePlanning = false;
+    private bool levelDone = false;
+    public bool continuePlay = false;
 
     public List<GameObject> activeObjectives;
 
     public int unitsExfilled = 0;
+
+    protected bool isTutorial;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -44,10 +48,13 @@ public abstract class Level : MonoBehaviour
             Destroy(instance);
             instance = this;
         }
-        Instantiate(enemyController);
+        Instantiate(enemyController, transform);
 
         startTiles = new List<CollisionTile>();
         selectedUnits = new List<PlayerUnit>();
+
+        if (isTutorial)
+            selectedUnits.Add((PlayerUnit)playerUnits[0]);
 
         foreach (GameObject objective in activeObjectives)
         {
@@ -58,7 +65,7 @@ public abstract class Level : MonoBehaviour
     // Update is called once per frame
     virtual protected void Update()
     {
-        if (unitsExfilled == 3)
+        if (unitsExfilled == 3 || Input.GetKeyDown(KeyCode.Tab))
         {
             levelCompleted();
             pauseAutoEnd = true;
@@ -205,33 +212,43 @@ public abstract class Level : MonoBehaviour
     {
         yield return null;
 
-        GameObject menu = Instantiate(unitSelectMenu);
-
-        for (int index = 0; index < startPositions.Length; index++)
+        Instantiate(GameManager.instance.cursor, transform);
+        if (!isTutorial)
         {
-            startTiles.Add(MapBehavior.instance.getTileAtPos(startPositions[index]));
+            unitSelectMenu = Instantiate(unitSelectMenu, transform);
+
+            for (int index = 0; index < startPositions.Length; index++)
+            {
+                startTiles.Add(MapBehavior.instance.getTileAtPos(startPositions[index]));
+            }
+
+            Vector3 pos = new Vector3(-1, -1, 0);
+            foreach (Unit u in playerUnits)
+            {
+                u.movePoint.transform.position = pos;
+                u.transform.position = pos;
+            }
+
+            MapBehavior.instance.hightlightCustomTiles(startTiles, 'b');
+
+
+            while (!donePlanning)
+            {
+                yield return null;
+            }
+
+            MapBehavior.instance.deleteHighlightTiles();
+
+            Destroy(unitSelectMenu);
+        }
+        else
+        {
+            foreach (Unit u in selectedUnits)
+                u.GetComponent<SpriteRenderer>().enabled = true;
+            finishPlanning();
         }
 
-        Vector3 pos = new Vector3(-1, -1, 0);
-        foreach (Unit u in playerUnits)
-        {
-            u.movePoint.transform.position = pos;
-            u.transform.position = pos;
-        }
-
-        MapBehavior.instance.hightlightCustomTiles(startTiles, 'b');
-        Instantiate(GameManager.instance.cursor);
-
-
-        while (!donePlanning)
-        {
-            yield return null;
-        }
-
-        MapBehavior.instance.deleteHighlightTiles();
-
-        Destroy(menu);
-
+        
         levelSetup();
     }
 
@@ -252,12 +269,15 @@ public abstract class Level : MonoBehaviour
         pauseAutoEnd = true;
         GameManager.instance.enemyPhase = false;
         GameManager.instance.playerPhase = false;
-        StartCoroutine(postMapScreen());
+        if (!levelDone)
+            StartCoroutine(postMapScreen());
+        levelDone = true;
     }
 
     IEnumerator postMapScreen()
     {
-        while (!Input.GetKeyDown(KeyCode.Return))
+        UIManager.instance.showEndCard();
+        while (!continuePlay)
             yield return null;
 
         GameManager.instance.levelFinished();
