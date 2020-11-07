@@ -13,7 +13,7 @@ public class SantiasTutorial : Level
 
         base.Start();
 
-        turnLimit = 5;
+        turnLimit = 4;
     }
 
     // Update is called once per frame
