@@ -30,7 +30,13 @@ public class EnemyUnit : Unit
 
     protected int movement = 5;
     private float moveSpeed = 5f;
+    //detectRange, rangeEnemy, weaponRange. Temporarily using only, remove when they are not needed.
+    [SerializeField]
     private float detectRange = 10f;
+    [SerializeField]
+    private bool rangeEnemy = false;
+    [SerializeField]
+    private float weaponRange = 6f;
     private GameObject detectedPlayerObject;
 
     public bool isBoss;
@@ -167,11 +173,92 @@ public class EnemyUnit : Unit
     {
         Vector3 currentPosition = transform.position;
         detectPlayerInRange(transform.position);
-        CollisionTile[] path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, int.MaxValue, true);
-        
+        CollisionTile[] path = null;
+        if (MapBehavior.instance.hasLineTo(currentPosition, detectedPlayerObject.transform.position, (int)detectRange, 0))
+        {
+            path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, int.MaxValue, true);
+        }
+        else
+        {
+            Debug.Log("Taking cover...");
+            CollisionTile coverDestination = scanCoverTile(currentPosition, detectedPlayerObject.transform.position);
+            if(coverDestination != null)
+            {
+                path = MapBehavior.instance.getPathTo(currentPosition, coverDestination.coordinate, int.MaxValue, true);
+            }
+        }
         yield return StartCoroutine(moveAlongPath(path, true));
         MapBehavior.instance.unitMoved(currentPosition, transform.position);
         yield return null;
+    }
+
+    private CollisionTile scanCoverTile(Vector3 enemyPos, Vector3 playerPos)
+    {
+        int xDiff = (int)(playerPos.x - enemyPos.x);
+        int yDiff = (int)(playerPos.y - enemyPos.y);
+        bool positiveX = xDiff > 0;
+        bool positiveY = yDiff > 0;
+        int xAbs = Mathf.Abs(xDiff);
+        int yAbs = Mathf.Abs(yDiff);
+        int actualI = 0, actualJ = 0;
+        bool thereIsCover = false;
+        CollisionTile currentScanTile = MapBehavior.instance.getTileAtPos(enemyPos);
+        if (yAbs >= xAbs)
+        {
+            for(int i = 0; i < xAbs; i++)
+            {
+                for (int j = 0; j < yAbs; j++) {
+                    if (positiveY)
+                        actualJ++;
+                    else
+                        actualJ--;
+                    CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
+                    if (!checkingTile.passable)
+                    {
+                        thereIsCover = true;
+                        break;
+                    }
+                        
+                    currentScanTile = checkingTile;
+                }
+                if (thereIsCover)
+                    break;
+                if (positiveX)
+                    actualI++;
+                else
+                    actualI--;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < yAbs; i++)
+            {
+                for (int j = 0; j < xAbs; j++)
+                {
+                    if (positiveX)
+                        actualI++;
+                    else
+                        actualI--;
+                    CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
+                    if (!checkingTile.passable)
+                    {
+                        thereIsCover = true;
+                        break;
+                    }
+                    currentScanTile = checkingTile;
+                }
+                if(thereIsCover)
+                    break;
+                if (positiveY)
+                    actualJ++;
+                else
+                    actualJ--;
+            }
+        }
+        if (thereIsCover && (currentScanTile.coordinate != new Vector3(enemyPos.x, enemyPos.y)))
+            return currentScanTile;
+        else
+            return null;
     }
 
     IEnumerator guarding()
