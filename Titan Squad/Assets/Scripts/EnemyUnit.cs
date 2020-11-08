@@ -32,7 +32,7 @@ public class EnemyUnit : Unit
     private float moveSpeed = 5f;
     //detectRange, rangeEnemy, weaponRange. Temporarily using only, remove when they are not needed.
     [SerializeField]
-    private float detectRange = 10f;
+    public float detectRange = 10f;
     [SerializeField]
     private bool rangeEnemy = false;
     [SerializeField]
