@@ -78,7 +78,6 @@ public class CameraBehavior : MonoBehaviour
             return;
 
         readjustCamera();
-        
 
         Vector3 cameraPos = transform.position;
         //This controls the movement of the camera

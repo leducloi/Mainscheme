@@ -309,7 +309,7 @@ public class Kennedy : PlayerUnit
         BFGBeam.GetComponent<SpriteRenderer>().enabled = true;
         while (BFGBounds.localScale.y < 75)
         {
-            BFGBounds.localScale += new Vector3(0, .3f, 0);
+            BFGBounds.localScale += new Vector3(0, 90f * Time.deltaTime, 0);
             yield return null;
         }
 
@@ -328,7 +328,7 @@ public class Kennedy : PlayerUnit
 
         while (BFGBounds.localScale.x > 0)
         {
-            BFGBounds.localScale -= new Vector3(0.02f, 0, 0);
+            BFGBounds.localScale -= new Vector3(10f * Time.deltaTime, 0, 0);
             yield return null;
         }
         BFGBeam.GetComponent<SpriteRenderer>().enabled = false;

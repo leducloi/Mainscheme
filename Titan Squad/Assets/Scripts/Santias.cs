@@ -284,7 +284,7 @@ public class Santias : PlayerUnit
         {
             yield return null;
 
-            if (Input.GetKeyDown(KeyCode.Escape) && firstSelection)
+            if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) && firstSelection)
             {
                 usingAbility3 = false;
                 MapBehavior.instance.deleteHighlightTiles();

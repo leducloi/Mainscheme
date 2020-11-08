@@ -40,6 +40,14 @@ public class TileInfoPanelText : MonoBehaviour
     {
         smartPosition();
 
+        if (GameManager.instance.enemyPhase)
+            topBounds.parent.GetComponent<Canvas>().enabled = false;
+        else
+            topBounds.parent.GetComponent<Canvas>().enabled = true;
+
+        if (Level.instance.levelDone)
+            gameObject.SetActive(false);
+
         if (MapBehavior.instance == null)
             return;
 
@@ -69,33 +77,45 @@ public class TileInfoPanelText : MonoBehaviour
         Vector3 settings;
         if (mouse.x > .5f && Level.instance.donePlanning)
         {
-            if (mouse.y < .5f)
-            {
-                settings = new Vector3(0, 0, 0);
-                bottomBounds.anchorMin = settings;
-                bottomBounds.anchorMax = settings;
-                bottomBounds.pivot = settings;
-                moveTo = new Vector3(Screen.height * pos, Screen.height * pos, 0);
-                bottomBounds.position = moveTo;
+            settings = new Vector3(0, 0, 0);
+            bottomBounds.anchorMin = settings;
+            bottomBounds.anchorMax = settings;
+            bottomBounds.pivot = settings;
+            moveTo = new Vector3(Screen.height * pos, Screen.height * pos, 0);
+            bottomBounds.position = moveTo;
 
+            if ((UIManager.instance.currUnit != null && UIManager.instance.currUnit.selectAbility))
+            {
+                settings = new Vector3(1, 1, 0);
+                topBounds.anchorMin = settings;
+                topBounds.anchorMax = settings;
+                topBounds.pivot = settings;
+
+                moveTo = new Vector3(Screen.width - Screen.height * pos, Screen.height - Screen.height * pos, 0);
+                topBounds.position = moveTo;
+            }
+            else
+            {
                 settings = new Vector3(0, 1, 0);
                 topBounds.anchorMin = settings;
                 topBounds.anchorMax = settings;
                 topBounds.pivot = settings;
                 moveTo = new Vector3(Screen.height * pos, Screen.height - Screen.height * pos, 0);
                 topBounds.position = moveTo;
-
-                return;
             }
+
+            return;
         }
+
         settings = new Vector3(1, 0, 0);
         bottomBounds.anchorMin = settings;
         bottomBounds.anchorMax = settings;
         bottomBounds.pivot = settings;
 
         moveTo = new Vector3(Screen.width - Screen.height * pos, Screen.height * pos, 0);
-        bottomBounds.position = moveTo;
+        bottomBounds.position = moveTo; 
 
+        
         if (Level.instance.donePlanning)
         {
             settings = new Vector3(1, 1, 0);
@@ -106,7 +126,7 @@ public class TileInfoPanelText : MonoBehaviour
             moveTo = new Vector3(Screen.width - Screen.height * pos, Screen.height - Screen.height * pos, 0);
             topBounds.position = moveTo;
         }
-        else
+        else 
         {
             settings = new Vector3(0, 1, 0);
             topBounds.anchorMin = settings;

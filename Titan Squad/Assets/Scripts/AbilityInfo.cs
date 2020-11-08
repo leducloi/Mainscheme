@@ -26,6 +26,7 @@ public class AbilityInfo : MonoBehaviour
         if (menu.enabled && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
             menu.enabled = false;
+            currUnit.selectAbility = false;
             UIManager.instance.abilityMenu();
         }
         if (menu.enabled && ( Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
@@ -53,6 +54,7 @@ public class AbilityInfo : MonoBehaviour
                     Debug.Log("Error: Invalid ability number recieved.");
                     break;
             }
+            currUnit.selectAbility = false;
             menu.enabled = false;
         }
     }

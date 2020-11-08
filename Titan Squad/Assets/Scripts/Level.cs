@@ -29,7 +29,7 @@ public abstract class Level : MonoBehaviour
     public bool pauseAutoEnd = false;
 
     public bool donePlanning = false;
-    private bool levelDone = false;
+    public bool levelDone = false;
     public bool continuePlay = false;
 
     public List<GameObject> activeObjectives;
