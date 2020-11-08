@@ -30,6 +30,7 @@ public class EnemyUnit : Unit
 
     protected int movement = 5;
     private float moveSpeed = 5f;
+    //detectRange, rangeEnemy, weaponRange. Temporarily using only, remove when they are not needed.
     [SerializeField]
     private float detectRange = 10f;
     [SerializeField]
@@ -179,6 +180,7 @@ public class EnemyUnit : Unit
         }
         else
         {
+            Debug.Log("Taking cover...");
             CollisionTile coverDestination = scanCoverTile(currentPosition, detectedPlayerObject.transform.position);
             if(coverDestination != null)
             {
