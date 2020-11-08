@@ -73,20 +73,7 @@ public class EnemyUnit : Unit
         isBoss = false;
         
 
-        hpMax = 5;
-        hpRemaining = 5;
-
-        shieldMax = 2;
-        shieldRemaining = 2;
-
-        movement = 6;
-
-        combatTraining = 15;
-        evasiveTactics = 20;
-        bionicEnhancement = 5;
-        luck = 6;
-        criticalTargeting = 2;
-        advancedShielding = 0;
+        
     }
 
     // Update is called once per frame
@@ -162,7 +149,7 @@ public class EnemyUnit : Unit
         GameObject playerObject = MapBehavior.instance.getClosestPlayerObject(currentPosition);
         Vector3 playerPosition = playerObject.transform.position;
         float actualDistance = Mathf.Abs(playerPosition.x - currentPosition.x) + Mathf.Abs(playerPosition.y - currentPosition.y);
-        if (actualDistance <= detectRange)
+        if (actualDistance <= detectRange && !playerObject.GetComponent<PlayerUnit>().isCloaked)
         {
             mode = "Chase";
             detectedPlayerObject = playerObject;

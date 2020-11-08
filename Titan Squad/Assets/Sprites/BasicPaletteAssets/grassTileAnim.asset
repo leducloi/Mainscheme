@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc412a4cfd845841b4e9cc4107e6dea, type: 3}
+  m_Name: grassTileAnim
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 7468574342017505063, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: 7199761293499315176, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: 4647549153031327186, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: 3021960730336585421, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: -7851855329272058164, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: 6835035461366625719, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: -5315062302019021007, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: 267437922265478096, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: 7334146325762542724, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  - {fileID: 8248402728456592938, guid: 0201dfe867c8cde4bbc48e104a782805, type: 3}
+  m_AnimSpeed: 1
+  m_AnimationStartTime: 0
+  m_TileColliderType: 0

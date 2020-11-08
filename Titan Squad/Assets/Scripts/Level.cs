@@ -12,12 +12,14 @@ public abstract class Level : MonoBehaviour
 {
     public static Level instance = null;
     public EnemyController enemyController;
-    public List<Unit> enemyUnits;
+    public EnemyUnit[] enemyUnits;
     public Unit[] playerUnits;
     [SerializeField]
     protected GameObject[] objectives;
     public Vector3[] startPositions;
     public GameObject unitSelectMenu;
+
+    public bool victory = false;
 
     public int numUnitsSelected = 0;
 
@@ -27,10 +29,16 @@ public abstract class Level : MonoBehaviour
     public bool pauseAutoEnd = false;
 
     public bool donePlanning = false;
+    public bool levelDone = false;
+    public bool continuePlay = false;
 
     public List<GameObject> activeObjectives;
 
     public int unitsExfilled = 0;
+
+    protected bool isTutorial;
+
+    public int turnLimit = int.MaxValue;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -44,25 +52,36 @@ public abstract class Level : MonoBehaviour
             Destroy(instance);
             instance = this;
         }
-        Instantiate(enemyController);
+        Instantiate(enemyController, transform);
 
         startTiles = new List<CollisionTile>();
         selectedUnits = new List<PlayerUnit>();
+
+        playerUnits = GetComponentsInChildren<PlayerUnit>();
+
+        if (isTutorial)
+            selectedUnits.Add((PlayerUnit)playerUnits[0]);
 
         foreach (GameObject objective in activeObjectives)
         {
             objective.GetComponent<Objective>().beginObjective();
         }
+        enemyUnits = GetComponentsInChildren<EnemyUnit>();
+        
     }
 
     // Update is called once per frame
     virtual protected void Update()
     {
-        if (unitsExfilled == 3)
+        if (donePlanning && (unitsExfilled == selectedUnits.Count || Input.GetKeyDown(KeyCode.Tab)))
         {
             levelCompleted();
             pauseAutoEnd = true;
-            unitsExfilled = 4;
+            unitsExfilled = 0;
+        }
+        else if (GameManager.instance.turnCount >= turnLimit)
+        {
+            levelFailed();
         }
 
         //The level script handles automatically ending phases
@@ -205,33 +224,50 @@ public abstract class Level : MonoBehaviour
     {
         yield return null;
 
-        GameObject menu = Instantiate(unitSelectMenu);
-
-        for (int index = 0; index < startPositions.Length; index++)
+        foreach (Unit u in enemyUnits)
         {
-            startTiles.Add(MapBehavior.instance.getTileAtPos(startPositions[index]));
+            CollisionTile tileOn = MapBehavior.instance.getTileAtPos(u.transform.position);
+            u.movePoint.transform.position = tileOn.coordinate;
+            u.transform.position = tileOn.coordinate;
         }
 
-        Vector3 pos = new Vector3(-1, -1, 0);
-        foreach (Unit u in playerUnits)
+        Instantiate(GameManager.instance.cursor, transform);
+        if (!isTutorial)
         {
-            u.movePoint.transform.position = pos;
-            u.transform.position = pos;
+            unitSelectMenu = Instantiate(unitSelectMenu, transform);
+
+            for (int index = 0; index < startPositions.Length; index++)
+            {
+                startTiles.Add(MapBehavior.instance.getTileAtPos(startPositions[index]));
+            }
+
+            Vector3 pos = new Vector3(-1, -1, 0);
+            foreach (Unit u in playerUnits)
+            {
+                u.movePoint.transform.position = pos;
+                u.transform.position = pos;
+            }
+
+            MapBehavior.instance.hightlightCustomTiles(startTiles, 'b');
+
+
+            while (!donePlanning)
+            {
+                yield return null;
+            }
+
+            MapBehavior.instance.deleteHighlightTiles();
+
+            Destroy(unitSelectMenu);
+        }
+        else
+        {
+            foreach (Unit u in selectedUnits)
+                u.GetComponent<SpriteRenderer>().enabled = true;
+            finishPlanning();
         }
 
-        MapBehavior.instance.hightlightCustomTiles(startTiles, 'b');
-        Instantiate(GameManager.instance.cursor);
-
-
-        while (!donePlanning)
-        {
-            yield return null;
-        }
-
-        MapBehavior.instance.deleteHighlightTiles();
-
-        Destroy(menu);
-
+        MapBehavior.instance.setPlayerArray();
         levelSetup();
     }
 
@@ -249,15 +285,31 @@ public abstract class Level : MonoBehaviour
 
     protected virtual void levelCompleted()
     {
+        victory = true;
+
         pauseAutoEnd = true;
         GameManager.instance.enemyPhase = false;
         GameManager.instance.playerPhase = false;
-        StartCoroutine(postMapScreen());
+        if (!levelDone)
+            StartCoroutine(postMapScreen());
+        levelDone = true;
+    }
+
+    public virtual void levelFailed()
+    {
+        unitsExfilled = 0;
+
+        pauseAutoEnd = true; GameManager.instance.enemyPhase = false;
+        GameManager.instance.playerPhase = false;
+        if (!levelDone)
+            StartCoroutine(postMapScreen());
+        levelDone = true;
     }
 
     IEnumerator postMapScreen()
     {
-        while (!Input.GetKeyDown(KeyCode.Return))
+        UIManager.instance.showEndCard();
+        while (!continuePlay)
             yield return null;
 
         GameManager.instance.levelFinished();

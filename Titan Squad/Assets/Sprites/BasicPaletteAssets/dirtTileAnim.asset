@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc412a4cfd845841b4e9cc4107e6dea, type: 3}
+  m_Name: dirtTileAnim
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 1285818396002778118, guid: 818197086ba4bf949a64b5854d18cd51, type: 3}
+  - {fileID: -4025528801745137671, guid: 818197086ba4bf949a64b5854d18cd51, type: 3}
+  - {fileID: -6661054639141860129, guid: 818197086ba4bf949a64b5854d18cd51, type: 3}
+  - {fileID: -517926311522571113, guid: 818197086ba4bf949a64b5854d18cd51, type: 3}
+  m_AnimSpeed: 1
+  m_AnimationStartTime: 0
+  m_TileColliderType: 0

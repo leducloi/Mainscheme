@@ -683,6 +683,7 @@ MonoBehaviour:
   combatCalculator: {fileID: 5391532308134352649, guid: 4d259fdf6b9b5094bb1bd9283548655b, type: 3}
   abilityInfoWindow: {fileID: 8287376425527936915, guid: 0f46f70ef72b9f94ba503b09b573007b, type: 3}
   missText: {fileID: 6731893470697211876, guid: e1f8fc35ff25edb4da7f8f595976635e, type: 3}
+  endCard: {fileID: 6903811019988931810, guid: 3273d9cdc181e9646bad7b643090e405, type: 3}
   escapeClauseMenu: {fileID: 8727491884823121436, guid: 7b8b44cef6ad37d4a8623de6d593b414, type: 3}
   enemiesToOutline: []
   playerPhaseText: {fileID: 2022487371851123832}

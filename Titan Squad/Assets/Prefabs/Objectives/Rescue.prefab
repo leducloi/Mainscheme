@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57de29df4b58eda459a18adf86c7c91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Exfill
+  type: Rescue
   description: 
   interactText: 
   completed: 0

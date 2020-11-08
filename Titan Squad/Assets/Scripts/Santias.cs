@@ -32,7 +32,7 @@ public class Santias : PlayerUnit
         abilityDescriptions[2] = "Santias teleports to and attacks a nearby enemy with his Energy Blade. If this attack kills the enemy, Santias can teleport to a nearby location and make another attack.";
 
         hook.GetComponent<SpriteRenderer>().enabled = false;
-        hook.transform.SetParent(null);
+        hook.transform.SetParent(MapBehavior.instance.transform);
 
         hpMax = 10;
         hpRemaining = 10;
@@ -170,6 +170,7 @@ public class Santias : PlayerUnit
 
         MapBehavior.instance.unitMoved(startPosition, transform.position);
 
+        abilitiesUsed++;
         useActionPoint(1);
 
         int endTurn = GameManager.instance.turnCount + 1;
@@ -223,6 +224,7 @@ public class Santias : PlayerUnit
             yield return new WaitForSecondsRealtime(1f/60f);
         }
 
+        abilitiesUsed++;
         useActionPoint(1);
         isCloaked = true;
 
@@ -231,7 +233,9 @@ public class Santias : PlayerUnit
             yield return null;
         while (!GameManager.instance.playerPhase)
             yield return null;
-        
+
+        isCloaked = false;
+        usingAbility2 = false;
 
         if (cbDrugs)
         {
@@ -254,8 +258,6 @@ public class Santias : PlayerUnit
             yield return new WaitForSecondsRealtime(1f / 60f);
         }
 
-        isCloaked = false;
-        usingAbility2 = false;
     }
 
     IEnumerator fullForce()
@@ -282,7 +284,7 @@ public class Santias : PlayerUnit
         {
             yield return null;
 
-            if (Input.GetKeyDown(KeyCode.Escape) && firstSelection)
+            if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) && firstSelection)
             {
                 usingAbility3 = false;
                 MapBehavior.instance.deleteHighlightTiles();
@@ -371,6 +373,7 @@ public class Santias : PlayerUnit
                         //CombatCalculator.instance.doesHit = true;
                         //CombatCalculator.instance.damageDone = equippedWeapon.damage;
                         target.hit(equippedWeapon.damage);
+                        damageDone += equippedWeapon.damage;
                         foreach (Unit u in enemiesInRange)
                         {
                             if (u != null)
@@ -385,6 +388,7 @@ public class Santias : PlayerUnit
                         if (target.hpRemaining <= 0)
                         {
                             yield return null;
+                            enemiesKilled++;
 
                             selectableTiles.Clear();
                             allTiles.Clear();
@@ -411,6 +415,8 @@ public class Santias : PlayerUnit
         }
 
 
+        abilitiesUsed++;
+        ultimatesUsed++;
         useActionPoint(2);
 
         int endTurn = GameManager.instance.turnCount + ULT_COOLDOWN;

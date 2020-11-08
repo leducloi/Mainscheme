@@ -14,13 +14,43 @@ public class MapManager : MonoBehaviour
 {
     //Contains all the maps of the game
     public GameObject[] mapList;
+    public GameObject[] tutorialList;
+    public GameObject currMap;
+
+
 
     //Called by GameManager to load in a new map
-    public void loadMap(int mapNumber)
+    public bool loadMap(int mapNumber, bool tutorial = false)
     {
+        if (tutorial)
+        {
+            if (mapNumber >= tutorialList.Length)
+            {
+                deloadCurrMap();
+                GameManager.instance.loadMainMenu();
+                return false;
+            }
+            else
+            {
+                currMap = Instantiate(tutorialList[mapNumber]);
+                return true;
+            }
+        }
         if (mapNumber >= mapList.Length)
-            Application.Quit();
+        {
+            deloadCurrMap();
+            GameManager.instance.loadMainMenu();
+            return false;
+        }
         else
-            Instantiate(mapList[mapNumber]);
+        {
+            currMap = Instantiate(mapList[mapNumber]);
+        }
+        return true;
+    }
+
+    public void deloadCurrMap()
+    {
+        Destroy(currMap);
     }
 }

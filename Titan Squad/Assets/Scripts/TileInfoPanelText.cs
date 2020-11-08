@@ -12,12 +12,14 @@ Text size for the UI, font, and other design aspects still need to be worked on.
 public class TileInfoPanelText : MonoBehaviour
 {
 
-    public RectTransform bounds;
+    public RectTransform bottomBounds;
+    public RectTransform topBounds;
     //Text UI objects used to display the text on screen
     public Text tileTypeText;
     public Text tileCostText;
     public Text tileDodgeText;
     public Text objectiveText;
+    public Text turnsText;
     //This collision tile is used below to find the tile that the mouse is hovering over.
     CollisionTile tile;
     
@@ -38,6 +40,22 @@ public class TileInfoPanelText : MonoBehaviour
     {
         smartPosition();
 
+        if (GameManager.instance.enemyPhase)
+            topBounds.parent.GetComponent<Canvas>().enabled = false;
+        else
+            topBounds.parent.GetComponent<Canvas>().enabled = true;
+
+        if (Level.instance.levelDone)
+            gameObject.SetActive(false);
+
+        if (MapBehavior.instance == null)
+            return;
+
+        if (Level.instance.turnLimit == int.MaxValue)
+            turnsText.transform.parent.gameObject.SetActive(false);
+        else
+            turnsText.text = "" + (Level.instance.turnLimit - GameManager.instance.turnCount);
+
         tile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition)); 
         if (tile != null)
         {
@@ -52,29 +70,72 @@ public class TileInfoPanelText : MonoBehaviour
 
     void smartPosition()
     {
+        float pos = 0.02f;
+
         Vector3 mouse = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         Vector3 moveTo;
         Vector3 settings;
         if (mouse.x > .5f && Level.instance.donePlanning)
         {
-            if (mouse.y < .5f)
+            settings = new Vector3(0, 0, 0);
+            bottomBounds.anchorMin = settings;
+            bottomBounds.anchorMax = settings;
+            bottomBounds.pivot = settings;
+            moveTo = new Vector3(Screen.height * pos, Screen.height * pos, 0);
+            bottomBounds.position = moveTo;
+
+            if ((UIManager.instance.currUnit != null && UIManager.instance.currUnit.selectAbility))
             {
                 settings = new Vector3(1, 1, 0);
-                bounds.anchorMin = settings;
-                bounds.anchorMax = settings;
-                bounds.pivot = settings;
-                moveTo = new Vector3(Screen.width - Screen.height * 0.02f, Screen.height - Screen.height * 0.02f, 0);
-                bounds.position = moveTo;
-                return;
-            }
-        }
-        settings = new Vector3(1, 0, 0);
-        bounds.anchorMin = settings;
-        bounds.anchorMax = settings;
-        bounds.pivot = settings;
+                topBounds.anchorMin = settings;
+                topBounds.anchorMax = settings;
+                topBounds.pivot = settings;
 
-        moveTo = new Vector3(Screen.width - Screen.height * 0.02f, Screen.height * .02f, 0);
-        bounds.position = moveTo;
+                moveTo = new Vector3(Screen.width - Screen.height * pos, Screen.height - Screen.height * pos, 0);
+                topBounds.position = moveTo;
+            }
+            else
+            {
+                settings = new Vector3(0, 1, 0);
+                topBounds.anchorMin = settings;
+                topBounds.anchorMax = settings;
+                topBounds.pivot = settings;
+                moveTo = new Vector3(Screen.height * pos, Screen.height - Screen.height * pos, 0);
+                topBounds.position = moveTo;
+            }
+
+            return;
+        }
+
+        settings = new Vector3(1, 0, 0);
+        bottomBounds.anchorMin = settings;
+        bottomBounds.anchorMax = settings;
+        bottomBounds.pivot = settings;
+
+        moveTo = new Vector3(Screen.width - Screen.height * pos, Screen.height * pos, 0);
+        bottomBounds.position = moveTo; 
+
+        
+        if (Level.instance.donePlanning)
+        {
+            settings = new Vector3(1, 1, 0);
+            topBounds.anchorMin = settings;
+            topBounds.anchorMax = settings;
+            topBounds.pivot = settings;
+
+            moveTo = new Vector3(Screen.width - Screen.height * pos, Screen.height - Screen.height * pos, 0);
+            topBounds.position = moveTo;
+        }
+        else 
+        {
+            settings = new Vector3(0, 1, 0);
+            topBounds.anchorMin = settings;
+            topBounds.anchorMax = settings;
+            topBounds.pivot = settings;
+
+            moveTo = new Vector3(Screen.height * pos, Screen.height - Screen.height * pos, 0);
+            topBounds.position = moveTo;
+        }
     }
 
     void setObjectiveText()

@@ -34,10 +34,10 @@ public class MapBehavior : MonoBehaviour
     private GameObject objectiveHolder;
     private GameObject[] allPlayerObjects;
 
-    public Color red = new Color(207f / 255f, 42f / 255f, 61f / 255f);
-    public Color blue = new Color(45f / 255f, 150f / 255f, 1f);
-    public Color green = new Color(45f / 255f, 1f, 150f / 255f);
-    public Color orange = new Color(1f, 42f / 255f, 150f / 255f);
+    private Color red = new Color(207f / 255f, 42f / 255f, 61f / 255f);
+    private Color blue = new Color(45f / 255f, 150f / 255f, 1f);
+    private Color green = new Color(45f / 255f, 1f, 150f / 255f);
+    private Color orange = new Color(1f, 142f / 255f, 42f / 255f);
 
     private Color currColor;
 
@@ -51,6 +51,9 @@ public class MapBehavior : MonoBehaviour
         //If there is more than one instance of MapBehavior, destroy the copy and reset it
         else if (instance != this)
         {
+            Destroy(instance.objectiveHolder);
+            Destroy(instance.highlightHolder);
+            Destroy(instance.bfgHolder);
             Destroy(instance);
             instance = this;
         }
@@ -80,13 +83,18 @@ public class MapBehavior : MonoBehaviour
         StartCoroutine(Level.instance.planning());
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
 
-        highlightHolder = new GameObject();
-        bfgHolder = new GameObject();
-        objectiveHolder = new GameObject();
+        highlightHolder = new GameObject("Highlight Holder");
+        bfgHolder = new GameObject("BFG Holder");
+        objectiveHolder = new GameObject("Objective Holder");
+        highlightHolder.transform.SetParent(transform);
+        bfgHolder.transform.SetParent(transform);
+        objectiveHolder.transform.SetParent(transform);
 
-        allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
+        
 
         currColor = blue;
+
+        CameraBehavior.instance.pauseMovement = false;
     }
 
     private void Update()
@@ -402,11 +410,50 @@ public class MapBehavior : MonoBehaviour
         return mapWidth;
     }
 
+    public CollisionTile stepOutInto(Vector3 currPosition, Unit target, int range, int minRange)
+    {
+        //If the unit has a line to the target where they are at, just return their current position
+        if (hasLineTo(currPosition, target.transform.position, range, minRange))
+            return getTileAtPos(currPosition);
+
+        foreach (CollisionTile tile in findNeighborTiles(getTileAtPos(currPosition)))
+        {
+            if (hasLineTo(tile.coordinate, target.transform.position, range - 1, minRange - 1))
+                return tile;
+        }
+        //If there's no line to the target, return null
+        return null;
+    }
 
     //Gets the enemy units that are within a certain range
     public List<Unit> getUnitsInRange(Vector3 location, int range, int minRange)
     {
         List<Unit> ret = new List<Unit>();
+
+        Unit currUnit = Level.instance.getUnitAtLoc(location);
+        //If the unit is taking cover, calculate step-out
+        if (currUnit != null && currUnit.takingCover)
+        {
+            currUnit.takingCover = false;
+            List<CollisionTile> stepOutTiles = new List<CollisionTile>();
+            //Find passable tiles to step out into
+            foreach (CollisionTile tile in findNeighborTiles(getTileAtPos(location)))
+            {
+                if (tile.passable)
+                    stepOutTiles.Add(tile);
+            }
+            //Calculate enemies in the range of each of those tiles
+            foreach (CollisionTile tile in stepOutTiles)
+            {
+                //Decrease the range, since their actual position is not changing they are just leaning out
+                foreach (Unit u in getUnitsInRange(tile.coordinate, range - 1, minRange - 1))
+                {
+                    if (!ret.Contains(u))
+                        ret.Add(u);
+                }
+            }
+            currUnit.takingCover = true;
+        }
 
         //Gets enemy units if it's the player
         if (GameManager.instance.playerPhase)
@@ -415,18 +462,18 @@ public class MapBehavior : MonoBehaviour
             {
                 if (unit == null || unit.isCloaked)
                     continue;
-                if (hasLineTo(location, unit.transform.position, range, minRange))
+                if (!ret.Contains(unit) && hasLineTo(location, unit.transform.position, range, minRange))
                     ret.Add(unit);
             }
         }
         //Gets player units if it's the enemy
         else if (GameManager.instance.enemyPhase)
         {
-            foreach (Unit unit in Level.instance.playerUnits)
+            foreach (Unit unit in Level.instance.selectedUnits)
             {
                 if (unit == null || unit.isCloaked)
                     continue;
-                if (hasLineTo(location, unit.transform.position, range, minRange))
+                if (!ret.Contains(unit) && hasLineTo(location, unit.transform.position, range, minRange))
                     ret.Add(unit);
             }
         }
@@ -654,17 +701,21 @@ public class MapBehavior : MonoBehaviour
             {
                 path = getLineHigh(position, target, false);
                 foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, false))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
                 foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, false))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
             }
             else
             {
                 path = getLineHigh(position, target, true);
                 foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, true))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
                 foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, true))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
             }
         }
         List<Unit> unitsHit = new List<Unit>();
@@ -673,7 +724,7 @@ public class MapBehavior : MonoBehaviour
             if (tile.hasEnemy)
             {
                 Unit enemy = Level.instance.getUnitAtLoc(tile.coordinate);
-                if (enemy != null)
+                if (enemy != null && !unitsHit.Contains(enemy))
                 {
                     unitsHit.Add(enemy);
                 }
@@ -1189,5 +1240,13 @@ public class MapBehavior : MonoBehaviour
         }
 
         return objective;
+    }
+
+    public void setPlayerArray()
+    {
+        List<GameObject> pObj = new List<GameObject>();
+        foreach (Unit u in Level.instance.selectedUnits)
+            pObj.Add(u.gameObject);
+        allPlayerObjects = pObj.ToArray();
     }
 }

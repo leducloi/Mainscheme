@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     //Contains the Map Manager
     public static MapManager mapMan;
 
+    [SerializeField]
+    GameObject mainMenu;
+
     public GameObject UIMan;
 
     //Booleans to control player and enemy phases
@@ -25,10 +28,15 @@ public class GameManager : MonoBehaviour
     public bool enemyPhase;
     //Tracker to keep track of what map we are on
     public int currMap = 0;
+    public int currTutorial = 0;
+
+    public bool onTutorial = false;
 
     public int turnCount = 0;
 
     public GameObject cursor;
+    [SerializeField]
+    GameObject fade = null;
    
 
     void Awake()
@@ -44,27 +52,53 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         mapMan = GetComponent<MapManager>();
-
-        Instantiate(UIMan);
+        
 
         playerPhase = false;
         enemyPhase = false;
 
-        loadNextMap();
+        currMap = 0;
+        currTutorial = 0;
+
+        mainMenu = Instantiate(mainMenu);
     }
 
-    void loadNextMap()
+    private void loadNextMap()
     {
-        mapMan.loadMap(currMap++);
+        
+        if (mainMenu.activeInHierarchy)
+            mainMenu.SetActive(false);
+        mapMan.deloadCurrMap();
+
+        
+        int mapNum = instance.currMap;
+        if (onTutorial)
+            mapNum = instance.currTutorial;
+        
+
+
+        if (!mapMan.loadMap(mapNum, onTutorial))
+            return;
+
+        if (onTutorial)
+        {
+            currTutorial++;
+            if (currTutorial % 4 == 0)
+                currTutorial = int.MaxValue;
+        }
+        else
+            currMap++;
+
         playerPhase = false;
         enemyPhase = false;
-        turnCount = 1;
+        turnCount = 0;
+        Instantiate(UIMan);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //CollisionTile tile = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        
     }
 
     //Called to end the player's turn
@@ -80,12 +114,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         
         enemyPhase = true;
-        turnCount++;
     }
 
     //Called to end the enemy's turn
     public IEnumerator endEnemyTurn()
     {
+        turnCount++;
         enemyPhase = false;
         UIManager.instance.ShowPlayerMessage();
         foreach (Unit u in Level.instance.playerUnits)
@@ -101,6 +135,69 @@ public class GameManager : MonoBehaviour
 
     public void levelFinished()
     {
-        loadNextMap();
+        StartCoroutine(screenTransition());
+    }
+
+    public void loadMainMenu()
+    {
+        currMap = 0;
+        currTutorial = 0;
+        onTutorial = false;
+        instance.StartCoroutine(screenTransition(true));
+    }
+
+    private IEnumerator screenTransition(bool toMenu = false)
+    {
+        GameObject overlay = Instantiate(fade);
+        UnityEngine.UI.Image fadeAlpha = overlay.GetComponentInChildren<UnityEngine.UI.Image>();
+        Color alpha = new Color(0, 0, 0, 0);
+        while (alpha.a < 1)
+        {
+            alpha.a += 5f * Time.deltaTime;
+            fadeAlpha.color = alpha;
+            yield return null;
+        }
+        if (toMenu)
+        {
+            mainMenu.SetActive(true);
+        }
+        else
+            loadNextMap();
+        while (alpha.a > 0)
+        {
+            alpha.a -= 5f * Time.deltaTime;
+            fadeAlpha.color = alpha;
+            yield return null;
+        }
+        Destroy(overlay);
+    }
+
+    public void resetMission()
+    {
+        if (onTutorial)
+        {
+            currTutorial--;
+            loadTutorial(currTutorial);
+        }
+        else
+        {
+            currMap--;
+            loadLevel(currMap);
+        }
+    }
+    
+
+    public void loadTutorial(int tutNum)
+    {
+        instance.onTutorial = true;
+        instance.currTutorial = tutNum;
+        instance.levelFinished();
+    }
+
+    public void loadLevel(int levelNum)
+    {
+        instance.onTutorial = false;
+        instance.currMap = levelNum;
+        instance.levelFinished();
     }
 }

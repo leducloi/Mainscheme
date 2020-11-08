@@ -45,7 +45,7 @@ public abstract class Unit : MonoBehaviour
     virtual protected void Start()
     {
         animator = GetComponent<Animator>();
-        movePoint.SetParent(null);
+        movePoint.SetParent(MapBehavior.instance.transform);
         hasTurn = false;
         shaderControl = GetComponent<ShaderController>();
         
@@ -53,6 +53,8 @@ public abstract class Unit : MonoBehaviour
 
         cbData = gameObject.AddComponent<CombatData>();
         cbData.unit = this;
+
+        healthBar.displayUnit = this;
     }
 
     // Update is called once per frame

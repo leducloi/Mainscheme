@@ -156,6 +156,7 @@ public class Haley : PlayerUnit
         target.GetComponent<ParticleSystem>().Play();
 
         target.cbDrugs = true;
+        abilitiesUsed++;
         useActionPoint(1);
 
         //Set up durations
@@ -291,6 +292,7 @@ public class Haley : PlayerUnit
         }
 
         //Activate ability effect
+        abilitiesUsed++;
         useActionPoint(1);
         target.hit(-HEALING_AMOUNT);
 
@@ -397,8 +399,13 @@ public class Haley : PlayerUnit
                 u.showOutline();
         }
 
+        if (target.hpRemaining <= equippedWeapon.damage)
+            enemiesKilled++;
         target.hit(equippedWeapon.damage);
+        damageDone += equippedWeapon.damage;
 
+        abilitiesUsed++;
+        ultimatesUsed++;
         actionPoints -= 2;
 
         

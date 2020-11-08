@@ -24,7 +24,7 @@ public class CameraBehavior : MonoBehaviour
     private float storedResolution;
 
     public bool pauseWASD = false;
-    public bool pauseMovement = false;
+    public bool pauseMovement = true;
 
     private bool following = false;
 
@@ -33,6 +33,7 @@ public class CameraBehavior : MonoBehaviour
 
     void Awake()
     {
+        pauseMovement = true;
         RescaleCamera();
     }
     // Start is called before the first frame update
@@ -77,7 +78,6 @@ public class CameraBehavior : MonoBehaviour
             return;
 
         readjustCamera();
-        
 
         Vector3 cameraPos = transform.position;
         //This controls the movement of the camera

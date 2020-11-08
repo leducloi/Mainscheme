@@ -184,6 +184,7 @@ public class Kennedy : PlayerUnit
 
         StartCoroutine(blurAnimation());
 
+        abilitiesUsed++;
         useActionPoint(1);
 
         while (endTurn != GameManager.instance.turnCount)
@@ -207,6 +208,7 @@ public class Kennedy : PlayerUnit
             depositSpotDown = true;
         }
 
+        abilitiesUsed++;
         useActionPoint(1);
 
         int endTurn = GameManager.instance.turnCount + ABILITY_COOLDOWN;
@@ -239,6 +241,7 @@ public class Kennedy : PlayerUnit
             teleportMask.transform.localPosition = Vector3.MoveTowards(teleportMask.transform.localPosition, targetLoc, teleportSpeed * Time.deltaTime);
             yield return null;
         }
+        abilitiesUsed++;
         useActionPoint(1);
 
         int endTurn = GameManager.instance.turnCount + ABILITY_COOLDOWN;
@@ -306,7 +309,7 @@ public class Kennedy : PlayerUnit
         BFGBeam.GetComponent<SpriteRenderer>().enabled = true;
         while (BFGBounds.localScale.y < 75)
         {
-            BFGBounds.localScale += new Vector3(0, .3f, 0);
+            BFGBounds.localScale += new Vector3(0, 90f * Time.deltaTime, 0);
             yield return null;
         }
 
@@ -315,14 +318,17 @@ public class Kennedy : PlayerUnit
         {
             foreach (Unit enemy in targetsHit)
             {
+                if (enemy.hpRemaining <= equippedWeapon.damage)
+                    enemiesKilled++;
                 enemy.hit(equippedWeapon.damage);
+                damageDone += equippedWeapon.damage;
                 enemy.hideOutline();
             }
         }
 
         while (BFGBounds.localScale.x > 0)
         {
-            BFGBounds.localScale -= new Vector3(0.02f, 0, 0);
+            BFGBounds.localScale -= new Vector3(10f * Time.deltaTime, 0, 0);
             yield return null;
         }
         BFGBeam.GetComponent<SpriteRenderer>().enabled = false;
@@ -333,6 +339,8 @@ public class Kennedy : PlayerUnit
         
 
         selectAbility = false;
+        abilitiesUsed++;
+        ultimatesUsed++;
         useActionPoint(2);
 
         int endTurn = GameManager.instance.turnCount + ULT_COOLDOWN;

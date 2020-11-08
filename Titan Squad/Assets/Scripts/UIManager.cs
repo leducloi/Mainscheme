@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public GameObject combatCalculator;
     public GameObject abilityInfoWindow;
     public GameObject missText;
+    public GameObject endCard;
 
     public GameObject escapeClauseMenu;
 
@@ -39,8 +40,11 @@ public class UIManager : MonoBehaviour
             instance = this;
         }
             
-        else if (instance != this){
-            Destroy(gameObject);
+        else if (instance != this)
+        {
+            
+            Destroy(instance.gameObject);
+            instance = this;
         }
         playerPhaseText.gameObject.transform.parent.gameObject.SetActive(false); //Hides the text at the launch of the game
         enemyPhaseText.gameObject.transform.parent.gameObject.SetActive(false); //Hides the text at the launch of the game
@@ -48,13 +52,13 @@ public class UIManager : MonoBehaviour
         currTarget = null;
         currUnit = null;
 
-        actionMenu = Instantiate(actionMenu);
-        tileMenu = Instantiate(tileMenu);
-        pauseMenu = Instantiate(pauseMenu);
-        forecastMenu = Instantiate(forecastMenu);
-        combatCalculator = Instantiate(combatCalculator);
-        abilityInfoWindow = Instantiate(abilityInfoWindow);
-        escapeClauseMenu = Instantiate(escapeClauseMenu);
+        actionMenu = Instantiate(actionMenu, transform);
+        tileMenu = Instantiate(tileMenu, transform);
+        pauseMenu = Instantiate(pauseMenu, transform);
+        forecastMenu = Instantiate(forecastMenu, transform);
+        combatCalculator = Instantiate(combatCalculator, transform);
+        abilityInfoWindow = Instantiate(abilityInfoWindow, transform);
+        escapeClauseMenu = Instantiate(escapeClauseMenu, transform);
 
         escapeClauseMenu.GetComponent<Canvas>().enabled = false;
         
@@ -205,6 +209,9 @@ public class UIManager : MonoBehaviour
 
     public void openPauseMenu()
     {
+        if (MapBehavior.instance == null)
+            return;
+
         CollisionTile tileOn = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (tileOn.hasEnemy)
             return;
@@ -244,5 +251,11 @@ public class UIManager : MonoBehaviour
         instance.actionMenu.GetComponentInChildren<ActionMenu>().currObjective.completeObjective();
         instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
         instance.currUnit.useActionPoint(1);
+        instance.currUnit.objectivesCompleted++;
+    }
+
+    public void showEndCard()
+    {
+        instance.endCard = Instantiate(instance.endCard, instance.transform);
     }
 }
