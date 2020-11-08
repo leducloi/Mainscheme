@@ -185,6 +185,7 @@ public abstract class PlayerUnit : Unit
             //We only want to move the movePoint when our character has made it to the point
             if (Vector3.Distance(transform.position, movePoint.position) == 0)
             {
+                setWalkingPosition(path[index].coordinate);
                 movePoint.position = path[index].coordinate;
                 index++;
             }
@@ -195,6 +196,8 @@ public abstract class PlayerUnit : Unit
             yield return null;
 
         takeCover();
+
+        setWalkingPosition(new Vector3(transform.position.x, transform.position.y - 1, 0));
 
         //Wait 1 frame
         yield return new WaitForSeconds(0.1f);

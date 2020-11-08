@@ -209,10 +209,13 @@ public class UIManager : MonoBehaviour
 
     public void openPauseMenu()
     {
-        if (MapBehavior.instance == null)
+        if (MapBehavior.instance == null || Level.instance.levelDone)
             return;
 
         CollisionTile tileOn = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (tileOn == null)
+            return;
+
         if (tileOn.hasEnemy)
             return;
 
