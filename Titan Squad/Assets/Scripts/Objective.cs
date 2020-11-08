@@ -58,6 +58,7 @@ public class Objective : MonoBehaviour
         {
             showing = true;
             tileHolder = MapBehavior.instance.highlightObjectiveTiles(tilesToHighlight);
+            tileHolder.transform.SetParent(gameObject.transform);
         }
         if (!active && showing)
         {
@@ -72,11 +73,7 @@ public class Objective : MonoBehaviour
         switch (type)
         {
             case "Assassination":
-                foreach (EnemyUnit u in Level.instance.getAssasinationTargets())
-                {
-                    if (u != null)
-                        tilesToHighlight.Add(MapBehavior.instance.getTileAtPos(u.transform.position));
-                }
+                tilesToHighlight.Add(MapBehavior.instance.getTileAtPos(transform.position));
                 break;
 
             case "Sabotage":
