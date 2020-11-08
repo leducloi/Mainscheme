@@ -30,7 +30,7 @@ public class EnemyUnit : Unit
 
     protected int movement = 5;
     private float moveSpeed = 5f;
-    //detectRange, rangeEnemy, weaponRange. Temporarily using only, remove when they are not needed.
+    //detectRange, rangeEnemy, weaponRange. Temporarily use for testing purpose only, remove when they are not needed.
     [SerializeField]
     private float detectRange = 10f;
     [SerializeField]
@@ -180,11 +180,12 @@ public class EnemyUnit : Unit
         }
         else
         {
-            Debug.Log("Taking cover...");
             CollisionTile coverDestination = scanCoverTile(currentPosition, detectedPlayerObject.transform.position);
             if(coverDestination != null)
             {
-                path = MapBehavior.instance.getPathTo(currentPosition, coverDestination.coordinate, int.MaxValue, true);
+                Debug.Log("Found cover at..." + coverDestination.coordinate);
+                if (coverDestination.coordinate != new Vector3(currentPosition.x, currentPosition.y))
+                    path = MapBehavior.instance.getPathTo(currentPosition, coverDestination.coordinate, int.MaxValue, true);
             }
         }
         yield return StartCoroutine(moveAlongPath(path, true));
@@ -255,8 +256,9 @@ public class EnemyUnit : Unit
                     actualJ--;
             }
         }
-        if (thereIsCover && (currentScanTile.coordinate != new Vector3(enemyPos.x, enemyPos.y)))
+        if (thereIsCover) {
             return currentScanTile;
+        }   
         else
             return null;
     }

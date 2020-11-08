@@ -10560,6 +10560,7 @@ MonoBehaviour:
   selectedUnits: []
   pauseAutoEnd: 0
   donePlanning: 0
+  levelDone: 0
   continuePlay: 0
   activeObjectives: []
   unitsExfilled: 0
@@ -11349,6 +11350,10 @@ PrefabInstance:
     - target: {fileID: 2206609385956427511, guid: 0b1c610d761fa614eaf1c893ba198cb8, type: 3}
       propertyPath: mode
       value: Chase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206609385956427511, guid: 0b1c610d761fa614eaf1c893ba198cb8, type: 3}
+      propertyPath: detectRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2217794110747985596, guid: 0b1c610d761fa614eaf1c893ba198cb8, type: 3}
       propertyPath: m_Name
