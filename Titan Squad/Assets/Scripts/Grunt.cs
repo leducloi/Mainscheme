@@ -8,10 +8,12 @@ public class Grunt : EnemyUnit
     override
     protected void Start()
     {
-        base.Start();
-
         weapons[0] = new Weapon("Krimbar Rifle");
         weapons[1] = new Weapon("--");
+
+        base.Start();
+
+        takesCover = true;
 
         hpMax = 8;
         hpRemaining = 8;

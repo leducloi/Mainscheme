@@ -8,10 +8,12 @@ public class Skirmisher : EnemyUnit
     override
     protected void Start()
     {
-        base.Start();
-
         weapons[0] = new Weapon("Krimbar Power Sword");
         weapons[1] = new Weapon("--");
+
+        base.Start();
+
+        takesCover = false;
 
         hpMax = 5;
         hpRemaining = 5;

@@ -39,7 +39,7 @@ public class EnemyUnit : Unit
     private float weaponRange = 6f;
     private GameObject detectedPlayerObject;
 
-    public bool isBoss;
+    public bool takesCover;
 
     //Mode affects what actions the enemy will take
     public string mode;
@@ -64,14 +64,13 @@ public class EnemyUnit : Unit
         }
         hasControl = false;
 
-        weapons[0] = new Weapon("Krimbar Power Sword");
-        weapons[1] = new Weapon("--");
+        //weapons[0] = new Weapon("Krimbar Power Sword");
+        //weapons[1] = new Weapon("--");
 
         base.Start();
         shaderControl.setColor(false);
 
         isEnemy = true;
-        isBoss = false;
         
 
         
@@ -174,7 +173,7 @@ public class EnemyUnit : Unit
         Vector3 currentPosition = transform.position;
         detectPlayerInRange(transform.position);
         CollisionTile[] path = null;
-        if (MapBehavior.instance.hasLineTo(currentPosition, detectedPlayerObject.transform.position, (int)detectRange, 0))
+        if (!takesCover || MapBehavior.instance.hasLineTo(currentPosition, detectedPlayerObject.transform.position, (int)detectRange, 0))
         {
             path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, int.MaxValue, true);
         }

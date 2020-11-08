@@ -193,16 +193,7 @@ public abstract class Level : MonoBehaviour
         return null;
     }
 
-    public List<EnemyUnit> getAssasinationTargets()
-    {
-        List<EnemyUnit> ret = new List<EnemyUnit>();
-        foreach (EnemyUnit enemy in enemyUnits)
-        {
-            if (enemy.isBoss)
-                ret.Add(enemy);
-        }
-        return ret;
-    }
+    
 
     public void levelSetup()
     {
