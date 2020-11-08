@@ -181,13 +181,14 @@ public class EnemyUnit : Unit
         else
         {
             CollisionTile coverDestination = scanCoverTile(currentPosition, detectedPlayerObject.transform.position);
-            if(coverDestination != null)
+            if (coverDestination != null)
             {
                 Debug.Log("Found cover at..." + coverDestination.coordinate);
                 if (coverDestination.coordinate != new Vector3(currentPosition.x, currentPosition.y))
                     path = MapBehavior.instance.getPathTo(currentPosition, coverDestination.coordinate, int.MaxValue, true);
             }
         }
+
         yield return StartCoroutine(moveAlongPath(path, true));
         MapBehavior.instance.unitMoved(currentPosition, transform.position);
         yield return null;
@@ -206,9 +207,10 @@ public class EnemyUnit : Unit
         CollisionTile currentScanTile = MapBehavior.instance.getTileAtPos(enemyPos);
         if (yAbs >= xAbs)
         {
-            for(int i = 0; i < xAbs; i++)
+            for (int i = 0; i < xAbs; i++)
             {
-                for (int j = 0; j < yAbs; j++) {
+                for (int j = 0; j < yAbs; j++)
+                {
                     if (positiveY)
                         actualJ++;
                     else
@@ -219,7 +221,7 @@ public class EnemyUnit : Unit
                         thereIsCover = true;
                         break;
                     }
-                        
+
                     currentScanTile = checkingTile;
                 }
                 if (thereIsCover)
@@ -248,7 +250,7 @@ public class EnemyUnit : Unit
                     }
                     currentScanTile = checkingTile;
                 }
-                if(thereIsCover)
+                if (thereIsCover)
                     break;
                 if (positiveY)
                     actualJ++;

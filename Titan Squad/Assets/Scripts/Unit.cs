@@ -179,6 +179,39 @@ public abstract class Unit : MonoBehaviour
         return false;
     }
 
+    protected void setWalkingPosition(Vector3 newPos)
+    {
+        float differenceX = transform.position.x - newPos.x;
+        float differenceY = transform.position.y - newPos.y;
+        if (Mathf.Abs(differenceX) > Mathf.Abs(differenceY))
+        {
+            if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Side"))
+                animator.SetTrigger("Side");
+            if (differenceX > 0)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+                healthBar.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, 180, 0);
+                healthBar.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            healthBar.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            if (differenceY > 0)
+            {
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+                    animator.SetTrigger("Walking");
+            }
+            else if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Back"))
+                animator.SetTrigger("Back");
+        }
+    }
+
     public abstract void attack(Unit enemy);
 
     public abstract void move();

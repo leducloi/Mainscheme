@@ -138,6 +138,7 @@ public class Santias : PlayerUnit
         hook.GetComponent<SpriteRenderer>().enabled = true;
         hook.GetComponent<LineRenderer>().enabled = true;
 
+        setWalkingPosition(pullTo.coordinate);
         while (hook.transform.position != pullTo.coordinate)
         {
             hook.transform.position = Vector3.MoveTowards(hook.transform.position, pullTo.coordinate, 35f * Time.deltaTime);
@@ -164,11 +165,13 @@ public class Santias : PlayerUnit
 
         movePoint.transform.position = validSelection.coordinate;
 
+        setWalkingPosition(validSelection.coordinate);
         while (transform.position != movePoint.transform.position)
             yield return null;
 
 
         MapBehavior.instance.unitMoved(startPosition, transform.position);
+        setWalkingPosition(new Vector3(transform.position.x, transform.position.y - 1, 0));
 
         abilitiesUsed++;
         useActionPoint(1);
