@@ -158,6 +158,8 @@ public abstract class PlayerUnit : Unit
         //Construct a path from the character selected to the destination
         CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, destination, movement);
 
+        takingCover = false;
+
         //Begin movement along that path
         StartCoroutine(moveAlongPath(path));
         MapBehavior.instance.deleteHighlightTiles();
@@ -295,6 +297,19 @@ public abstract class PlayerUnit : Unit
 
         yield return StartCoroutine(CameraBehavior.instance.panCameraTo(moveTo, 1));
 
+        Vector3 originalPos = transform.position;
+        if (takingCover && !isFlankedBy(enemy))
+        {
+            CollisionTile stepInto = MapBehavior.instance.stepOutInto(transform.position, enemy, equippedWeapon.maxRange, equippedWeapon.minRange);
+            if (stepInto != null)
+            {
+                Vector3 stepPos = new Vector3((transform.position.x - stepInto.coordinate.x) / 2f, (transform.position.y - stepInto.coordinate.y) / 2f, 0);
+                movePoint.transform.position -= stepPos;
+                while (transform.position != movePoint.transform.position)
+                    yield return null;
+            }
+        }
+
         if (CombatCalculator.instance.doesHit)
         {
             damageDone += CombatCalculator.instance.damageDone;
@@ -310,6 +325,13 @@ public abstract class PlayerUnit : Unit
 
         while (enemy.healthBar.movingBar)
             yield return null;
+
+        if (takingCover)
+        {
+            movePoint.transform.position = originalPos;
+            while (transform.position != movePoint.transform.position)
+                yield return null;
+        }
 
         yield return new WaitForSeconds(.1f);
 

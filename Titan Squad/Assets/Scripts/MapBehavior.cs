@@ -410,11 +410,50 @@ public class MapBehavior : MonoBehaviour
         return mapWidth;
     }
 
+    public CollisionTile stepOutInto(Vector3 currPosition, Unit target, int range, int minRange)
+    {
+        //If the unit has a line to the target where they are at, just return their current position
+        if (hasLineTo(currPosition, target.transform.position, range, minRange))
+            return getTileAtPos(currPosition);
+
+        foreach (CollisionTile tile in findNeighborTiles(getTileAtPos(currPosition)))
+        {
+            if (hasLineTo(tile.coordinate, target.transform.position, range - 1, minRange - 1))
+                return tile;
+        }
+        //If there's no line to the target, return null
+        return null;
+    }
 
     //Gets the enemy units that are within a certain range
     public List<Unit> getUnitsInRange(Vector3 location, int range, int minRange)
     {
         List<Unit> ret = new List<Unit>();
+
+        Unit currUnit = Level.instance.getUnitAtLoc(location);
+        //If the unit is taking cover, calculate step-out
+        if (currUnit != null && currUnit.takingCover)
+        {
+            currUnit.takingCover = false;
+            List<CollisionTile> stepOutTiles = new List<CollisionTile>();
+            //Find passable tiles to step out into
+            foreach (CollisionTile tile in findNeighborTiles(getTileAtPos(location)))
+            {
+                if (tile.passable)
+                    stepOutTiles.Add(tile);
+            }
+            //Calculate enemies in the range of each of those tiles
+            foreach (CollisionTile tile in stepOutTiles)
+            {
+                //Decrease the range, since their actual position is not changing they are just leaning out
+                foreach (Unit u in getUnitsInRange(tile.coordinate, range - 1, minRange - 1))
+                {
+                    if (!ret.Contains(u))
+                        ret.Add(u);
+                }
+            }
+            currUnit.takingCover = true;
+        }
 
         //Gets enemy units if it's the player
         if (GameManager.instance.playerPhase)
@@ -423,7 +462,7 @@ public class MapBehavior : MonoBehaviour
             {
                 if (unit == null || unit.isCloaked)
                     continue;
-                if (hasLineTo(location, unit.transform.position, range, minRange))
+                if (!ret.Contains(unit) && hasLineTo(location, unit.transform.position, range, minRange))
                     ret.Add(unit);
             }
         }
@@ -434,7 +473,7 @@ public class MapBehavior : MonoBehaviour
             {
                 if (unit == null || unit.isCloaked)
                     continue;
-                if (hasLineTo(location, unit.transform.position, range, minRange))
+                if (!ret.Contains(unit) && hasLineTo(location, unit.transform.position, range, minRange))
                     ret.Add(unit);
             }
         }
