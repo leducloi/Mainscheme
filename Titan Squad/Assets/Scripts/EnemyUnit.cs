@@ -68,20 +68,7 @@ public class EnemyUnit : Unit
         isBoss = false;
         
 
-        hpMax = 5;
-        hpRemaining = 5;
-
-        shieldMax = 2;
-        shieldRemaining = 2;
-
-        movement = 6;
-
-        combatTraining = 15;
-        evasiveTactics = 20;
-        bionicEnhancement = 5;
-        luck = 6;
-        criticalTargeting = 2;
-        advancedShielding = 0;
+        
     }
 
     // Update is called once per frame

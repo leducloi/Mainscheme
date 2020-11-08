@@ -662,17 +662,21 @@ public class MapBehavior : MonoBehaviour
             {
                 path = getLineHigh(position, target, false);
                 foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, false))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
                 foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, false))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
             }
             else
             {
                 path = getLineHigh(position, target, true);
                 foreach (CollisionTile tile in getLineHigh(position + line2Offset, target + line2Offset, true))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
                 foreach (CollisionTile tile in getLineHigh(position + line3Offset, target + line3Offset, true))
-                    path.Add(tile);
+                    if (!path.Contains(tile))
+                        path.Add(tile);
             }
         }
         List<Unit> unitsHit = new List<Unit>();
@@ -681,7 +685,7 @@ public class MapBehavior : MonoBehaviour
             if (tile.hasEnemy)
             {
                 Unit enemy = Level.instance.getUnitAtLoc(tile.coordinate);
-                if (enemy != null)
+                if (enemy != null && !unitsHit.Contains(enemy))
                 {
                     unitsHit.Add(enemy);
                 }

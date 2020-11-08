@@ -12,7 +12,7 @@ public abstract class Level : MonoBehaviour
 {
     public static Level instance = null;
     public EnemyController enemyController;
-    public List<Unit> enemyUnits;
+    public EnemyUnit[] enemyUnits;
     public Unit[] playerUnits;
     [SerializeField]
     protected GameObject[] objectives;
@@ -57,6 +57,8 @@ public abstract class Level : MonoBehaviour
         startTiles = new List<CollisionTile>();
         selectedUnits = new List<PlayerUnit>();
 
+        playerUnits = GetComponentsInChildren<PlayerUnit>();
+
         if (isTutorial)
             selectedUnits.Add((PlayerUnit)playerUnits[0]);
 
@@ -64,6 +66,8 @@ public abstract class Level : MonoBehaviour
         {
             objective.GetComponent<Objective>().beginObjective();
         }
+        enemyUnits = GetComponentsInChildren<EnemyUnit>();
+        
     }
 
     // Update is called once per frame
@@ -219,6 +223,13 @@ public abstract class Level : MonoBehaviour
     public IEnumerator planning()
     {
         yield return null;
+
+        foreach (Unit u in enemyUnits)
+        {
+            CollisionTile tileOn = MapBehavior.instance.getTileAtPos(u.transform.position);
+            u.movePoint.transform.position = tileOn.coordinate;
+            u.transform.position = tileOn.coordinate;
+        }
 
         Instantiate(GameManager.instance.cursor, transform);
         if (!isTutorial)

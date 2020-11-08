@@ -53,6 +53,8 @@ public abstract class Unit : MonoBehaviour
 
         cbData = gameObject.AddComponent<CombatData>();
         cbData.unit = this;
+
+        healthBar.displayUnit = this;
     }
 
     // Update is called once per frame
