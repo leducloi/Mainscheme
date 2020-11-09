@@ -31,10 +31,7 @@ public class EnemyUnit : Unit
     protected int movement = 5;
     private float moveSpeed = 5f;
     //detectRange, rangeEnemy, weaponRange. Temporarily use for testing purpose only, remove when they are not needed.
-    [SerializeField]
     public float detectRange = 10f;
-    [SerializeField]
-    private float weaponRange = 6f;
     private GameObject detectedPlayerObject;
 
     public bool takesCover;
@@ -209,7 +206,7 @@ public class EnemyUnit : Unit
         //Check if 2 points are within the weapon range
         bool inRange = false;
         float distance = Mathf.Abs(playerPos.x - enemyPos.x) + Mathf.Abs(playerPos.y - enemyPos.y);
-        if (distance <= weaponRange)
+        if (distance <= equippedWeapon.maxRange)
         {
             inRange = true;
         }
