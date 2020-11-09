@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 2217794110747985599}
   - component: {fileID: 2217794110747985598}
   - component: {fileID: 2217794110747985597}
-  - component: {fileID: 2206609385956427511}
+  - component: {fileID: -2494324880573594470}
   - component: {fileID: 1108703955833123358}
   - component: {fileID: -2665079962583934687}
   m_Layer: 0
-  m_Name: EnemyType1
+  m_Name: Skirmisher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 3591905937826820633, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.2679245, b: 0.3227134, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -107,7 +107,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2206609385956427511
+--- !u!114 &-2494324880573594470
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,16 +116,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2217794110747985596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21e762d31e9f0914494fa9b9c9e959b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 2682a157a30b7134e8fb78bcafc178e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 2217794110747985597}
   movePoint: {fileID: 8642282793530543168}
   hasTurn: 0
   isCloaked: 0
   hpTypeFlesh: 0
-  hpMax: 10
-  hpRemaining: 10
+  hpMax: 0
+  hpRemaining: 0
   shieldMax: 0
   shieldRemaining: 0
   healthBar: {fileID: 6791705256564519734}
@@ -143,7 +143,8 @@ MonoBehaviour:
   patrolPath: {fileID: 0}
   patrolEnemy: 0
   hasControl: 0
-  mode: Patrol
+  isBoss: 0
+  mode: 
 --- !u!114 &1108703955833123358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +333,7 @@ PrefabInstance:
     - target: {fileID: 6225365635906797439, guid: 6b1bcda1461b01046aad94ff0bcd5cf5, type: 3}
       propertyPath: displayUnit
       value: 
-      objectReference: {fileID: 2206609385956427511}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b1bcda1461b01046aad94ff0bcd5cf5, type: 3}
 --- !u!224 &4460990414431734564 stripped

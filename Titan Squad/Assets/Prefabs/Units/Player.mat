@@ -25,9 +25,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_714DDCCB: 0.0017
+    - Vector1_FB76E1A: 1
     - _GrayscaleAmount: 1
-    - _Thickness: 0.0017
+    - _OverlayAmount: 0
+    - _Thickness: 0
     m_Colors:
     - Color_8FF3A2B6: {r: 0, g: 1.2644733, b: 2.1185474, a: 1}
-    - _Color: {r: 0, g: 0.44705883, b: 0.7490196, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _OverlayColor: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
