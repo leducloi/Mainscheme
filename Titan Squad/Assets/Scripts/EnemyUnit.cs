@@ -34,8 +34,6 @@ public class EnemyUnit : Unit
     [SerializeField]
     public float detectRange = 10f;
     [SerializeField]
-    private bool rangeEnemy = false;
-    [SerializeField]
     private float weaponRange = 6f;
     private GameObject detectedPlayerObject;
 
@@ -71,8 +69,6 @@ public class EnemyUnit : Unit
         shaderControl.setColor(false);
 
         isEnemy = true;
-        
-
         
     }
 
@@ -138,7 +134,7 @@ public class EnemyUnit : Unit
             while (performingAction)
                 yield return null;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.5f);
             actionPoints--;
         }
         setFinishMove(transform.position);
@@ -177,20 +173,47 @@ public class EnemyUnit : Unit
         {
             path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, int.MaxValue, true);
         }
-        else
+
+        if (takesCover)
         {
             CollisionTile coverDestination = scanCoverTile(currentPosition, detectedPlayerObject.transform.position);
             if (coverDestination != null)
             {
                 Debug.Log("Found cover at..." + coverDestination.coordinate);
-                if (coverDestination.coordinate != new Vector3(currentPosition.x, currentPosition.y))
+                //If cover is within the weapon range, move to cover
+                if (isInWeaponRange(coverDestination.coordinate, detectedPlayerObject.transform.position))
+                {
+                    Debug.Log("Moving to " + coverDestination.coordinate);
                     path = MapBehavior.instance.getPathTo(currentPosition, coverDestination.coordinate, int.MaxValue, true);
+                }
+                else
+                {
+                    //If cover is not within the weapon range, keep moving toward player
+                    path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, int.MaxValue, true);
+                }
+            }
+            else
+            {
+                //If not cover is found, walk toward player
+                path = MapBehavior.instance.getPathTo(currentPosition, detectedPlayerObject.transform.position, int.MaxValue, true);
             }
         }
 
         yield return StartCoroutine(moveAlongPath(path, true));
         MapBehavior.instance.unitMoved(currentPosition, transform.position);
         yield return null;
+    }
+
+    private bool isInWeaponRange(Vector3 enemyPos, Vector3 playerPos)
+    {
+        //Check if 2 points are within the weapon range
+        bool inRange = false;
+        float distance = Mathf.Abs(playerPos.x - enemyPos.x) + Mathf.Abs(playerPos.y - enemyPos.y);
+        if (distance <= weaponRange)
+        {
+            inRange = true;
+        }
+        return inRange;
     }
 
     private CollisionTile scanCoverTile(Vector3 enemyPos, Vector3 playerPos)
