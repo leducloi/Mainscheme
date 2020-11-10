@@ -62,6 +62,8 @@ public class TileInfoPanelText : MonoBehaviour
             string cost = (tile.tileCost == 99) ? "--" : "" + tile.tileCost;
             tileTypeText.text = "Type: " + tile.tileType;
             tileCostText.text = "Cost: " + cost;
+            //tileTypeText.text = "PassableEW " + tile.passableEW;
+            //tileCostText.text = "PassableNS " + tile.passableNS;
             tileDodgeText.text = "Dodge: " + tile.tileDodge;
         }
         setObjectiveText();

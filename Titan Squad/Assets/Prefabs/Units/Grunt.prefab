@@ -107,7 +107,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 3591905937826820633, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+  m_Sprite: {fileID: -1363340659569907172, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -173,7 +173,9 @@ MonoBehaviour:
   patrolPath: {fileID: 0}
   patrolEnemy: 0
   hasControl: 0
-  isBoss: 0
+  detectRange: 10
+  weaponRange: 6
+  takesCover: 0
   mode: 
 --- !u!114 &3916685386396150463
 MonoBehaviour:

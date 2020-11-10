@@ -119,6 +119,16 @@ public class Santias : PlayerUnit
                 pullTo = tile;
                 break;
             }
+            if (validSelection.coordinate.x > tile.coordinate.x && !tile.passableEW)
+            {
+                pullTo = tile;
+                break;
+            }
+            if (validSelection.coordinate.y > tile.coordinate.y && !tile.passableNS)
+            {
+                pullTo = tile;
+                break;
+            }
         }
 
         MapBehavior.instance.deleteHighlightTiles();

@@ -68,7 +68,7 @@ public class Weapon
                 hitChance = 75;
                 break;
             case "Krimbar Rifle":
-                damage = 5;
+                damage = 1;
                 techDamage = 0;
                 effectiveRange = 6;
                 maxRange = 10;

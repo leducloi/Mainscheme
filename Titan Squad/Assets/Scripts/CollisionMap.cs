@@ -20,7 +20,7 @@ public class CollisionMap
     public int rows;
     public int cols;
 
-    public CollisionMap (TileBase[] rawTiles, int width, int height)
+    public CollisionMap (TileBase[] rawTiles, TileBase[] obstacles, int width, int height)
     {
         rows = height;
         cols = width;
@@ -36,11 +36,19 @@ public class CollisionMap
             //To get the columns, get the remainder from the division of columns
             if ((x % cols) == 0)
             {
-                map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, Mathf.CeilToInt(x * inverseCols) + .5f);
+                if (obstacles != null && obstacles[x] != null)
+                {
+                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, Mathf.CeilToInt(x * inverseCols) + .5f, obstacles[x].name);
+                }
+                else
+                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, Mathf.CeilToInt(x * inverseCols) + .5f);
             }
             else
             {
-                map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f);
+                if (obstacles != null && obstacles[x] != null)
+                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f, obstacles[x].name);
+                else
+                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f);
             }
             //The tilemap is offset by .5, so we need to offset where our tiles are by the same amount
         }

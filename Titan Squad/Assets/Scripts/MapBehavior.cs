@@ -20,6 +20,7 @@ public class MapBehavior : MonoBehaviour
     private CollisionMap map;
     public static MapBehavior instance = null;
     public Grid grid;
+    public Tilemap obstacles = null;
     private float gridCellSize;
     private int mapHeight, mapWidth;
     public Tilemap tilemap;
@@ -77,8 +78,12 @@ public class MapBehavior : MonoBehaviour
         //Get all the tiles with the correct bounds
         TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
 
+        TileBase[] obTiles = null;
+        if (obstacles != null)
+            obTiles = obstacles.GetTilesBlock(bounds);
+
         //Finally, create the CollisionMap from the tilemap data
-        map = new CollisionMap(allTiles, bounds.size.x, bounds.size.y);
+        map = new CollisionMap(allTiles, obTiles, bounds.size.x, bounds.size.y);
         coordOffset = new Vector3(bounds.size.x / 2, bounds.size.y / 2, 0);
         StartCoroutine(Level.instance.planning());
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraBehavior>().setup();
@@ -259,6 +264,15 @@ public class MapBehavior : MonoBehaviour
                         {
                             if (newGCost < eachNeighbor.gCost)
                             {
+                                if (eachNeighbor.coordinate.x > currentTile.coordinate.x && !currentTile.passableEW)
+                                    continue;
+                                if (eachNeighbor.coordinate.x < currentTile.coordinate.x && !eachNeighbor.passableEW)
+                                    continue;
+                                if (eachNeighbor.coordinate.y > currentTile.coordinate.y && !currentTile.passableNS)
+                                    continue;
+                                if (eachNeighbor.coordinate.y < currentTile.coordinate.y && !eachNeighbor.passableNS)
+                                    continue;
+
                                 //this tile is potentially closer to the end tile
                                 eachNeighbor.cameFromTile = currentTile;
                                 eachNeighbor.gCost = newGCost;
@@ -430,6 +444,8 @@ public class MapBehavior : MonoBehaviour
     {
         List<Unit> ret = new List<Unit>();
 
+        CollisionTile currTile = getTileAtPos(location);
+
         Unit currUnit = Level.instance.getUnitAtLoc(location);
         //If the unit is taking cover, calculate step-out
         if (currUnit != null && currUnit.takingCover)
@@ -439,8 +455,18 @@ public class MapBehavior : MonoBehaviour
             //Find passable tiles to step out into
             foreach (CollisionTile tile in findNeighborTiles(getTileAtPos(location)))
             {
-                if (tile.passable)
-                    stepOutTiles.Add(tile);
+                if (!tile.passable)
+                    continue;
+                if (!currTile.passableEW && location.x < tile.coordinate.x)
+                    continue;
+                if (!currTile.passableNS && location.y < tile.coordinate.y)
+                    continue;
+                if (!tile.passableNS && location.y > tile.coordinate.y)
+                    continue;
+                if (!tile.passableEW && location.x > tile.coordinate.x)
+                    continue;
+
+                stepOutTiles.Add(tile);
             }
             //Calculate enemies in the range of each of those tiles
             foreach (CollisionTile tile in stepOutTiles)
@@ -588,10 +614,11 @@ public class MapBehavior : MonoBehaviour
         for (int x = (int)start.x; x <= (int)destination.x; x++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+            
+            if (!currTile.passable || (!currTile.passableEW && currTile.highCover))
+                return false;
             if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                 return true;
-            if (!currTile.passable)
-                return false;
             if (distanceChecked >= range)
                 return false;
             distanceChecked++;
@@ -602,10 +629,11 @@ public class MapBehavior : MonoBehaviour
                 y = y + yIncrement;
                 d = d + (2 * (yDif - xDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+                
+                if (!currTile.passable || ((!currTile.passableNS /*|| !currTile.passableEW*/) && currTile.highCover))
+                    return false;
                 if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                     return true;
-                if (!currTile.passable)
-                    return false;
                 if (distanceChecked >= range)
                     return false;
                 distanceChecked++;
@@ -641,10 +669,11 @@ public class MapBehavior : MonoBehaviour
         for (int y = (int)start.y; y <= (int)destination.y; y++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+            
+            if (!currTile.passable || (!currTile.passableNS && currTile.highCover))
+                return false;
             if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                 return true;
-            if (!currTile.passable)
-                return false;
             if (distanceChecked >= range)
                 return false;
             distanceChecked++;
@@ -655,10 +684,11 @@ public class MapBehavior : MonoBehaviour
                 x = x + xIncrement;
                 d = d + (2 * (xDif - yDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
+                
+                if (!currTile.passable || ((/*!currTile.passableNS ||*/ !currTile.passableEW) && currTile.highCover))
+                    return false;
                 if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                     return true;
-                if (!currTile.passable)
-                    return false;
                 if (distanceChecked >= range)
                     return false;
                 distanceChecked++;
@@ -1005,24 +1035,24 @@ public class MapBehavior : MonoBehaviour
         CollisionTile S = getTileAtPos(currPos.coordinate + new Vector3(0, -1, 0)); //Tile to the South
 
         //If the tile is non-null, traverse along the path
-        if (E != null)
+        if (E != null && currPos.passableEW)
         {
             //Get how much movement is remaining
             int remainder = movementLeft - E.tileCost;
             //Have path1 store the results of the first created path
             path1 = getTilesInRange(E, remainder, currentPath);
         }
-        if (W != null)
+        if (W != null && W.passableEW)
         {
             int remainder = movementLeft - W.tileCost;
             path2 = getTilesInRange(W, remainder, currentPath);
         }
-        if (N != null)
+        if (N != null && currPos.passableNS)
         {
             int remainder = movementLeft - N.tileCost;
             path3 = getTilesInRange(N, remainder, currentPath);
         }
-        if (S != null)
+        if (S != null && S.passableNS)
         {
             int remainder = movementLeft - S.tileCost;
             path4 = getTilesInRange(S, remainder, currentPath);
@@ -1194,8 +1224,40 @@ public class MapBehavior : MonoBehaviour
         foreach (CollisionTile tile in allTilesInRange)
         {
             //If the tile is walkable, we can't grapple to it
-            if (tile.passable)
+            if (tile.passable && tile.passableEW && tile.passableNS)
                 continue;
+
+            if (!tile.passableEW)
+            {
+                if (!tilesToHighlight.Contains(tile) && tile.isWalkable() && tile.passableNS)
+                    tilesToHighlight.Add(tile);
+                CollisionTile east = getTileAtPos(new Vector3(tile.coordinate.x + 1, tile.coordinate.y, 0));
+                if (east != null && east.isWalkable() && east.passableNS)
+                    if (!tilesToHighlight.Contains(east))
+                        tilesToHighlight.Add(east);
+            }
+            if (!tile.passableNS)
+            {
+                CollisionTile south = getTileAtPos(new Vector3(tile.coordinate.x, tile.coordinate.y - 1, 0));
+                CollisionTile north = getTileAtPos(new Vector3(tile.coordinate.x, tile.coordinate.y + 1, 0));
+                if (south != null && !south.passableNS)
+                {
+                    if (north != null && !tilesToHighlight.Contains(north) && north.isWalkable())
+                    {
+                        tilesToHighlight.Add(north);
+                    }
+                }
+                else if (north != null && !north.passableNS)
+                {
+                    if (!tilesToHighlight.Contains(tile) && tile.isWalkable())
+                    {
+                        tilesToHighlight.Add(tile);
+                    }
+                }
+            }
+            if (!tile.passableNS || !tile.passableEW)
+                continue;
+
 
             //Get all the adjacent tiles to the grapple tile
             List<CollisionTile> adjTiles = findNeighborTiles(tile);

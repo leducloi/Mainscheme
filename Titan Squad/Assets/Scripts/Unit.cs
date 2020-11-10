@@ -141,11 +141,32 @@ public abstract class Unit : MonoBehaviour
 
     public void takeCover()
     {
-        List<CollisionTile> adjacentTiles = MapBehavior.instance.findNeighborTiles(MapBehavior.instance.getTileAtPos(transform.position));
+        CollisionTile currTile = MapBehavior.instance.getTileAtPos(transform.position);
+        if (!currTile.passableEW || !currTile.passableNS)
+        {
+            Debug.Log("Taking Cover");
+            takingCover = true;
+            return;
+        }
+
+        List<CollisionTile> adjacentTiles = MapBehavior.instance.findNeighborTiles(currTile);
         foreach(CollisionTile tile in adjacentTiles)
         {
             if (!tile.passable)
             {
+                Debug.Log("Taking Cover");
+                takingCover = true;
+                return;
+            }
+            if (!tile.passableNS && tile.coordinate.y < currTile.coordinate.y)
+            {
+                Debug.Log("Taking Cover");
+                takingCover = true;
+                return;
+            }
+            if (!tile.passableEW && tile.coordinate.x < currTile.coordinate.x)
+            {
+                Debug.Log("Taking Cover");
                 takingCover = true;
                 return;
             }
