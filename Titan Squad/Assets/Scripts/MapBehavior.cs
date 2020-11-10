@@ -856,12 +856,19 @@ public class MapBehavior : MonoBehaviour
         CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
         List<CollisionTile> path = new List<CollisionTile>();
 
+        CollisionTile lastTile = null;
         while (currTile != null && currTile.passable)
         {
+            if (xDir && lastTile != null && !lastTile.passableEW)
+                return path;
+            else if (!xDir && !currTile.passableEW)
+                return path;
             if (!currTile.passable || (hasCollision && !currTile.isWalkable()) )
                 return path;
 
             path.Add(currTile);
+
+            lastTile = currTile;
 
             //Check if we should increment y
             if (d > 0)
@@ -874,6 +881,8 @@ public class MapBehavior : MonoBehaviour
 
                 if (hasCollision && currTile.isWalkable())
                     path.Add(currTile);
+
+                lastTile = currTile;
             }
             else
                 d = d + 2 * yDif;
@@ -918,12 +927,19 @@ public class MapBehavior : MonoBehaviour
         CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
         List<CollisionTile> path = new List<CollisionTile>();
 
+        CollisionTile lastTile = null;
         while (currTile != null && currTile.passable)
         {
+            if (yDir && lastTile != null && !lastTile.passableNS)
+                return path;
+            else if (!yDir && !currTile.passableNS)
+                return path;
             if (!currTile.passable || (hasCollision && !currTile.isWalkable()))
                 return path;
 
             path.Add(currTile);
+
+            lastTile = currTile;
 
             //Check if we should increment x
             if (d > 0)
@@ -936,6 +952,8 @@ public class MapBehavior : MonoBehaviour
                 
                 if (hasCollision && currTile.isWalkable())
                     path.Add(currTile);
+
+                lastTile = currTile;
             }
             else
                 d = d + 2 * xDif;
