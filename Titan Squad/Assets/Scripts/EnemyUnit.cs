@@ -226,6 +226,7 @@ public class EnemyUnit : Unit
         CollisionTile currentScanTile = MapBehavior.instance.getTileAtPos(enemyPos);
         if (yAbs >= xAbs)
         {
+            //loop through rectangle with enemy and player are at opposite corner
             for (int i = 0; i < xAbs; i++)
             {
                 for (int j = 0; j < yAbs; j++)
@@ -235,13 +236,15 @@ public class EnemyUnit : Unit
                     else
                         actualJ--;
                     CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
+                    //when impassible tile is used to take cover
                     if (!checkingTile.passable)
                     {
                         thereIsCover = true;
                         break;
                     }
-
-                    currentScanTile = checkingTile;
+                    //When the previous tile does not have enemy, use it as the tile to move to
+                    if(!checkingTile.hasEnemy)
+                        currentScanTile = checkingTile;
                 }
                 if (thereIsCover)
                     break;
@@ -262,12 +265,15 @@ public class EnemyUnit : Unit
                     else
                         actualI--;
                     CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
+                    //when impassible tile is used to take cover
                     if (!checkingTile.passable)
                     {
                         thereIsCover = true;
                         break;
                     }
-                    currentScanTile = checkingTile;
+                    //When the previous tile does not have enemy, use it as the tile to move to
+                    if (!checkingTile.hasEnemy)
+                        currentScanTile = checkingTile;
                 }
                 if (thereIsCover)
                     break;
