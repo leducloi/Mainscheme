@@ -590,6 +590,24 @@ TextureImporter:
   - first:
       213: 2577347009795664910
     second: Unit Spritesheet_84
+  - first:
+      213: 5688864136217087874
+    second: Unit Spritesheet_85
+  - first:
+      213: -1710481957698200792
+    second: Unit Spritesheet_86
+  - first:
+      213: -5517566438771039560
+    second: Unit Spritesheet_87
+  - first:
+      213: 5209661917755344065
+    second: Unit Spritesheet_88
+  - first:
+      213: 4044558174934979207
+    second: Unit Spritesheet_89
+  - first:
+      213: -1963680262437209286
+    second: Unit Spritesheet_90
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -2279,8 +2297,8 @@ TextureImporter:
       name: Unit Spritesheet_75
       rect:
         serializedVersion: 2
-        x: 103
-        y: 2
+        x: 303
+        y: 52
         width: 46
         height: 46
       alignment: 9
@@ -2300,8 +2318,8 @@ TextureImporter:
       name: Unit Spritesheet_76
       rect:
         serializedVersion: 2
-        x: 153
-        y: 2
+        x: 353
+        y: 52
         width: 46
         height: 46
       alignment: 9
@@ -2321,8 +2339,8 @@ TextureImporter:
       name: Unit Spritesheet_77
       rect:
         serializedVersion: 2
-        x: 203
-        y: 2
+        x: 403
+        y: 52
         width: 46
         height: 46
       alignment: 9
@@ -2342,8 +2360,8 @@ TextureImporter:
       name: Unit Spritesheet_78
       rect:
         serializedVersion: 2
-        x: 253
-        y: 2
+        x: 453
+        y: 52
         width: 46
         height: 46
       alignment: 9
@@ -2363,8 +2381,8 @@ TextureImporter:
       name: Unit Spritesheet_79
       rect:
         serializedVersion: 2
-        x: 303
-        y: 2
+        x: 503
+        y: 52
         width: 46
         height: 46
       alignment: 9
@@ -2384,8 +2402,8 @@ TextureImporter:
       name: Unit Spritesheet_80
       rect:
         serializedVersion: 2
-        x: 353
-        y: 2
+        x: 553
+        y: 52
         width: 46
         height: 46
       alignment: 9
@@ -2405,7 +2423,7 @@ TextureImporter:
       name: Unit Spritesheet_81
       rect:
         serializedVersion: 2
-        x: 403
+        x: 103
         y: 2
         width: 46
         height: 46
@@ -2426,7 +2444,7 @@ TextureImporter:
       name: Unit Spritesheet_82
       rect:
         serializedVersion: 2
-        x: 453
+        x: 153
         y: 2
         width: 46
         height: 46
@@ -2447,7 +2465,7 @@ TextureImporter:
       name: Unit Spritesheet_83
       rect:
         serializedVersion: 2
-        x: 503
+        x: 203
         y: 2
         width: 46
         height: 46
@@ -2468,7 +2486,7 @@ TextureImporter:
       name: Unit Spritesheet_84
       rect:
         serializedVersion: 2
-        x: 553
+        x: 253
         y: 2
         width: 46
         height: 46
@@ -2481,6 +2499,132 @@ TextureImporter:
       bones: []
       spriteID: e0c29c5337394c320800000000000000
       internalID: 2577347009795664910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Spritesheet_85
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 2
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28fcdae7ac7e2fe40800000000000000
+      internalID: 5688864136217087874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Spritesheet_86
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 2
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82b1fa4d8b52348e0800000000000000
+      internalID: -1710481957698200792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Spritesheet_87
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 2
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b26f68ae8aad63b0800000000000000
+      internalID: -5517566438771039560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Spritesheet_88
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 2
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c400b789ef6c4840800000000000000
+      internalID: 5209661917755344065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Spritesheet_89
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 2
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 782d66a2b38212830800000000000000
+      internalID: 4044558174934979207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Spritesheet_90
+      rect:
+        serializedVersion: 2
+        x: 553
+        y: 2
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3bfbf0943b9fb4e0800000000000000
+      internalID: -1963680262437209286
       vertices: []
       indices: 
       edges: []

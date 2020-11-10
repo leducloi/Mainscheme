@@ -36,7 +36,7 @@ public class Weapon
                 hitChance = 75;
                 break;
             case "Railgun":
-                damage = 10;
+                damage = 8;
                 techDamage = 0;
                 effectiveRange = 12;
                 maxRange = 12;
@@ -44,7 +44,7 @@ public class Weapon
                 hitChance = 75;
                 break;
             case "Grenade Launcher":
-                damage = 8;
+                damage = 7;
                 techDamage = 3;
                 effectiveRange = 10;
                 maxRange = 10;
@@ -52,7 +52,7 @@ public class Weapon
                 hitChance = 75;
                 break;
             case "Energy Blade":
-                damage = 12;
+                damage = 10;
                 techDamage = 8;
                 effectiveRange = 1;
                 maxRange = 1;

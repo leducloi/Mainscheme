@@ -261,7 +261,10 @@ public abstract class PlayerUnit : Unit
         while (target == null)
         {
             if (!canAttack)
+            {
+                removeSightlines();
                 yield break;
+            }
             if (Input.GetMouseButtonDown(0))
             {
                 Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);

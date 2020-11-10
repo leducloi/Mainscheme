@@ -366,6 +366,7 @@ public class EnemyUnit : Unit
         {
             if (Vector3.Distance(transform.position, movePoint.position) == 0)
             {
+                setWalkingPosition(path[index].coordinate);
                 movePoint.position = path[index].coordinate;
                 index++;
                 if (index < path.Length && path[index].hasEnemy)
@@ -380,6 +381,10 @@ public class EnemyUnit : Unit
 
         while (Vector3.Distance(transform.position, movePoint.position) != 0)
             yield return null;
+
+        takeCover();
+        
+        setWalkingPosition(new Vector3(transform.position.x, transform.position.y - 1, 0));
         animator.SetTrigger("Stopped");
 
         yield return null;
