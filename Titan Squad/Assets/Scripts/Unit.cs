@@ -144,7 +144,6 @@ public abstract class Unit : MonoBehaviour
         CollisionTile currTile = MapBehavior.instance.getTileAtPos(transform.position);
         if (!currTile.passableEW || !currTile.passableNS)
         {
-            Debug.Log("Taking Cover");
             takingCover = true;
             return;
         }

@@ -129,6 +129,8 @@ public class CollisionTile
         return false;        
     }
 
+    
+
     public CollisionTile calculateFCost()
     {
         fCost = hCost + gCost;

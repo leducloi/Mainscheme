@@ -18,8 +18,8 @@ public class Grunt : EnemyUnit
         hpMax = 8;
         hpRemaining = 8;
 
-        shieldMax = 3;
-        shieldRemaining = 3;
+        shieldMax = 4;
+        shieldRemaining = 4;
 
         movement = 5;
 

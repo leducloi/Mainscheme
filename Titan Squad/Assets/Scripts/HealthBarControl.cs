@@ -118,6 +118,9 @@ public class HealthBarControl : MonoBehaviour
         shields = (int)shieldControl.value;
         health = (int)healthControl.value;
 
+        displayUnit.hpRemaining = health;
+        displayUnit.shieldRemaining = shields;
+
         movingBar = false;
 
         yield return new WaitForSeconds(1f);
@@ -151,6 +154,9 @@ public class HealthBarControl : MonoBehaviour
 
         shields = (int)shieldControl.value;
         health = (int)healthControl.value;
+
+        displayUnit.hpRemaining = health;
+        displayUnit.shieldRemaining = shields;
 
         movingBar = false;
 

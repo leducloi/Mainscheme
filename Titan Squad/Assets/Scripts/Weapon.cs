@@ -38,9 +38,9 @@ public class Weapon
             case "Railgun":
                 damage = 8;
                 techDamage = 0;
-                effectiveRange = 12;
-                maxRange = 12;
-                minRange = 6;
+                effectiveRange = 10;
+                maxRange = 10;
+                minRange = 5;
                 hitChance = 75;
                 break;
             case "Grenade Launcher":
@@ -70,7 +70,7 @@ public class Weapon
             case "Krimbar Rifle":
                 damage = 1;
                 techDamage = 0;
-                effectiveRange = 6;
+                effectiveRange = 8;
                 maxRange = 10;
                 minRange = 3;
                 hitChance = 75;

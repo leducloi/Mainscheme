@@ -614,7 +614,8 @@ public class MapBehavior : MonoBehaviour
         for (int x = (int)start.x; x <= (int)destination.x; x++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-            
+            if (currTile == null)
+                return false;
             if (!currTile.passable || (!currTile.passableEW && currTile.highCover))
                 return false;
             if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
@@ -629,7 +630,8 @@ public class MapBehavior : MonoBehaviour
                 y = y + yIncrement;
                 d = d + (2 * (yDif - xDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-                
+                if (currTile == null)
+                    return false;
                 if (!currTile.passable || ((!currTile.passableNS /*|| !currTile.passableEW*/) && currTile.highCover))
                     return false;
                 if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
@@ -669,7 +671,8 @@ public class MapBehavior : MonoBehaviour
         for (int y = (int)start.y; y <= (int)destination.y; y++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-            
+            if (currTile == null)
+                return false;
             if (!currTile.passable || (!currTile.passableNS && currTile.highCover))
                 return false;
             if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
@@ -684,8 +687,11 @@ public class MapBehavior : MonoBehaviour
                 x = x + xIncrement;
                 d = d + (2 * (xDif - yDif));
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
-                
+                if (currTile == null)
+                    return false;
                 if (!currTile.passable || ((/*!currTile.passableNS ||*/ !currTile.passableEW) && currTile.highCover))
+                    return false;
+                if (xIncrement > 0 && !getTileAtPos(new Vector3(currTile.coordinate.x - 1, currTile.coordinate.y, 0)).passableEW)
                     return false;
                 if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                     return true;
@@ -1243,6 +1249,8 @@ public class MapBehavior : MonoBehaviour
         {
             //If the tile is walkable, we can't grapple to it
             if (tile.passable && tile.passableEW && tile.passableNS)
+                continue;
+            if (!tile.passable)
                 continue;
 
             if (!tile.passableEW)

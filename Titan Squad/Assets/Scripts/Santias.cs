@@ -114,11 +114,11 @@ public class Santias : PlayerUnit
         CollisionTile pullTo = null;
         foreach (CollisionTile tile in MapBehavior.instance.findNeighborTiles(validSelection))
         {
-            if (!tile.passable)
-            {
-                pullTo = tile;
-                break;
-            }
+            //if (!tile.passable)
+            //{
+            //    pullTo = tile;
+            //    break;
+            //}
             if (validSelection.coordinate.x > tile.coordinate.x && !tile.passableEW)
             {
                 pullTo = tile;
@@ -128,6 +128,15 @@ public class Santias : PlayerUnit
             {
                 pullTo = tile;
                 break;
+            }
+            if (!validSelection.passableNS)
+            {
+                pullTo = MapBehavior.instance.getTileAtPos(new Vector3(validSelection.coordinate.x, validSelection.coordinate.y + 1, 0));
+                break;
+            }
+            if (!validSelection.passableEW)
+            {
+                pullTo = MapBehavior.instance.getTileAtPos(new Vector3(validSelection.coordinate.x + 1, validSelection.coordinate.y, 0));
             }
         }
 

@@ -205,6 +205,7 @@ public class Kennedy : PlayerUnit
         else
         {
             depositSpot = Instantiate(depositSpot, transform.position, Quaternion.identity) as GameObject;
+            depositSpot.transform.SetParent(Level.instance.transform);
             depositSpotDown = true;
         }
 

@@ -266,6 +266,8 @@ public class EnemyUnit : Unit
                         actualI--;
                     CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
                     //when impassible tile is used to take cover
+                    if (checkingTile == null)
+                        continue;
                     if (!checkingTile.passable)
                     {
                         thereIsCover = true;
@@ -346,7 +348,7 @@ public class EnemyUnit : Unit
         //Grab the start of our move
         int index = 0;
         Vector3 start = transform.position;
-        animator.SetTrigger("Walking");
+        //animator.SetTrigger("Walking");
 
         int movementLeft = movement;
         int maxIndex = 1;

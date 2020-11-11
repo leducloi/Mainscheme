@@ -252,7 +252,7 @@ public class UIManager : MonoBehaviour
     public void completeObjective()
     {
         instance.actionMenu.GetComponentInChildren<ActionMenu>().currObjective.completeObjective();
-        instance.actionMenu.GetComponentInChildren<ActionMenu>().hideMenu();
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().menu.enabled = false;
         instance.currUnit.useActionPoint(1);
         instance.currUnit.objectivesCompleted++;
     }

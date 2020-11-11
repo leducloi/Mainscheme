@@ -76,8 +76,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: -1363340659569907172, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -2386624418705598075, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
   m_Color: {r: 1, g: 0.2679245, b: 0.3227134, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -144,7 +144,6 @@ MonoBehaviour:
   patrolEnemy: 0
   hasControl: 0
   detectRange: 10
-  weaponRange: 6
   takesCover: 0
   mode: 
 --- !u!114 &1108703955833123358
