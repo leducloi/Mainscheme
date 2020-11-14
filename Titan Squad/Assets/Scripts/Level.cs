@@ -11,6 +11,10 @@ using UnityEngine;
 public abstract class Level : MonoBehaviour
 {
     public static Level instance = null;
+
+    [SerializeField]
+    protected TextAsset levelScript = null;
+
     public EnemyController enemyController;
     public EnemyUnit[] enemyUnits;
     public Unit[] playerUnits;
@@ -213,14 +217,14 @@ public abstract class Level : MonoBehaviour
 
     public IEnumerator planning()
     {
-        yield return null;
-
         foreach (Unit u in enemyUnits)
         {
             CollisionTile tileOn = MapBehavior.instance.getTileAtPos(u.transform.position);
             u.movePoint.transform.position = tileOn.coordinate;
             u.transform.position = tileOn.coordinate;
         }
+
+        yield return StartCoroutine(cutscene());
 
         Instantiate(GameManager.instance.cursor, transform);
         if (!isTutorial)

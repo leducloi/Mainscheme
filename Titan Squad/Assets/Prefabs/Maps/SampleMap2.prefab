@@ -17533,6 +17533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7941583577103735560}
   - component: {fileID: 7941583577103735559}
+  - component: {fileID: 4346184006560077245}
   - component: {fileID: 7296445170330446923}
   m_Layer: 0
   m_Name: SampleMap2
@@ -17574,7 +17575,7 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &7296445170330446923
+--- !u!114 &4346184006560077245
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17583,9 +17584,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 7941583577103735558}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f157f16e035fce48b68e1dca45da3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelScript: {fileID: 11500000, guid: 37a992bf3afb7f94fb4d68eb5cc17476, type: 3}
+  enemyController: {fileID: 417527707144903145, guid: 59d50e35e75957a40ae8f85d673cabd3, type: 3}
+  enemyUnits: []
+  playerUnits:
+  - {fileID: 4393679497470066300}
+  - {fileID: 8216499796825103161}
+  - {fileID: 8761904061403736819}
+  objectives:
+  - {fileID: 960712005502633227}
+  startPositions:
+  - {x: 13.5, y: 6.5, z: 0}
+  - {x: 14.5, y: 5.5, z: 0}
+  - {x: 15.5, y: 6.5, z: 0}
+  unitSelectMenu: {fileID: 1970912290864385068, guid: d1fb9ab8f4c00ed4eb672b3244bdb0bc, type: 3}
+  victory: 0
+  numUnitsSelected: 0
+  selectedUnits: []
+  pauseAutoEnd: 0
+  donePlanning: 0
+  levelDone: 0
+  continuePlay: 0
+  activeObjectives: []
+  unitsExfilled: 0
+  turnLimit: 2147483647
+--- !u!114 &7296445170330446923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7941583577103735558}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 438ed2cb27d814c4695c000b785b530c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelScript: {fileID: 0}
   enemyController: {fileID: 417527707144903145, guid: 59d50e35e75957a40ae8f85d673cabd3, type: 3}
   enemyUnits: []
   playerUnits:

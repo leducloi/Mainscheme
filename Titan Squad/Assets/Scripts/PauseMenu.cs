@@ -36,6 +36,9 @@ public class PauseMenu : MonoBehaviour
         if (tile == null)
             return;
 
+        if (menu.enabled)
+            return;
+
         Vector3 nearestTile = tile.coordinate;
         if (!menu.enabled)
         {
@@ -52,5 +55,17 @@ public class PauseMenu : MonoBehaviour
     public void hideMenu()
     {
         menu.enabled = false;
+    }
+
+    public void quitToMainMenu()
+    {
+        GameManager.instance.loadMainMenu();
+        hideMenu();
+    }
+
+    public void resetMap()
+    {
+        GameManager.instance.resetMission();
+        hideMenu();
     }
 }

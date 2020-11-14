@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
         }
         if (toMenu)
         {
+            mapMan.deloadCurrMap();
             mainMenu.SetActive(true);
         }
         else

@@ -48,6 +48,11 @@ public class CameraBehavior : MonoBehaviour
             Destroy(instance);
             instance = this;
         }
+
+        storedResolution = (float)Screen.width / (float)Screen.height;
+
+        Camera.main.orthographicSize = horizontalResolution / storedResolution / 200;
+        
     }
 
     public void setup()

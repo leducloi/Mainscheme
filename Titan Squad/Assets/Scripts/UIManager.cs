@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     public GameObject abilityInfoWindow;
     public GameObject missText;
     public GameObject endCard;
+    public GameObject textBox;
 
     public GameObject escapeClauseMenu;
 
@@ -59,6 +60,7 @@ public class UIManager : MonoBehaviour
         combatCalculator = Instantiate(combatCalculator, transform);
         abilityInfoWindow = Instantiate(abilityInfoWindow, transform);
         escapeClauseMenu = Instantiate(escapeClauseMenu, transform);
+        textBox = Instantiate(textBox, transform);
 
         escapeClauseMenu.GetComponent<Canvas>().enabled = false;
         
@@ -221,7 +223,8 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.instance.playerPhase && (instance.currUnit == null || !instance.currUnit.selected))
         {
-            instance.pauseMenu.GetComponent<PauseMenu>().displayMenu();
+            PauseMenu pMenu = instance.pauseMenu.GetComponent<PauseMenu>();
+            pMenu.displayMenu();
         }
     }
 
@@ -260,5 +263,15 @@ public class UIManager : MonoBehaviour
     public void showEndCard()
     {
         instance.endCard = Instantiate(instance.endCard, instance.transform);
+    }
+
+    public void resetMission()
+    {
+        GameManager.instance.resetMission();
+    }
+
+    public void quitToMainMenu()
+    {
+        GameManager.instance.loadMainMenu();
     }
 }
