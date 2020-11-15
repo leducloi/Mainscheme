@@ -201,7 +201,7 @@ public abstract class Level : MonoBehaviour
 
     public void levelSetup()
     {
-        GameManager.instance.enemyPhase = true;
+        //GameManager.instance.enemyPhase = true;
         foreach (Unit u in enemyUnits)
             MapBehavior.instance.unitMoved(u.transform.position, u.transform.position, true);
         GameManager.instance.enemyPhase = false;
@@ -220,11 +220,13 @@ public abstract class Level : MonoBehaviour
         foreach (Unit u in enemyUnits)
         {
             CollisionTile tileOn = MapBehavior.instance.getTileAtPos(u.transform.position);
-            u.movePoint.transform.position = tileOn.coordinate;
             u.transform.position = tileOn.coordinate;
+            u.movePoint.transform.position = tileOn.coordinate;
         }
 
+        CameraBehavior.instance.pauseMovement = true;
         yield return StartCoroutine(cutscene());
+        CameraBehavior.instance.pauseMovement = false;
 
         Instantiate(GameManager.instance.cursor, transform);
         if (!isTutorial)

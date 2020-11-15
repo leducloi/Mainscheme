@@ -685,6 +685,7 @@ MonoBehaviour:
   missText: {fileID: 6731893470697211876, guid: e1f8fc35ff25edb4da7f8f595976635e, type: 3}
   endCard: {fileID: 6903811019988931810, guid: 3273d9cdc181e9646bad7b643090e405, type: 3}
   textBox: {fileID: 6369902258790171514, guid: 95831e7be9601c644850403365cf65db, type: 3}
+  unitInfoMenu: {fileID: 3063198930503971803, guid: 5f5a5fe4730ffd648971a5ac8eea6eac, type: 3}
   escapeClauseMenu: {fileID: 8727491884823121436, guid: 7b8b44cef6ad37d4a8623de6d593b414, type: 3}
   enemiesToOutline: []
   playerPhaseText: {fileID: 2022487371851123832}

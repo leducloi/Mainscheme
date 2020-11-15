@@ -11,7 +11,6 @@ public class Skirmisher : EnemyUnit
         weapons[0] = new Weapon("Krimbar Power Sword");
         weapons[1] = new Weapon("--");
 
-        base.Start();
 
         takesCover = false;
 
@@ -29,7 +28,9 @@ public class Skirmisher : EnemyUnit
         luck = 6;
         criticalTargeting = 2;
         advancedShielding = 0;
-}
+
+        base.Start();
+    }
 
     // Update is called once per frame
     override

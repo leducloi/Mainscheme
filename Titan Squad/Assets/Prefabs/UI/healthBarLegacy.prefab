@@ -307,6 +307,10 @@ MonoBehaviour:
   healthControl: {fileID: 2686221767875845497}
   healthUnderlay: {fileID: 890855491347747358}
   shieldUnderlay: {fileID: 1405378251789494646}
+  displayUnit: {fileID: 0}
+  health: 0
+  shields: 0
+  movingBar: 0
 --- !u!1 &2686221767554254024
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +324,7 @@ GameObject:
   - component: {fileID: 2686221767554254026}
   - component: {fileID: 2686221767554254027}
   m_Layer: 5
-  m_Name: HealthBarUI
+  m_Name: healthBarLegacy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

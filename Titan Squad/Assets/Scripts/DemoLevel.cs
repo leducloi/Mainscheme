@@ -36,6 +36,7 @@ public class DemoLevel : Level
     override
     public IEnumerator cutscene()
     {
+
         yield return null;
 
         for (int index = 1; index < allSpeeches.Length - 1; index++)
@@ -57,5 +58,6 @@ public class DemoLevel : Level
             while (TextControl.instance.readingLines)
                 yield return null;
         }
+        
     }
 }

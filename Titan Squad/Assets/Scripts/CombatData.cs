@@ -46,12 +46,14 @@ public class CombatData : MonoBehaviour
     public void calculateData()
     {
         CollisionTile tileOn = MapBehavior.instance.getTileAtPos(unit.transform.position);
+        if (tileOn == null)
+            return;
 
         damage = unit.equippedWeapon.damage + (unit.criticalTargeting) + (unit.bionicEnhancement / 2);
         defense = unit.advancedShielding;
 
-        dodgeChance = unit.combatTraining + unit.bionicEnhancement + (unit.luck / 2) + tileOn.tileDodge + unit.bonusDodge;
-        hitChance = unit.equippedWeapon.hitChance + unit.evasiveTactics + unit.bionicEnhancement + (unit.luck / 2);
+        dodgeChance = unit.evasiveTactics + unit.bionicEnhancement + (unit.luck / 2) + tileOn.tileDodge + unit.bonusDodge;
+        hitChance = unit.equippedWeapon.hitChance + unit.combatTraining + unit.bionicEnhancement + (unit.luck / 2);
 
         if (unit.cbDrugs)
         {

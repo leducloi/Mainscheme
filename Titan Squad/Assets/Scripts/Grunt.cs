@@ -11,7 +11,6 @@ public class Grunt : EnemyUnit
         weapons[0] = new Weapon("Krimbar Rifle");
         weapons[1] = new Weapon("--");
 
-        base.Start();
 
         takesCover = true;
 
@@ -29,6 +28,8 @@ public class Grunt : EnemyUnit
         luck = 0;
         criticalTargeting = 3;
         advancedShielding = 2;
+
+        base.Start();
     }
 
     // Update is called once per frame

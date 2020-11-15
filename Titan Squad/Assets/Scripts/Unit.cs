@@ -65,7 +65,7 @@ public abstract class Unit : MonoBehaviour
         else if (hasTurn && shaderControl.currGreyscale)
             shaderControl.makeGreyscale(false);
 
-        if (GameManager.instance.playerPhase || GameManager.instance.enemyPhase)
+        if (MapBehavior.instance != null)
             cbData.calculateData();
     }
 

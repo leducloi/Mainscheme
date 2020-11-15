@@ -62,8 +62,8 @@ public class CollisionMap
             tileAt(destination).hasPlayer = true;
             return;
         }
-        tileAt(start + new Vector3(-0.5f, -0.5f, 0)).hasEnemy = false;
-        tileAt(destination + new Vector3(-0.5f, -0.5f, 0)).hasEnemy = true;
+        tileAt(start/* + new Vector3(-0.5f, -0.5f, 0)*/).hasEnemy = false;
+        tileAt(destination/* + new Vector3(-0.5f, -0.5f, 0)*/).hasEnemy = true;
     }
 
     public void unitDefeated(Vector3 unitLocation, bool wasEnemy)

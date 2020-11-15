@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public GameObject missText;
     public GameObject endCard;
     public GameObject textBox;
+    public GameObject unitInfoMenu;
 
     public GameObject escapeClauseMenu;
 
@@ -61,6 +62,7 @@ public class UIManager : MonoBehaviour
         abilityInfoWindow = Instantiate(abilityInfoWindow, transform);
         escapeClauseMenu = Instantiate(escapeClauseMenu, transform);
         textBox = Instantiate(textBox, transform);
+        unitInfoMenu = Instantiate(unitInfoMenu, transform);
 
         escapeClauseMenu.GetComponent<Canvas>().enabled = false;
         
@@ -72,6 +74,9 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
             openPauseMenu();
+
+        if (Input.GetMouseButtonDown(1))
+            openInfoMenu();
 
         if (selectingAttack && Input.GetKeyDown(KeyCode.Escape))
         {
@@ -214,6 +219,9 @@ public class UIManager : MonoBehaviour
         if (MapBehavior.instance == null || Level.instance.levelDone)
             return;
 
+        if (instance.unitInfoMenu.GetComponent<Canvas>().enabled)
+            return;
+
         CollisionTile tileOn = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (tileOn == null)
             return;
@@ -225,6 +233,17 @@ public class UIManager : MonoBehaviour
         {
             PauseMenu pMenu = instance.pauseMenu.GetComponent<PauseMenu>();
             pMenu.displayMenu();
+        }
+    }
+
+    public void openInfoMenu()
+    {
+        if (MapBehavior.instance == null || Level.instance.levelDone)
+            return;
+
+        if (!GameManager.instance.enemyPhase && (instance.currUnit == null || !instance.currUnit.selected) && !CameraBehavior.instance.pauseMovement)
+        {
+            instance.unitInfoMenu.GetComponent<UnitInfoPanel>().displayUnitMenu();
         }
     }
 

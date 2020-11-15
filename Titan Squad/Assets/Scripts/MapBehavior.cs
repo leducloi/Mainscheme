@@ -98,8 +98,7 @@ public class MapBehavior : MonoBehaviour
         
 
         currColor = blue;
-
-        CameraBehavior.instance.pauseMovement = false;
+        
     }
 
     private void Update()
