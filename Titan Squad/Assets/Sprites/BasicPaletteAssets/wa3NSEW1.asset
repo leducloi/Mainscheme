@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: waEndEW
+  m_Name: wallsSheet_23
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 8834092835906430957, guid: af9c546d1487e1946becf3d8ce056a7f, type: 3}
+  m_Sprite: {fileID: 3205263361971400761, guid: af9c546d1487e1946becf3d8ce056a7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

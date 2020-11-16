@@ -66,7 +66,8 @@ public class CollisionTile
                 passableNS = false;
             if (obName.Contains("EW"))
                 passableEW = false;
-            
+            if (!passableEW && !passableNS)
+                passable = false;
         }
 
         //If the tile is a Grasslands tile, set its statistics to that of grasslands

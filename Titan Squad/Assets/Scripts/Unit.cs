@@ -188,13 +188,31 @@ public abstract class Unit : MonoBehaviour
 
             Vector2 direction = new Vector2(difference.x / Mathf.Abs(difference.x), difference.y / Mathf.Abs(difference.y));
 
-            //Get the two tiles that could possibly block our shot
-            CollisionTile tileNS = MapBehavior.instance.getTileAtPos(new Vector3(transform.position.x, transform.position.y + direction.y, 0f));
-            CollisionTile tileEW = MapBehavior.instance.getTileAtPos(new Vector3(transform.position.x + direction.x, transform.position.y, 0f));
-
-            //If both tiles are passable, we flank
-            if (tileNS.passable && tileEW.passable)
-                return true;
+            if (difference.x > 0)
+            {
+                CollisionTile tile = MapBehavior.instance.getTileAtPos(transform.position);
+                if (!tile.passableEW)
+                    return false;
+            }
+            if (difference.y > 0)
+            {
+                CollisionTile tile = MapBehavior.instance.getTileAtPos(transform.position);
+                if (!tile.passableNS)
+                    return false;
+            }
+            if (difference.x < 0)
+            {
+                CollisionTile tile = MapBehavior.instance.getTileAtPos(new Vector3(transform.position.x - 1, transform.position.y, 0));
+                if (!tile.passableEW)
+                    return false;
+            }
+            if (difference.y < 0)
+            {
+                CollisionTile tile = MapBehavior.instance.getTileAtPos(new Vector3(transform.position.x, transform.position.y - 1, 0));
+                if (!tile.passableNS)
+                    return false;
+            }
+            return true;
         }
         return false;
     }
