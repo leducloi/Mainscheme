@@ -57,6 +57,7 @@ public class Objective : MonoBehaviour
         if (active && !showing)
         {
             showing = true;
+            MapBehavior.instance.setColor('o');
             tileHolder = MapBehavior.instance.highlightObjectiveTiles(tilesToHighlight);
             tileHolder.transform.SetParent(gameObject.transform);
         }

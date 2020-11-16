@@ -128,7 +128,7 @@ public abstract class PlayerUnit : Unit
                 {
                     showingHighlight = true;
                     MapBehavior.instance.setColor('b');
-                    MapBehavior.instance.highlightTilesInRange(transform.position, movement);
+                    MapBehavior.instance.highlightTilesInRange(transform.position, movement, equippedWeapon.minRange, equippedWeapon.maxRange);
                 }
                 setArrowPath();
                 if (Input.GetMouseButtonDown(0))
@@ -486,7 +486,7 @@ public abstract class PlayerUnit : Unit
     
     private void setUpSightline(int numLines, Vector3 position)
     {
-        Color sightColor = Color.red;
+        Color sightColor = Color.white;
         sightColor.a = 0.8f;
 
         position.y += 0.4f;
@@ -513,6 +513,8 @@ public abstract class PlayerUnit : Unit
 
             sightlines[lineNum].positionCount = 2;
             sightlines[lineNum].SetPosition(0, position);
+
+            sightlines[lineNum].sortingOrder = -1;
         }
     }
 

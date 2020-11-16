@@ -245,7 +245,8 @@ public abstract class Level : MonoBehaviour
                 u.transform.position = pos;
             }
 
-            MapBehavior.instance.hightlightCustomTiles(startTiles, 'b');
+            MapBehavior.instance.setColor('b');
+            GameObject startingHighlight = MapBehavior.instance.highlightObjectiveTiles(startTiles);
 
 
             while (!donePlanning)
@@ -253,7 +254,7 @@ public abstract class Level : MonoBehaviour
                 yield return null;
             }
 
-            MapBehavior.instance.deleteHighlightTiles();
+            MapBehavior.instance.deleteObjectiveTiles(startingHighlight);
 
             Destroy(unitSelectMenu);
         }

@@ -145,6 +145,7 @@ public class EnemyUnit : Unit
         if (actualDistance <= detectRange && !playerObject.GetComponent<PlayerUnit>().isCloaked)
         {
             mode = "Chase";
+            detectRange = int.MaxValue;
             detectedPlayerObject = playerObject;
         }
     }
@@ -416,7 +417,7 @@ public class EnemyUnit : Unit
     }
 
 
-    //WIP - Used to have a unit attack an enemy
+    //Used to have a unit attack an enemy
     override
     public void attack(Unit enemy)
     {
@@ -527,15 +528,23 @@ public class EnemyUnit : Unit
 
     private void OnMouseDown()
     {
-        if ((UIManager.instance.currUnit != null && UIManager.instance.currUnit.selected) || GameManager.instance.enemyPhase)
+        if ((UIManager.instance.currUnit != null && UIManager.instance.currUnit.selected) || GameManager.instance.enemyPhase || CameraBehavior.instance.pauseMovement)
             return;
         StartCoroutine(showAggroRadius());
     }
     
     IEnumerator showAggroRadius()
     {
-        MapBehavior.instance.setColor('r');
-        MapBehavior.instance.highlightTilesWithin(transform.position, (int)detectRange);
+        if (mode != "Chase")
+        {
+            MapBehavior.instance.setColor('r');
+            MapBehavior.instance.highlightTilesWithin(transform.position, (int)detectRange);
+        }
+        else
+        {
+            MapBehavior.instance.setColor('b');
+            MapBehavior.instance.highlightTilesInRange(transform.position, movement, equippedWeapon.minRange, equippedWeapon.maxRange, true);
+        }
 
         while (Input.GetMouseButton(0))
             yield return null;

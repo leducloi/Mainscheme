@@ -309,7 +309,7 @@ public class Haley : PlayerUnit
             shader.SetFloat("_OverlayAmount", colorAmount);
             yield return new WaitForSecondsRealtime(1f / 60f);
         }
-
+        target.hideOutline();
 
         //Wait for cooldown
         int endTurn = GameManager.instance.turnCount + 1;
@@ -341,7 +341,7 @@ public class Haley : PlayerUnit
         {
             while (!Input.GetMouseButtonDown(0))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
                 {
                     yield return null;
                     foreach (Unit u in selectableUnits)
@@ -396,13 +396,15 @@ public class Haley : PlayerUnit
         foreach (Unit u in selectableUnits)
         {
             if (u != null && u != target)
-                u.showOutline();
+                u.hideOutline();
         }
 
         if (target.hpRemaining <= equippedWeapon.damage)
             enemiesKilled++;
         target.hit(equippedWeapon.damage);
         damageDone += equippedWeapon.damage;
+
+        target.hideOutline();
 
         abilitiesUsed++;
         ultimatesUsed++;

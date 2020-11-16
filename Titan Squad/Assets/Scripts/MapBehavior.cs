@@ -402,7 +402,7 @@ public class MapBehavior : MonoBehaviour
         //Grab the true position in reference to the grid
         Vector3 truePos = grid.WorldToCell(coord);
         //Now ask the Collision Map which tile is at our desired location
-        CollisionTile tile = map.tileAt(truePos);
+        CollisionTile tile = map.tileAt(coord);
 
         return tile;
     }
@@ -610,18 +610,21 @@ public class MapBehavior : MonoBehaviour
         //Y coordinate
         int y = (int)start.y;
 
+        CollisionTile lastTile = null;
         for (int x = (int)start.x; x <= (int)destination.x; x++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
             if (currTile == null)
                 return false;
-            if (!currTile.passable || (!currTile.passableEW && currTile.highCover))
+            if (!currTile.passable || (lastTile != null && !lastTile.passableEW && lastTile.highCover))
                 return false;
             if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                 return true;
             if (distanceChecked >= range)
                 return false;
             distanceChecked++;
+
+            lastTile = currTile;
 
             //Check if we should increment y
             if (d > 0)
@@ -631,8 +634,17 @@ public class MapBehavior : MonoBehaviour
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
                 if (currTile == null)
                     return false;
-                if (!currTile.passable || ((!currTile.passableNS /*|| !currTile.passableEW*/) && currTile.highCover))
-                    return false;
+                if (yIncrement > 0)
+                {
+                    if (!currTile.passable || ((!lastTile.passableNS /*|| !currTile.passableEW*/) && lastTile.highCover))
+                        return false;
+                }
+                else
+                {
+                    if (!currTile.passable || ((!currTile.passableNS /*|| !currTile.passableEW*/) && currTile.highCover))
+                        return false;
+                }
+                
                 if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                     return true;
                 if (distanceChecked >= range)
@@ -667,18 +679,22 @@ public class MapBehavior : MonoBehaviour
         //X coordinate
         int x = (int)start.x;
 
+        CollisionTile lastTile = null;
+
         for (int y = (int)start.y; y <= (int)destination.y; y++)
         {
             CollisionTile currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
             if (currTile == null)
                 return false;
-            if (!currTile.passable || (!currTile.passableNS && currTile.highCover))
+            if (!currTile.passable || (lastTile != null && !lastTile.passableNS && lastTile.highCover))
                 return false;
             if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
                 return true;
             if (distanceChecked >= range)
                 return false;
             distanceChecked++;
+
+            lastTile = currTile;
 
             //Check if we should increment x
             if (d > 0)
@@ -688,8 +704,18 @@ public class MapBehavior : MonoBehaviour
                 currTile = getTileAtPos(new Vector3(x + 0.5f, y + 0.5f, 0f));
                 if (currTile == null)
                     return false;
-                if (!currTile.passable || ((/*!currTile.passableNS ||*/ !currTile.passableEW) && currTile.highCover))
-                    return false;
+
+                if (xIncrement > 0)
+                {
+                    if (!currTile.passable || ((/*!currTile.passableNS ||*/ !lastTile.passableEW) && lastTile.highCover))
+                        return false;
+                }
+                else
+                {
+                    if (!currTile.passable || (!currTile.passableEW && currTile.highCover))
+                        return false;
+                }
+
                 if (xIncrement > 0 && !getTileAtPos(new Vector3(currTile.coordinate.x - 1, currTile.coordinate.y, 0)).passableEW)
                     return false;
                 if (currTile.coordinate.Equals(destination) && distanceChecked >= minRange)
@@ -697,6 +723,8 @@ public class MapBehavior : MonoBehaviour
                 if (distanceChecked >= range)
                     return false;
                 distanceChecked++;
+
+                lastTile = currTile;
             }
             else
                 d = d + 2 * xDif;
@@ -1003,7 +1031,7 @@ public class MapBehavior : MonoBehaviour
         }
     }
 
-    public void highlightTilesInRange(Vector3 currPos, int movement)
+    public void highlightTilesInRange(Vector3 currPos, int movement, int minRange, int maxRange, bool forEnemy = false)
     {
         //Get the start tile
         CollisionTile start = getTileAtPos(currPos);
@@ -1013,12 +1041,45 @@ public class MapBehavior : MonoBehaviour
         List<CollisionTile> path = new List<CollisionTile>();
 
         //Call our recursive method
-        path = getTilesInRange(start, movement, path);
+        path = getTilesInRange(start, movement, path, forEnemy);
+
+        List<CollisionTile> range = new List<CollisionTile>();
+        foreach (CollisionTile tile in path)
+        {
+            int count = 0;
+            for (int x = 0; x <= maxRange; x++)
+            {
+                for (int y = maxRange - x; y >= Mathf.Clamp(minRange - x, 0, int.MaxValue); y--)
+                {
+                    CollisionTile q1 = getTileAtPos(new Vector3((int)tile.coordinate.x + x, (int)tile.coordinate.y + y, 0));
+                    CollisionTile q2 = getTileAtPos(new Vector3((int)tile.coordinate.x + x, (int)tile.coordinate.y - y, 0));
+                    CollisionTile q3 = getTileAtPos(new Vector3((int)tile.coordinate.x - x, (int)tile.coordinate.y - y, 0));
+                    CollisionTile q4 = getTileAtPos(new Vector3((int)tile.coordinate.x - x, (int)tile.coordinate.y + y, 0));
+                    if (q1 != null && !range.Contains(q1) && !path.Contains(q1) && hasLineTo(tile.coordinate, q1.coordinate, maxRange, minRange))
+                        range.Add(q1);
+                    if (q2 != null && !range.Contains(q2) && !path.Contains(q2) && hasLineTo(tile.coordinate, q2.coordinate, maxRange, minRange))
+                        range.Add(q2);
+                    if (q3 != null && !range.Contains(q3) && !path.Contains(q3) && hasLineTo(tile.coordinate, q3.coordinate, maxRange, minRange))
+                        range.Add(q3);
+                    if (q4 != null && !range.Contains(q4) && !path.Contains(q4) && hasLineTo(tile.coordinate, q4.coordinate, maxRange, minRange))
+                        range.Add(q4);
+                }
+                count++;
+            }
+        }
 
         tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
 
         //Spawn in the highlight game objects
         foreach (CollisionTile tile in path)
+        {
+            GameObject highlight = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
+            highlight.transform.SetParent(highlightHolder.transform);
+        }
+
+        setColor('r');
+        tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
+        foreach (CollisionTile tile in range)
         {
             GameObject highlight = Instantiate(tileHighlight, tile.coordinate, Quaternion.identity) as GameObject;
             highlight.transform.SetParent(highlightHolder.transform);
@@ -1034,11 +1095,17 @@ public class MapBehavior : MonoBehaviour
         }
     }
 
-    private List<CollisionTile> getTilesInRange(CollisionTile currPos, int movementLeft, List<CollisionTile> currentPath)
+    private List<CollisionTile> getTilesInRange(CollisionTile currPos, int movementLeft, List<CollisionTile> currentPath, bool forEnemy)
     {
         //If we didn't have enough movement to get here, stop looking
-        if (movementLeft < 0 || !currPos.isWalkable())
+        if (movementLeft < 0 || !currPos.passable)
             return currentPath;
+
+        if (forEnemy && currPos.hasPlayer)
+            return currentPath;
+        else if (!forEnemy && currPos.hasEnemy)
+            return currentPath;
+
 
         //Add the current tile to the path
         if (!currentPath.Contains(currPos))
@@ -1063,22 +1130,22 @@ public class MapBehavior : MonoBehaviour
             //Get how much movement is remaining
             int remainder = movementLeft - E.tileCost;
             //Have path1 store the results of the first created path
-            path1 = getTilesInRange(E, remainder, currentPath);
+            path1 = getTilesInRange(E, remainder, currentPath, forEnemy);
         }
         if (W != null && W.passableEW)
         {
             int remainder = movementLeft - W.tileCost;
-            path2 = getTilesInRange(W, remainder, currentPath);
+            path2 = getTilesInRange(W, remainder, currentPath, forEnemy);
         }
         if (N != null && currPos.passableNS)
         {
             int remainder = movementLeft - N.tileCost;
-            path3 = getTilesInRange(N, remainder, currentPath);
+            path3 = getTilesInRange(N, remainder, currentPath, forEnemy);
         }
         if (S != null && S.passableNS)
         {
             int remainder = movementLeft - S.tileCost;
-            path4 = getTilesInRange(S, remainder, currentPath);
+            path4 = getTilesInRange(S, remainder, currentPath, forEnemy);
         }
         return currentPath;
     }
@@ -1107,26 +1174,27 @@ public class MapBehavior : MonoBehaviour
 
     public List<CollisionTile> getTilesWithin(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
     {
-        List<CollisionTile> pathEast = tilesWithinEast(currPos, rangeLeft, currentPath);
+        List<CollisionTile> pathEast = tilesWithinEast(currPos.coordinate, rangeLeft, currentPath);
 
-        CollisionTile W = getTileAtPos(currPos.coordinate + new Vector3(-1, 0, 0)); //Tile to the West
+        Vector3 W = currPos.coordinate + new Vector3(-1, 0, 0); //Tile to the West
 
         List<CollisionTile> pathWest = tilesWithinWest(W, rangeLeft - 1, currentPath);
 
         return currentPath;
     }
 
-    private List<CollisionTile> tilesWithinEast(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
+    private List<CollisionTile> tilesWithinEast(Vector3 position, int rangeLeft, List<CollisionTile> currentPath)
     {
         //If we didn't have enough movement to get here, stop looking
         if (rangeLeft < 0)
             return currentPath;
 
+        CollisionTile currPos = getTileAtPos(position);
+
         //Add the current tile to the path
-        if (!currentPath.Contains(currPos))
+        if (currPos != null && !currentPath.Contains(currPos))
             currentPath.Add(currPos);
-        else
-            return currentPath;
+        
 
         //Set up our possible paths
         List<CollisionTile> path1 = null;
@@ -1134,41 +1202,32 @@ public class MapBehavior : MonoBehaviour
         List<CollisionTile> path3 = null;
 
         //If we're here, we still have movement and we've not reached our destination. We must now check all adjacent tiles
-        CollisionTile E = getTileAtPos(currPos.coordinate + new Vector3(1, 0, 0)); //Tile to the East
-        CollisionTile N = getTileAtPos(currPos.coordinate + new Vector3(0, 1, 0)); //Tile to the North
-        CollisionTile S = getTileAtPos(currPos.coordinate + new Vector3(0, -1, 0)); //Tile to the South
+
+        Vector3 E = position + new Vector3(1, 0, 0);
+        Vector3 N = position + new Vector3(0, 1, 0);
+        Vector3 S = position + new Vector3(0, -1, 0);
 
         int remainder = rangeLeft - 1;
 
-        //If the tile is non-null, traverse along the path
-        if (E != null)
-        {
-            //Have path1 store the results of the first created path
-            path1 = tilesWithinEast(E, remainder, currentPath);
-        }
-        if (N != null)
-        {
-            path2 = tilesWithinEast(N, remainder, currentPath);
-        }
-        if (S != null)
-        {
-            path3 = tilesWithinEast(S, remainder, currentPath);
-        }
+        path1 = tilesWithinEast(E, remainder, currentPath);
+        path2 = tilesWithinEast(N, remainder, currentPath);
+        path3 = tilesWithinEast(S, remainder, currentPath);
 
         return currentPath;
     }
 
-    private List<CollisionTile> tilesWithinWest(CollisionTile currPos, int rangeLeft, List<CollisionTile> currentPath)
+    private List<CollisionTile> tilesWithinWest(Vector3 position, int rangeLeft, List<CollisionTile> currentPath)
     {
         //If we didn't have enough movement to get here, stop looking
         if (rangeLeft < 0)
             return currentPath;
 
+        CollisionTile currPos = getTileAtPos(position);
+
         //Add the current tile to the path
-        if (!currentPath.Contains(currPos))
+        if (currPos != null && !currentPath.Contains(currPos))
             currentPath.Add(currPos);
-        else
-            return currentPath;
+        
 
         //Set up our possible paths
         List<CollisionTile> path1 = null;
@@ -1176,26 +1235,16 @@ public class MapBehavior : MonoBehaviour
         List<CollisionTile> path3 = null;
 
         //If we're here, we still have movement and we've not reached our destination. We must now check all adjacent tiles
-        CollisionTile W = getTileAtPos(currPos.coordinate + new Vector3(-1, 0, 0)); //Tile to the West
-        CollisionTile N = getTileAtPos(currPos.coordinate + new Vector3(0, 1, 0)); //Tile to the North
-        CollisionTile S = getTileAtPos(currPos.coordinate + new Vector3(0, -1, 0)); //Tile to the South
+
+        Vector3 W = position + new Vector3(-1, 0, 0);
+        Vector3 N = position + new Vector3(0, 1, 0);
+        Vector3 S = position + new Vector3(0, -1, 0);
 
         int remainder = rangeLeft - 1;
 
-        //If the tile is non-null, traverse along the path
-        if (W != null)
-        {
-            //Have path1 store the results of the first created path
-            path1 = tilesWithinWest(W, remainder, currentPath);
-        }
-        if (N != null)
-        {
-            path2 = tilesWithinWest(N, remainder, currentPath);
-        }
-        if (S != null)
-        {
-            path3 = tilesWithinWest(S, remainder, currentPath);
-        }
+        path1 = tilesWithinWest(W, remainder, currentPath);
+        path2 = tilesWithinWest(N, remainder, currentPath);
+        path3 = tilesWithinWest(S, remainder, currentPath);
 
         return currentPath;
     }
@@ -1312,7 +1361,6 @@ public class MapBehavior : MonoBehaviour
 
     public GameObject highlightObjectiveTiles(List<CollisionTile> tilesToHighlight)
     {
-        setColor('o');
         tileHighlight.GetComponent<SpriteRenderer>().color = currColor;
 
         GameObject objective = new GameObject();

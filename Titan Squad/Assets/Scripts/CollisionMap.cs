@@ -34,16 +34,7 @@ public class CollisionMap
         {
             //To get the row, divide position by # of columns
             //To get the columns, get the remainder from the division of columns
-            if ((x % cols) == 0)
-            {
-                if (obstacles != null && obstacles[x] != null)
-                {
-                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, Mathf.CeilToInt(x * inverseCols) + .5f, obstacles[x].name);
-                }
-                else
-                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, Mathf.CeilToInt(x * inverseCols) + .5f);
-            }
-            else
+            
             {
                 if (obstacles != null && obstacles[x] != null)
                     map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f, obstacles[x].name);
@@ -86,6 +77,7 @@ public class CollisionMap
         //Return the value of that index or null if the generated index was invalid
         if (index < 0 || index >= map.Length || map[index].tileType == null)
             return null;
+
         return map[index];
     }
 }
