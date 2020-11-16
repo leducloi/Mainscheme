@@ -27,7 +27,7 @@ public class CollisionMap
 
         map = new CollisionTile[rows * cols];
         //Division more costly, use inverse and multiply
-        float inverseCols = 1.0f / cols;
+        float inverseCols = cols;
 
         int len = rawTiles.Length;
         for(int x = 0; x < len; x++)
@@ -37,9 +37,9 @@ public class CollisionMap
             
             {
                 if (obstacles != null && obstacles[x] != null)
-                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f, obstacles[x].name);
+                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)((float)x / inverseCols) + .5f, obstacles[x].name);
                 else
-                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)(x * inverseCols) + .5f);
+                    map[x] = new CollisionTile(rawTiles[x].name, x % cols + .5f, (int)((float)x / inverseCols) + .5f);
             }
             //The tilemap is offset by .5, so we need to offset where our tiles are by the same amount
         }

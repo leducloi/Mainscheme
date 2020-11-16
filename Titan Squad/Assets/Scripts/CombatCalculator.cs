@@ -38,7 +38,7 @@ public class CombatCalculator : MonoBehaviour
 
         damageDone = attacker.cbData.damage;
         if (target.shieldRemaining > 0)
-            damageDone = Mathf.Clamp(damageDone - attacker.cbData.defense, 0, int.MaxValue);
+            damageDone = Mathf.Clamp(damageDone - target.cbData.defense, 0, int.MaxValue);
 
         doesHit = (hitChance >= ( (Random.Range(0.0f, 100.0f) + Random.Range(0.0f, 100.0f)) / 2 ) );
 

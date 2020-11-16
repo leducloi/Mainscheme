@@ -316,6 +316,7 @@ public abstract class PlayerUnit : Unit
             }
         }
 
+        CombatCalculator.instance.calculate(this, enemy);
         if (CombatCalculator.instance.doesHit)
         {
             damageDone += CombatCalculator.instance.damageDone;

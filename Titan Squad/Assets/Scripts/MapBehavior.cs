@@ -402,7 +402,7 @@ public class MapBehavior : MonoBehaviour
         //Grab the true position in reference to the grid
         Vector3 truePos = grid.WorldToCell(coord);
         //Now ask the Collision Map which tile is at our desired location
-        CollisionTile tile = map.tileAt(coord);
+        CollisionTile tile = map.tileAt(truePos);
 
         return tile;
     }
