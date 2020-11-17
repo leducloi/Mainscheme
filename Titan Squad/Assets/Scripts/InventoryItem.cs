@@ -34,7 +34,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IPointerEnterHandler, 
     // Update is called once per frame
     void Update()
     {
-        if (itemRep == null)
+        if (itemRep == null || itemRep.used)
             Destroy(gameObject);
     }
 

@@ -7,7 +7,7 @@ public abstract class Item : MonoBehaviour
 {
     public Sprite itemImage;
     public string itemName;
-
+    public bool used = false;
     public string itemDescription;
 
     public abstract void activate();
