@@ -192,6 +192,8 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         currButton = 0;
 
+        if (Level.instance.isTutorial)
+            buttons[4].interactable = false;
         
         buttons[2].interactable = true;
         currUnit = unitSelected.GetComponent<PlayerUnit>();
@@ -358,5 +360,13 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
         }
         currObjective = null;
+    }
+
+    public void callInventory()
+    {
+        List <PlayerUnit> unit = new List<PlayerUnit>();
+        unit.Add(currUnit);
+        UIManager.instance.showInventory(unit);
+        menu.enabled = false;
     }
 }

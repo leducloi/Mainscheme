@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public GameObject endCard;
     public GameObject textBox;
     public GameObject unitInfoMenu;
+    public GameObject inventorySystem;
 
     public GameObject escapeClauseMenu;
 
@@ -63,6 +64,7 @@ public class UIManager : MonoBehaviour
         escapeClauseMenu = Instantiate(escapeClauseMenu, transform);
         textBox = Instantiate(textBox, transform);
         unitInfoMenu = Instantiate(unitInfoMenu, transform);
+        inventorySystem = Instantiate(inventorySystem, transform);
 
         escapeClauseMenu.GetComponent<Canvas>().enabled = false;
         
@@ -292,5 +294,17 @@ public class UIManager : MonoBehaviour
     public void quitToMainMenu()
     {
         GameManager.instance.loadMainMenu();
+    }
+
+    public void showInventory()
+    {
+        instance.inventorySystem.GetComponent<InventoryManager>().displayInventory(Level.instance.selectedUnits);
+    }
+
+    public void showInventory(List<PlayerUnit> units)
+    {
+        if (units == null || units.Count == 0)
+            units = Level.instance.selectedUnits;
+        instance.inventorySystem.GetComponent<InventoryManager>().displayInventory(units);
     }
 }

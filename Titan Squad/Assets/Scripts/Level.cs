@@ -40,7 +40,7 @@ public abstract class Level : MonoBehaviour
 
     public int unitsExfilled = 0;
 
-    protected bool isTutorial;
+    public bool isTutorial;
 
     public int turnLimit = int.MaxValue;
 

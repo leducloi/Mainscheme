@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectionMenu : MonoBehaviour
 {
 
     public Canvas renderCanvas;
+    public Button inventoryButton;
     
 
     // Start is called before the first frame update
@@ -17,6 +19,9 @@ public class SelectionMenu : MonoBehaviour
 
     private void Update()
     {
-        
+        if (Level.instance.selectedUnits.Count <= 0)
+            inventoryButton.gameObject.SetActive(false);
+        else
+            inventoryButton.gameObject.SetActive(true);
     }
 }

@@ -251,6 +251,17 @@ MonoBehaviour:
   selected: 0
   ultRange: 0
   bonusMove: 0
+  exfilled: 0
+  trueInventory:
+  - {fileID: 8448105183276332255, guid: 92daeb0da98926644b10e194e080ba63, type: 3}
+  inventory: []
+  damageDone: 0
+  enemiesKilled: 0
+  objectivesCompleted: 0
+  attacksMissed: 0
+  damageTaken: 0
+  abilitiesUsed: 0
+  ultimatesUsed: 0
   movement: 0
   abilityNames: []
   abilityDescriptions: []

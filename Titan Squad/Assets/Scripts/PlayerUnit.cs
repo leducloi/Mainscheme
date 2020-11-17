@@ -13,6 +13,10 @@ public abstract class PlayerUnit : Unit
     public bool bonusMove = false;
     public bool exfilled;
 
+    [SerializeField]
+    private List<GameObject> trueInventory = null;
+    public List<Item> inventory;
+
     public int damageDone;
     public int enemiesKilled;
     public int objectivesCompleted;
@@ -78,6 +82,13 @@ public abstract class PlayerUnit : Unit
         projectedPosition.GetComponent<SpriteRenderer>().color = c;
         projectedPosition.GetComponent<Animator>().SetTrigger("Walking");
         projectedPosition.GetComponent<SpriteRenderer>().enabled = false;
+
+        inventory = new List<Item>();
+        foreach (GameObject go in trueInventory)
+        {
+            GameObject temp = Instantiate(go, transform);
+            inventory.Add(temp.GetComponent<Item>());
+        }
     }
 
     //Trigger to detect when a player is clicked
@@ -530,6 +541,18 @@ public abstract class PlayerUnit : Unit
         {
             sightlines[index].SetPosition(1, enemy.transform.position + new Vector3(0, 0.5f, 0));
             index++;
+        }
+    }
+
+    public void setInventory(List<Item> newInventory)
+    {
+        trueInventory.Clear();
+        inventory.Clear();
+        foreach (Item i in newInventory)
+        {
+            inventory.Add(i);
+            trueInventory.Add(i.gameObject);
+            i.gameObject.transform.SetParent(transform);
         }
     }
 
