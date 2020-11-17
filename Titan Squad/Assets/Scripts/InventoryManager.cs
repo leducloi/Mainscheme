@@ -31,6 +31,8 @@ public class InventoryManager : MonoBehaviour
 
     public bool displaying = false;
 
+    public bool trading = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -202,7 +204,7 @@ public class InventoryManager : MonoBehaviour
         inventory3.SetActive(false);
 
 
-
+        trading = false;
         displaying = false;
     }
 

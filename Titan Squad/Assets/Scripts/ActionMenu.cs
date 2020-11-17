@@ -141,6 +141,19 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (currObjective == null)
             buttons[0].gameObject.SetActive(false);
 
+        if (Level.instance.isTutorial)
+            buttons[4].gameObject.SetActive(false);
+
+        if (buttons[4].gameObject.activeInHierarchy)
+        {
+            if (MapBehavior.instance.getAlliesInRange(currUnit.transform.position, 1).Count > 1)
+                buttons[5].gameObject.SetActive(true);
+            else
+                buttons[5].gameObject.SetActive(false);
+        }
+        else
+            buttons[5].gameObject.SetActive(false);
+
         currButton = 0;
         currButton2 = 0;
 
@@ -191,12 +204,24 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void displayMenu(GameObject unitSelected)
     {
         currButton = 0;
+        currUnit = unitSelected.GetComponent<PlayerUnit>();
 
         if (Level.instance.isTutorial)
-            buttons[4].interactable = false;
+            buttons[4].gameObject.SetActive(false);
+        else
+            buttons[4].gameObject.SetActive(true);
+
+        if (buttons[4].gameObject.activeInHierarchy)
+        {
+            if (MapBehavior.instance.getAlliesInRange(currUnit.transform.position, 1).Count > 1)
+                buttons[5].gameObject.SetActive(true);
+            else
+                buttons[5].gameObject.SetActive(false);
+        }
+        else
+            buttons[5].gameObject.SetActive(false);
         
         buttons[2].interactable = true;
-        currUnit = unitSelected.GetComponent<PlayerUnit>();
         smartMenuPosition();
         CameraBehavior.instance.pauseWASD = true;
         UIManager.instance.currUnit = currUnit;
@@ -367,6 +392,19 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         List <PlayerUnit> unit = new List<PlayerUnit>();
         unit.Add(currUnit);
         UIManager.instance.showInventory(unit);
+        menu.enabled = false;
+    }
+
+    public void callTrade()
+    {
+        List<PlayerUnit> units = new List<PlayerUnit>();
+        foreach(Unit u in MapBehavior.instance.getAlliesInRange(currUnit.transform.position, 1))
+        {
+            units.Add((PlayerUnit)u);
+        }
+        InventoryManager.instance.trading = true;
+        UIManager.instance.showInventory(units);
+        
         menu.enabled = false;
     }
 }

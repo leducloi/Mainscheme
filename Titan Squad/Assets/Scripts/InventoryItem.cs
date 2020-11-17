@@ -19,6 +19,9 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IPointerEnterHandler, 
     private string itemDescription = "Default description";
 
     public bool hovering = false;
+
+    private Color hoverColor = new Color(85f / 255f, 60f / 255f, 103f / 255f);
+    private Color normalColor = new Color(58f / 255f, 50f / 255f, 62f / 255f);
     
 
     // Start is called before the first frame update
@@ -38,16 +41,20 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IPointerEnterHandler, 
     public void OnPointerEnter(PointerEventData eventData)
     {
         hovering = true;
+        if (!Input.GetMouseButton(0))
+            GetComponent<Image>().color = hoverColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         hovering = false;
+        if (!Input.GetMouseButton(0))
+            GetComponent<Image>().color = normalColor;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Level.instance.donePlanning)
+        if (Level.instance.donePlanning && !InventoryManager.instance.trading)
         {
             itemRep.activate();
             InventoryManager.instance.hideInventory();
@@ -65,7 +72,8 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IPointerEnterHandler, 
             yield break;
 
         bool foundSlot = false;
-        
+        GetComponent<Image>().color = hoverColor;
+
         dragging = true;
 
         Transform originalParent = transform.parent;

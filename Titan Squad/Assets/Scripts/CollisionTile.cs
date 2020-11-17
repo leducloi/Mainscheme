@@ -66,7 +66,7 @@ public class CollisionTile
                 passableNS = false;
             if (obName.Contains("EW"))
                 passableEW = false;
-            if (!passableEW && !passableNS)
+            if (obName.Contains("wall"))
                 passable = false;
         }
 

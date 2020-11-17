@@ -1299,7 +1299,17 @@ public class MapBehavior : MonoBehaviour
             if (tile.passable && tile.passableEW && tile.passableNS)
                 continue;
             if (!tile.passable)
+            {
+                //Get all the adjacent tiles to the grapple tile
+                List<CollisionTile> neighbors = findNeighborTiles(tile);
+                foreach (CollisionTile neighbor in neighbors)
+                {
+                    //Add to the highlight list the walkable tiles
+                    if (neighbor.isWalkable())
+                        tilesToHighlight.Add(neighbor);
+                }
                 continue;
+            }
 
             if (!tile.passableEW)
             {
