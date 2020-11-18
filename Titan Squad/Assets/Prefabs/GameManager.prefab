@@ -67,8 +67,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapList:
-  - {fileID: 7941583577103735558, guid: d5be9d578731dd348abe331bc80ec168, type: 3}
   - {fileID: 7941583577103735558, guid: a5c00954c1f8d9a43ae1dcdbda35851c, type: 3}
+  - {fileID: 7941583577103735558, guid: d5be9d578731dd348abe331bc80ec168, type: 3}
   tutorialList:
   - {fileID: 8926999197525555641, guid: 8df07920e795dab46aad6b167ef49dc9, type: 3}
   - {fileID: 4051365860800317050, guid: db7797d3f7005f0448d2eeb6ebc9bffe, type: 3}

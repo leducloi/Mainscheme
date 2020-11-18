@@ -62,6 +62,8 @@ public class CollisionTile
         {
             if (obName.Contains("wa"))
                 highCover = true;
+            else if (obName.Contains("ob"))
+                lowCover = true;
             if (obName.Contains("NS"))
                 passableNS = false;
             if (obName.Contains("EW"))

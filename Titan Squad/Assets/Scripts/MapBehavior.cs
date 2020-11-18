@@ -1344,6 +1344,13 @@ public class MapBehavior : MonoBehaviour
                         tilesToHighlight.Add(tile);
                     }
                 }
+                else
+                {
+                    if (north != null && !tilesToHighlight.Contains(north) && north.isWalkable())
+                        tilesToHighlight.Add(north);
+                    if (!tilesToHighlight.Contains(tile) && tile.isWalkable())
+                        tilesToHighlight.Add(tile);
+                }
             }
             if (!tile.passableNS || !tile.passableEW)
                 continue;
