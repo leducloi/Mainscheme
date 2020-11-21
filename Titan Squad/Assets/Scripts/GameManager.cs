@@ -14,6 +14,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public AudioClip[] songs;
+    [SerializeField]
+    private AudioSource source;
+
     public static GameManager instance = null;
     //Contains the Map Manager
     public static MapManager mapMan;
@@ -37,7 +41,8 @@ public class GameManager : MonoBehaviour
     public GameObject cursor;
     [SerializeField]
     GameObject fade = null;
-   
+
+    public float volumeMusic = 1;
 
     void Awake()
     {
@@ -61,6 +66,8 @@ public class GameManager : MonoBehaviour
         currTutorial = 0;
 
         mainMenu = Instantiate(mainMenu);
+        source.clip = songs[0];
+        source.Play();
     }
 
     private void loadNextMap()
@@ -104,6 +111,7 @@ public class GameManager : MonoBehaviour
     //Called to end the player's turn
     public IEnumerator endPlayerTurn()
     {
+        StartCoroutine(fadeOut());
         playerPhase = false;
         UIManager.instance.ShowEnemyMessage();
         foreach (Unit u in Level.instance.enemyUnits)
@@ -112,13 +120,17 @@ public class GameManager : MonoBehaviour
                 u.healthBar.resetShields();
         }
         yield return new WaitForSeconds(2);
-        
+
+        source.volume = volumeMusic;
+        source.clip = songs[3];
+        source.Play();
         enemyPhase = true;
     }
 
     //Called to end the enemy's turn
     public IEnumerator endEnemyTurn()
     {
+        StartCoroutine(fadeOut());
         turnCount++;
         enemyPhase = false;
         UIManager.instance.ShowPlayerMessage();
@@ -129,7 +141,10 @@ public class GameManager : MonoBehaviour
         }
         StartCoroutine(CameraBehavior.instance.panCameraTo(Level.instance.selectedUnits.ToArray()[0].transform.position, 1f));
         yield return new WaitForSeconds(2);
-        
+
+        source.volume = volumeMusic;
+        source.clip = songs[2];
+        source.Play();
         playerPhase = true;
     }
 
@@ -148,6 +163,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator screenTransition(bool toMenu = false)
     {
+        StartCoroutine(fadeOut());
+
         GameObject overlay = Instantiate(fade);
         UnityEngine.UI.Image fadeAlpha = overlay.GetComponentInChildren<UnityEngine.UI.Image>();
         Color alpha = new Color(0, 0, 0, 0);
@@ -159,18 +176,39 @@ public class GameManager : MonoBehaviour
         }
         if (toMenu)
         {
+            source.clip = songs[0];
             mapMan.deloadCurrMap();
             mainMenu.SetActive(true);
         }
         else
+        {
             loadNextMap();
+            source.clip = songs[1];
+        }
         while (alpha.a > 0)
         {
             alpha.a -= 5f * Time.deltaTime;
             fadeAlpha.color = alpha;
             yield return null;
         }
+        source.volume = volumeMusic;
+        source.Play();
         Destroy(overlay);
+    }
+
+    private IEnumerator fadeOut()
+    {
+        float duration = 0.2f;
+        float currentDuration = 0;
+        float startVolume = source.volume;
+
+        while (currentDuration < duration)
+        {
+            currentDuration += Time.deltaTime;
+            source.volume = Mathf.Lerp(startVolume, 0, currentDuration / duration);
+            yield return null;
+        }
+        
     }
 
     public void resetMission()

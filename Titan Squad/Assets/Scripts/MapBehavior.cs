@@ -893,9 +893,9 @@ public class MapBehavior : MonoBehaviour
         CollisionTile lastTile = null;
         while (currTile != null && currTile.passable)
         {
-            if (xDir && lastTile != null && !lastTile.passableEW)
+            if (xDir && lastTile != null && !lastTile.passableEW && lastTile.highCover)
                 return path;
-            else if (!xDir && !currTile.passableEW)
+            else if (!xDir && !currTile.passableEW && currTile.highCover)
                 return path;
             if (!currTile.passable || (hasCollision && !currTile.isWalkable()) )
                 return path;
@@ -916,7 +916,7 @@ public class MapBehavior : MonoBehaviour
                 if (hasCollision && currTile.isWalkable())
                     path.Add(currTile);
 
-                lastTile = currTile;
+                //lastTile = currTile;
             }
             else
                 d = d + 2 * yDif;
@@ -964,9 +964,9 @@ public class MapBehavior : MonoBehaviour
         CollisionTile lastTile = null;
         while (currTile != null && currTile.passable)
         {
-            if (yDir && lastTile != null && !lastTile.passableNS)
+            if (yDir && lastTile != null && !lastTile.passableNS && lastTile.highCover)
                 return path;
-            else if (!yDir && !currTile.passableNS)
+            else if (!yDir && !currTile.passableNS && currTile.highCover)
                 return path;
             if (!currTile.passable || (hasCollision && !currTile.isWalkable()))
                 return path;
@@ -987,7 +987,7 @@ public class MapBehavior : MonoBehaviour
                 if (hasCollision && currTile.isWalkable())
                     path.Add(currTile);
 
-                lastTile = currTile;
+                //lastTile = currTile;
             }
             else
                 d = d + 2 * xDif;

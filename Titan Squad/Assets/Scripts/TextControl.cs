@@ -95,6 +95,7 @@ public class TextControl : MonoBehaviour
 
         foreach (char c in writeText)
         {
+            GetComponent<AudioSource>().Play();
             textToDisplay.text = currDisplayText;
             currDisplayText += c;
             yield return new WaitForSecondsRealtime(0.04f);

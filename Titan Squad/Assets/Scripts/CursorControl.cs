@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CursorControl : MonoBehaviour
 {
+    private CollisionTile lastTile;
+
     private float virtualZ = -1;
     void Start()
     {
@@ -26,6 +28,9 @@ public class CursorControl : MonoBehaviour
 
         if (mouseTile != null)
         {
+            if (lastTile == null || lastTile != mouseTile)
+                GetComponent<AudioSource>().Play();
+            lastTile = mouseTile;
             float cursorX = mouseTile.coordinate.x;
             float cursorY = mouseTile.coordinate.y;
             cursorX = Mathf.Clamp(cursorX, cellSize / 2, MapBehavior.instance.getMapwidth() * cellSize - cellSize / 2);
