@@ -10,6 +10,14 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance = null;
+
+    [SerializeField]
+    private AudioClip menuUp = null;
+    [SerializeField]
+    private AudioClip menuDown = null;
+    [SerializeField]
+    private AudioSource menuSound = null;
+
     public GameObject actionMenu;
     public GameObject tileMenu;
     public GameObject pauseMenu;
@@ -68,7 +76,6 @@ public class UIManager : MonoBehaviour
 
         escapeClauseMenu.GetComponent<Canvas>().enabled = false;
         
-        
     }
 
     // Update is called once per frame
@@ -80,8 +87,9 @@ public class UIManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             openInfoMenu();
 
-        if (selectingAttack && Input.GetKeyDown(KeyCode.Escape))
+        if (selectingAttack && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
+            playMenuDown();
             selectingAttack = false;
             clearOutlines();
         }
@@ -115,12 +123,19 @@ public class UIManager : MonoBehaviour
 
     public void unitSelected(GameObject unit)
     {
+        playMenuUp();
         instance.pauseMenu.GetComponent<PauseMenu>().hideMenu();
         instance.actionMenu.GetComponentInChildren<ActionMenu>().displayMenu(unit);
     }
 
+    public void showActionMenu()
+    {
+        instance.actionMenu.GetComponentInChildren<ActionMenu>().displayMenu(instance.currUnit.gameObject);
+    }
+
     public void moveSelected()
     {
+        playMenuUp();
         instance.actionMenu.GetComponentInChildren<ActionMenu>().enableMove();
     }
 
@@ -134,6 +149,7 @@ public class UIManager : MonoBehaviour
             u.showOutline();
             instance.enemiesToOutline.Add(u);
         }
+        playMenuUp();
         instance.actionMenu.GetComponentInChildren<ActionMenu>().beginAttack(unitsInRange);
     }
 
@@ -155,6 +171,7 @@ public class UIManager : MonoBehaviour
                 u.setAndLockHighIntensity();
             }
         }
+        playMenuUp();
         CombatCalculator.instance.calculate(instance.currUnit, target.GetComponent<Unit>());
         instance.forecastMenu.GetComponentInChildren<ForecastMenu>().displayMenu();
     }
@@ -174,6 +191,7 @@ public class UIManager : MonoBehaviour
 
     public void selectAbility1()
     {
+        playMenuUp();
         instance.currUnit.selectAbility = true;
         instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 0);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
@@ -182,6 +200,7 @@ public class UIManager : MonoBehaviour
 
     public void selectAbility2()
     {
+        playMenuUp();
         instance.currUnit.selectAbility = true;
         instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 1);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
@@ -190,6 +209,7 @@ public class UIManager : MonoBehaviour
 
     public void selectAbility3()
     {
+        playMenuUp();
         instance.currUnit.selectAbility = true;
         instance.abilityInfoWindow.GetComponent<AbilityInfo>().displayInfo(instance.currUnit, 2);
         instance.actionMenu.GetComponentInChildren<ActionMenu>().switchToActionMenu();
@@ -233,6 +253,7 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.instance.playerPhase && (instance.currUnit == null || !instance.currUnit.selected))
         {
+            playMenuUp();
             PauseMenu pMenu = instance.pauseMenu.GetComponent<PauseMenu>();
             pMenu.displayMenu();
         }
@@ -251,6 +272,7 @@ public class UIManager : MonoBehaviour
 
     public void escapeClauseSelect()
     {
+        playMenuUp();
         instance.escapeClauseMenu.GetComponent<Canvas>().enabled = true;
     }
 
@@ -298,6 +320,7 @@ public class UIManager : MonoBehaviour
 
     public void showInventory()
     {
+        playMenuUp();
         instance.inventorySystem.GetComponent<InventoryManager>().displayInventory(Level.instance.selectedUnits);
     }
 
@@ -305,6 +328,21 @@ public class UIManager : MonoBehaviour
     {
         if (units == null || units.Count == 0)
             units = Level.instance.selectedUnits;
+        playMenuUp();
         instance.inventorySystem.GetComponent<InventoryManager>().displayInventory(units);
+    }
+
+    public void playMenuUp()
+    {
+        instance.menuSound.enabled = true;
+        instance.menuSound.clip = menuUp;
+        instance.menuSound.Play();
+    }
+
+    public void playMenuDown()
+    {
+        instance.menuSound.enabled = true;
+        instance.menuSound.clip = menuDown;
+        instance.menuSound.Play();
     }
 }

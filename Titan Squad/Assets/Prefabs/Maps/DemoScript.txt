@@ -1,4 +1,3 @@
-﻿/*
 -Haley.
 Overwatch, Titan Squad has arrived on site. Give us the situation.
 -Overwatch.
@@ -26,4 +25,3 @@ You're all talk Santias. Don't forget, you're still behind my count.
 Keep track, Kennedy. I'll blow past that count before the battle's half over.
 -Haley.
 Enough. Let's go.
--*/

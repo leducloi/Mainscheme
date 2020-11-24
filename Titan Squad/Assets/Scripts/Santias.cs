@@ -93,6 +93,7 @@ public class Santias : PlayerUnit
             {
                 usingAbility1 = false;
                 MapBehavior.instance.deleteHighlightTiles();
+                UIManager.instance.playMenuDown();
                 UIManager.instance.abilityMenu();
                 yield break;
             }
@@ -114,11 +115,6 @@ public class Santias : PlayerUnit
         CollisionTile pullTo = null;
         foreach (CollisionTile tile in MapBehavior.instance.findNeighborTiles(validSelection))
         {
-            //if (!tile.passable)
-            //{
-            //    pullTo = tile;
-            //    break;
-            //}
             if (validSelection.coordinate.x > tile.coordinate.x && !tile.passableEW)
             {
                 pullTo = tile;
@@ -139,6 +135,7 @@ public class Santias : PlayerUnit
                 pullTo = MapBehavior.instance.getTileAtPos(new Vector3(validSelection.coordinate.x + 1, validSelection.coordinate.y, 0));
             }
         }
+        
 
         MapBehavior.instance.deleteHighlightTiles();
         hook.transform.position = transform.position;
@@ -310,6 +307,7 @@ public class Santias : PlayerUnit
             {
                 usingAbility3 = false;
                 MapBehavior.instance.deleteHighlightTiles();
+                UIManager.instance.playMenuDown();
                 UIManager.instance.abilityMenu();
                 yield break;
             }

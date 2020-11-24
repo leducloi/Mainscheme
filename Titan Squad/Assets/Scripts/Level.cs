@@ -213,7 +213,6 @@ public abstract class Level : MonoBehaviour
 
     }
 
-    public abstract IEnumerator cutscene();
 
     public IEnumerator planning()
     {
@@ -268,6 +267,8 @@ public abstract class Level : MonoBehaviour
         MapBehavior.instance.setPlayerArray();
         levelSetup();
     }
+
+    public abstract IEnumerator cutscene();
 
     public void finishPlanning()
     {

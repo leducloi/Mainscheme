@@ -191,6 +191,7 @@ public abstract class PlayerUnit : Unit
         //Hold onto the start position
         Vector3 start = transform.position;
 
+        StartCoroutine(playFootsteps());
         while (index < path.Length)
         {
             //We only want to move the movePoint when our character has made it to the point
@@ -205,6 +206,7 @@ public abstract class PlayerUnit : Unit
         }
         while (Vector3.Distance(transform.position, movePoint.position) != 0)
             yield return null;
+        moving = false;
 
         takeCover();
 

@@ -227,6 +227,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1601138041863426665
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,6 +362,18 @@ MonoBehaviour:
       - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: completeObjective
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -586,6 +610,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4118872212430164020
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,6 +849,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4914892114742029385
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,6 +993,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4995790273624160538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,6 +1128,18 @@ MonoBehaviour:
       - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: selectAbility1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1684,6 +1756,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6021069015975843405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1911,6 +1995,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6031288451250850925
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,6 +2139,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6971823328744825924
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,6 +2274,18 @@ MonoBehaviour:
       - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: selectAbility3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2587,6 +2707,18 @@ MonoBehaviour:
       - m_Target: {fileID: 4405836163846575605}
         m_TargetAssemblyTypeName: ActionMenu, Assembly-CSharp
         m_MethodName: hideMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5488265728788554265, guid: 578aec2d6697e4b44b3c815aca37da89, type: 3}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: playMenuDown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

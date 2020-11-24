@@ -17646,7 +17646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f157f16e035fce48b68e1dca45da3a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelScript: {fileID: 11500000, guid: 37a992bf3afb7f94fb4d68eb5cc17476, type: 3}
+  levelScript: {fileID: 4900000, guid: f604618211dd7234b9d04ee7047fed79, type: 3}
   enemyController: {fileID: 417527707144903145, guid: 59d50e35e75957a40ae8f85d673cabd3, type: 3}
   enemyUnits: []
   playerUnits:
@@ -17669,6 +17669,7 @@ MonoBehaviour:
   continuePlay: 0
   activeObjectives: []
   unitsExfilled: 0
+  isTutorial: 0
   turnLimit: 2147483647
 --- !u!114 &7296445170330446923
 MonoBehaviour:
@@ -17705,6 +17706,7 @@ MonoBehaviour:
   continuePlay: 0
   activeObjectives: []
   unitsExfilled: 0
+  isTutorial: 0
   turnLimit: 2147483647
 --- !u!1 &8526314284282827184
 GameObject:

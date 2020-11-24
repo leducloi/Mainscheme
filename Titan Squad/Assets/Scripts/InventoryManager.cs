@@ -163,9 +163,10 @@ public class InventoryManager : MonoBehaviour
 
         if (displaying && Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
         {
+            UIManager.instance.playMenuDown();
             hideInventory();
             if (Level.instance.donePlanning)
-                UIManager.instance.unitSelected(UIManager.instance.currUnit.gameObject);
+                UIManager.instance.showActionMenu();
         }
 
     }

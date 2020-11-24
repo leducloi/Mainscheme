@@ -365,6 +365,7 @@ public class EnemyUnit : Unit
             maxIndex++;
         }
 
+        StartCoroutine(playFootsteps());
         while (index < maxIndex)
         {
             if (Vector3.Distance(transform.position, movePoint.position) == 0)
@@ -384,6 +385,8 @@ public class EnemyUnit : Unit
 
         while (Vector3.Distance(transform.position, movePoint.position) != 0)
             yield return null;
+
+        moving = false;
 
         takeCover();
         

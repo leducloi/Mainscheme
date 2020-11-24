@@ -27,10 +27,12 @@ public class AbilityInfo : MonoBehaviour
         {
             menu.enabled = false;
             currUnit.selectAbility = false;
+            UIManager.instance.playMenuDown();
             UIManager.instance.abilityMenu();
         }
         if (menu.enabled && ( Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
         {
+            UIManager.instance.playMenuUp();
             switch (abilityNum)
             {
                 case 0:

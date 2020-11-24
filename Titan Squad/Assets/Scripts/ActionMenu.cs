@@ -47,12 +47,14 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //Cancel unit select
         if (menu.enabled && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) && actionMenu)
         {
+            UIManager.instance.playMenuDown();
             hideMenu();
             currUnit.deselected();
         }
         //Cancel attack select
         if (currUnit != null && currUnit.canAttack && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
+            UIManager.instance.playMenuDown();
             menu.enabled = true;
             currUnit.canAttack = false;
             CameraBehavior.instance.pauseWASD = true;
@@ -61,6 +63,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //Cancel move command
         if (currUnit != null && currUnit.canMove && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) && !currUnit.bonusMove)
         {
+            UIManager.instance.playMenuDown();
             menu.enabled = true;
             CameraBehavior.instance.pauseWASD = true;
             currUnit.canMove = false;
@@ -125,6 +128,7 @@ public class ActionMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         if (menu.enabled && !actionMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
+            UIManager.instance.playMenuDown();
             switchToActionMenu();
         }
     }

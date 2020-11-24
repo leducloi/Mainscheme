@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 {
     public AudioClip[] songs;
     [SerializeField]
-    private AudioSource source;
+    private AudioSource source = null;
 
     public static GameManager instance = null;
     //Contains the Map Manager

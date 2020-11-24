@@ -281,6 +281,7 @@ public class Kennedy : PlayerUnit
                     foreach (Unit u in highlightUnits)
                         u.hideOutline();
                 usingAbility3 = false;
+                UIManager.instance.playMenuDown();
                 UIManager.instance.abilityMenu();
                 yield break;
             }

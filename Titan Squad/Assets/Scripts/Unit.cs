@@ -38,6 +38,8 @@ public abstract class Unit : MonoBehaviour
 
     public CombatData cbData;
 
+    private AudioSource unitAudio = null;
+    protected bool moving = false;
 
     private bool intensityLock = false;
 
@@ -55,6 +57,10 @@ public abstract class Unit : MonoBehaviour
         cbData.unit = this;
 
         healthBar.displayUnit = this;
+
+        unitAudio = gameObject.AddComponent<AudioSource>();
+        unitAudio.playOnAwake = false;
+        unitAudio.clip = Resources.Load("Audio/Footsteps", typeof(AudioClip)) as AudioClip;
     }
 
     // Update is called once per frame
@@ -247,6 +253,16 @@ public abstract class Unit : MonoBehaviour
             }
             else if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Back"))
                 animator.SetTrigger("Back");
+        }
+    }
+
+    protected IEnumerator playFootsteps()
+    {
+        moving = true;
+        while (moving)
+        {
+            unitAudio.Play();
+            yield return new WaitForSeconds(0.25f);
         }
     }
 

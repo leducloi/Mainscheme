@@ -49,6 +49,7 @@ public class UnitInfoPanel : MonoBehaviour
         if (menu.enabled && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Escape)))
         {
             hideMenu();
+            UIManager.instance.playMenuDown();
         }
     }
 
@@ -61,6 +62,8 @@ public class UnitInfoPanel : MonoBehaviour
         Unit currUnit = Level.instance.getUnitAtLoc(nearestTile.coordinate);
         if (currUnit == null)
             return;
+
+        UIManager.instance.playMenuUp();
 
         health.text = "" + currUnit.hpRemaining + " / " + currUnit.hpMax;
         shields.text = "" + currUnit.shieldRemaining + " / " + currUnit.shieldMax;

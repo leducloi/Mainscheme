@@ -108,6 +108,7 @@ public class Haley : PlayerUnit
                             u.hideOutline();
                     }
                     usingAbility1 = false;
+                    UIManager.instance.playMenuDown();
                     UIManager.instance.abilityMenu();
                     yield break;
                 }
@@ -229,6 +230,7 @@ public class Haley : PlayerUnit
                     }
                     usingAbility2 = false;
                     MapBehavior.instance.deleteHighlightTiles();
+                    UIManager.instance.playMenuDown();
                     UIManager.instance.abilityMenu();
                     yield break;
                 }
@@ -351,6 +353,7 @@ public class Haley : PlayerUnit
                     }
                     MapBehavior.instance.deleteHighlightTiles();
                     usingAbility3 = false;
+                    UIManager.instance.playMenuDown();
                     UIManager.instance.abilityMenu();
                     yield break;
                 }

@@ -38,7 +38,7 @@ public class DemoLevel : Level
     {
 
         yield return null;
-
+        
         for (int index = 1; index < allSpeeches.Length - 1; index++)
         {
             string[] allLines = allSpeeches[index].Split('.');
