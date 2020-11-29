@@ -16,7 +16,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private AudioClip menuDown = null;
     [SerializeField]
+    private AudioClip turnEnd = null;
+    [SerializeField]
     private AudioSource menuSound = null;
+
 
     public GameObject actionMenu;
     public GameObject tileMenu;
@@ -101,6 +104,7 @@ public class UIManager : MonoBehaviour
     {
         playerPhaseText.text = "Turn " + GameManager.instance.turnCount;//Makes the text visible on screen
         playerPhaseText.gameObject.transform.parent.gameObject.SetActive(true);
+        playEndTurn();
         StartCoroutine(pause(false));
     }
 
@@ -108,6 +112,7 @@ public class UIManager : MonoBehaviour
     {
         enemyPhaseText.text = "Turn " + GameManager.instance.turnCount;//Makes the text visible on screen
         enemyPhaseText.gameObject.transform.parent.gameObject.SetActive(true);
+        playEndTurn();
         StartCoroutine(pause(true));
     }
 
@@ -344,5 +349,11 @@ public class UIManager : MonoBehaviour
         instance.menuSound.enabled = true;
         instance.menuSound.clip = menuDown;
         instance.menuSound.Play();
+    }
+
+    private void playEndTurn()
+    {
+        menuSound.clip = turnEnd;
+        menuSound.Play();
     }
 }

@@ -245,6 +245,7 @@ MonoBehaviour:
   cbDrugs: 0
   bonusDodge: 0
   cbData: {fileID: 0}
+  unitAudio: {fileID: 0}
   canMove: 0
   canAttack: 0
   selectAbility: 0
@@ -302,6 +303,9 @@ MonoBehaviour:
   usingAbility2: 0
   usingAbility3: 0
   projectedPosition: {fileID: 950635658092563693}
+  abilitySounds:
+  - {fileID: 8300000, guid: ea19039f871447745947633be4c926bf, type: 3}
+  - {fileID: 8300000, guid: 4bc21a7617e9c1a489feaf84c00761dd, type: 3}
 --- !u!65 &9202386582228416888
 BoxCollider:
   m_ObjectHideFlags: 0

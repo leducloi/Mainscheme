@@ -182,6 +182,9 @@ public class Kennedy : PlayerUnit
 
         bonusDodge += DODGE_AMOUNT;
 
+        unitAudio.clip = abilitySounds[0];
+        unitAudio.Play();
+
         StartCoroutine(blurAnimation());
 
         abilitiesUsed++;
@@ -227,6 +230,8 @@ public class Kennedy : PlayerUnit
 
         Vector3 targetLoc = new Vector3(0, 0.5f, 0);
 
+        unitAudio.clip = abilitySounds[1];
+        unitAudio.Play();
         while(teleportMask.transform.localPosition != targetLoc)
         {
             teleportMask.transform.localPosition = Vector3.MoveTowards(teleportMask.transform.localPosition, targetLoc, teleportSpeed * Time.deltaTime);
@@ -236,6 +241,8 @@ public class Kennedy : PlayerUnit
         movePoint.transform.position = depositSpot.transform.position;
         transform.position = depositSpot.transform.position;
 
+        unitAudio.clip = abilitySounds[2];
+        unitAudio.Play();
         targetLoc = new Vector3(0, 2, 0);
         while (teleportMask.transform.localPosition != targetLoc)
         {
@@ -308,6 +315,8 @@ public class Kennedy : PlayerUnit
         RectTransform BFGBounds = BFGBeam.GetComponent<RectTransform>();
         BFGBounds.Rotate(new Vector3(0, 0, angle - 90));
 
+        unitAudio.clip = abilitySounds[3];
+        unitAudio.Play();
         BFGBeam.GetComponent<SpriteRenderer>().enabled = true;
         while (BFGBounds.localScale.y < 75)
         {

@@ -432,6 +432,7 @@ public class EnemyUnit : Unit
     public void hit(int damage)
     {
         StartCoroutine(playHit(damage));
+        playInjured();
     }
 
     IEnumerator playHit(int damage)
@@ -474,8 +475,15 @@ public class EnemyUnit : Unit
 
         yield return StartCoroutine(CameraBehavior.instance.panCameraTo(moveTo, 1));
 
+        if (equippedWeapon.maxRange > 1)
+            playShoot();
+        else
+            playSwing();
+
         //Play attack animation
         yield return new WaitForSeconds(0.25f);
+
+
 
         //Calculate results
         CombatCalculator.instance.calculate(this, target);

@@ -510,6 +510,7 @@ MonoBehaviour:
   cbDrugs: 0
   bonusDodge: 0
   cbData: {fileID: 0}
+  unitAudio: {fileID: 0}
   canMove: 0
   canAttack: 0
   selectAbility: 0
@@ -569,6 +570,12 @@ MonoBehaviour:
   usingAbility2: 0
   usingAbility3: 0
   projectedPosition: {fileID: 4488590132270161246}
+  abilitySounds:
+  - {fileID: 8300000, guid: 6bfe10281f3b6f04da8db3307e561f2e, type: 3}
+  - {fileID: 8300000, guid: 374d77c152900f846b693de91624470c, type: 3}
+  - {fileID: 8300000, guid: 39edb74744c97fe43bddd186f5274b98, type: 3}
+  - {fileID: 8300000, guid: ecbc7b2caf647504ab1a9a63a601205e, type: 3}
+  - {fileID: 8300000, guid: 9534dc7b8edf86642b0f60605a4e4041, type: 3}
   teleportMask: {fileID: 6006494479137407155}
   hook: {fileID: 4060000695253997988}
 --- !u!65 &4447909073773797127

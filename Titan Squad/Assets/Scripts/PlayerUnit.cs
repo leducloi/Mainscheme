@@ -56,7 +56,10 @@ public abstract class PlayerUnit : Unit
 
     GameObject sightlineHolder;
     public GameObject projectedPosition;
-    
+
+    [SerializeField]
+    protected AudioClip[] abilitySounds;
+
 
     // Start is called before the first frame update
     protected override void Start()
@@ -329,6 +332,11 @@ public abstract class PlayerUnit : Unit
             }
         }
 
+        if (equippedWeapon.maxRange > 1)
+            playShoot();
+        else
+            playSwing();
+
         CombatCalculator.instance.calculate(this, enemy);
         if (CombatCalculator.instance.doesHit)
         {
@@ -394,6 +402,7 @@ public abstract class PlayerUnit : Unit
     public void hit(int damage)
     {
         StartCoroutine(playHit(damage));
+        playInjured();
     }
 
     IEnumerator playHit(int damage)

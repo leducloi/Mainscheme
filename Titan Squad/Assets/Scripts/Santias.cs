@@ -161,10 +161,14 @@ public class Santias : PlayerUnit
             rope.SetPosition(1, hook.transform.position);
             yield return null;
         }
-
+        unitAudio.clip = abilitySounds[1];
+        unitAudio.Play();
         yield return new WaitForSeconds(0.1f);
 
         movePoint.transform.position = pullTo.coordinate;
+
+        unitAudio.clip = abilitySounds[2];
+        unitAudio.Play();
 
         //Allow unit time to "jump" to the tile
         while (transform.position != movePoint.transform.position)
@@ -172,6 +176,7 @@ public class Santias : PlayerUnit
             rope.SetPosition(0, transform.position);
             yield return null;
         }
+        unitAudio.Stop();
 
         hook.GetComponent<LineRenderer>().enabled = false;
         hook.GetComponent<SpriteRenderer>().enabled = false;
@@ -181,10 +186,11 @@ public class Santias : PlayerUnit
 
         movePoint.transform.position = validSelection.coordinate;
 
+        playFootsteps();
         setWalkingPosition(validSelection.coordinate);
         while (transform.position != movePoint.transform.position)
             yield return null;
-
+        moving = false;
 
         MapBehavior.instance.unitMoved(startPosition, transform.position);
         setWalkingPosition(new Vector3(transform.position.x, transform.position.y - 1, 0));
@@ -213,6 +219,8 @@ public class Santias : PlayerUnit
         if (cbDrugs)
             spriteColor = Color.red;
 
+        unitAudio.clip = abilitySounds[0];
+        unitAudio.Play();
         Vector2 shrinkTo = new Vector2(1f, 1f);
         while (shrinkTo.x > 0)
         {

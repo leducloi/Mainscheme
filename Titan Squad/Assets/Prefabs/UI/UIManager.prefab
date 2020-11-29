@@ -679,6 +679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuUp: {fileID: 8300000, guid: a872d05e5fd2c2c4b8cd6955302fac13, type: 3}
   menuDown: {fileID: 8300000, guid: 628f49e18d13a4d4fbed69635b8d102d, type: 3}
+  turnEnd: {fileID: 8300000, guid: d47a66acb62c1db4ea7167dbfe682b59, type: 3}
   menuSound: {fileID: 5844465338928593312}
   actionMenu: {fileID: 7890186372973941017, guid: 9739823369e6c4a4d96190075125c2f8, type: 3}
   tileMenu: {fileID: 291078123205448644, guid: b845df0b65da2c34ca251926a760c8da, type: 3}

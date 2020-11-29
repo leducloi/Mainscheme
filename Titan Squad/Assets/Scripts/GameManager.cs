@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject fade = null;
 
-    public float volumeMusic = 1;
+    public float volumeMusic = .8f;
 
     void Awake()
     {
@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
         currTutorial = 0;
 
         mainMenu = Instantiate(mainMenu);
+        source.loop = true;
         source.clip = songs[0];
         source.Play();
     }

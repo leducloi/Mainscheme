@@ -9,6 +9,8 @@ public class Haley : PlayerUnit
     const int HEALING_AMOUNT = 10;
     const int GLOVE_RANGE = 4;
 
+    
+
     // Start is called before the first frame update
     override
     protected void Start()
@@ -135,6 +137,10 @@ public class Haley : PlayerUnit
             if (u != null)
                 u.hideOutline();
         }
+
+        //Animation
+        unitAudio.clip = abilitySounds[0];
+        unitAudio.Play();
         
         //Get the shader material for ease of access
         Material targetShader = target.GetComponent<SpriteRenderer>().material;
@@ -250,6 +256,10 @@ public class Haley : PlayerUnit
             //If the selection was on a valid unit, we're done
             target = (PlayerUnit)temp;
         }
+
+        //Animation
+        unitAudio.clip = abilitySounds[1];
+        unitAudio.Play();
 
 
         //Get rid of outlines
@@ -401,6 +411,8 @@ public class Haley : PlayerUnit
             if (u != null && u != target)
                 u.hideOutline();
         }
+
+        playShoot();
 
         if (target.hpRemaining <= equippedWeapon.damage)
             enemiesKilled++;

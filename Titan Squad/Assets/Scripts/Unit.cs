@@ -38,7 +38,11 @@ public abstract class Unit : MonoBehaviour
 
     public CombatData cbData;
 
-    private AudioSource unitAudio = null;
+    public AudioSource unitAudio = null;
+    private AudioClip footsteps;
+    private AudioClip injured;
+    private AudioClip[] shoot;
+    private AudioClip swing;
     protected bool moving = false;
 
     private bool intensityLock = false;
@@ -60,7 +64,14 @@ public abstract class Unit : MonoBehaviour
 
         unitAudio = gameObject.AddComponent<AudioSource>();
         unitAudio.playOnAwake = false;
-        unitAudio.clip = Resources.Load("Audio/Footsteps", typeof(AudioClip)) as AudioClip;
+
+        shoot = new AudioClip[3];
+        footsteps = Resources.Load("Audio/Footsteps", typeof(AudioClip)) as AudioClip;
+        injured = Resources.Load("Audio/hit", typeof(AudioClip)) as AudioClip;
+        swing = Resources.Load("Audio/bladeSwing", typeof(AudioClip)) as AudioClip;
+        shoot[0] = Resources.Load("Audio/shoot1", typeof(AudioClip)) as AudioClip;
+        shoot[1] = Resources.Load("Audio/shoot2", typeof(AudioClip)) as AudioClip;
+        shoot[2] = Resources.Load("Audio/shoot3", typeof(AudioClip)) as AudioClip;
     }
 
     // Update is called once per frame
@@ -259,11 +270,28 @@ public abstract class Unit : MonoBehaviour
     protected IEnumerator playFootsteps()
     {
         moving = true;
+        unitAudio.clip = footsteps;
         while (moving)
         {
             unitAudio.Play();
             yield return new WaitForSeconds(0.25f);
         }
+    }
+    protected void playInjured()
+    {
+        unitAudio.clip = injured;
+        unitAudio.Play();        
+    }
+    protected void playSwing()
+    {
+        unitAudio.clip = swing;
+        unitAudio.Play();
+    }
+    protected void playShoot()
+    {
+        int selection = Random.Range(0, 2);
+        unitAudio.clip = shoot[selection];
+        unitAudio.Play();
     }
 
     public abstract void attack(Unit enemy);
