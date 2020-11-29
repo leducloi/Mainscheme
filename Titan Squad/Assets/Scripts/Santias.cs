@@ -340,7 +340,8 @@ public class Santias : PlayerUnit
 
                 Vector3 targetLoc = new Vector3(0, 0.5f, 0);
 
-
+                unitAudio.clip = abilitySounds[3];
+                unitAudio.Play();
                 while (teleportMask.transform.localPosition != targetLoc)
                 {
                     teleportMask.transform.localPosition = Vector3.MoveTowards(teleportMask.transform.localPosition, targetLoc, teleportSpeed * Time.deltaTime);
@@ -351,6 +352,8 @@ public class Santias : PlayerUnit
                 transform.position = clicked.coordinate;
                 StartCoroutine(CameraBehavior.instance.follow(gameObject));
 
+                unitAudio.clip = abilitySounds[4];
+                unitAudio.Play();
                 targetLoc = new Vector3(0, 2, 0);
                 while (teleportMask.transform.localPosition != targetLoc)
                 {
@@ -398,8 +401,7 @@ public class Santias : PlayerUnit
                         if (target == null)
                             continue;
 
-                        //CombatCalculator.instance.doesHit = true;
-                        //CombatCalculator.instance.damageDone = equippedWeapon.damage;
+                        playSwing();
                         target.hit(equippedWeapon.damage);
                         damageDone += equippedWeapon.damage;
                         foreach (Unit u in enemiesInRange)
