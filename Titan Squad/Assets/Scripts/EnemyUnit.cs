@@ -248,7 +248,7 @@ public class EnemyUnit : Unit
                         }
                         else if (!positiveY)
                         {
-                            CollisionTile northTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualJ, enemyPos.y + actualI 1f));
+                            CollisionTile northTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualJ, enemyPos.y + actualI + 1f));
                             currentScanTile = northTile;
                             thereIsCover = true;
                             break;
