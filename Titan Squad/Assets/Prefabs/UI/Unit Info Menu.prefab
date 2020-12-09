@@ -1734,7 +1734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu: {fileID: 3063198930503971796}
   unitImage: {fileID: 3063198930403643966}
-  grunt: {fileID: -2386624418705598075, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+  grunt: {fileID: -6138434627669464601, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
   skirmisher: {fileID: -2386624418705598075, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
   kennedy: {fileID: 9075246874455559023, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
   santias: {fileID: 4338527649548007661, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}

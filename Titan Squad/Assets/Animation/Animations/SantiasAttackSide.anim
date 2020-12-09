@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: gruntIdle
+  m_Name: SantiasAttackSide
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,13 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -6138434627669464601, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+      value: {fileID: -8377161069240432668, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
     - time: 0.083333336
-      value: {fileID: 578756490971669018, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+      value: {fileID: 4968745059613827064, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
     - time: 0.16666667
-      value: {fileID: -3266684431414363018, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+      value: {fileID: 6936166113492751162, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
     - time: 0.25
-      value: {fileID: 3710658386720890481, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+      value: {fileID: -6357308712591035530, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,10 +46,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -6138434627669464601, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
-    - {fileID: 578756490971669018, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
-    - {fileID: -3266684431414363018, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
-    - {fileID: 3710658386720890481, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+    - {fileID: -8377161069240432668, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
+    - {fileID: 4968745059613827064, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
+    - {fileID: 6936166113492751162, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
+    - {fileID: -6357308712591035530, guid: 52b35fd9812ba52479ded6534eb7e70c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -60,7 +60,7 @@ AnimationClip:
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0

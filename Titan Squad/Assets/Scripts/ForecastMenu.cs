@@ -88,9 +88,10 @@ public class ForecastMenu : MonoBehaviour
         }
         CollisionTile bottomRow = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)));
         CollisionTile topRow = MapBehavior.instance.getTileAtPos(Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height - 2, 0)));
-        if (location.y == topRow.coordinate.y)
+
+        if (topRow != null && location.y == topRow.coordinate.y)
             location.y -= 1;
-        else if (location.y == bottomRow.coordinate.y)
+        else if (bottomRow != null && location.y == bottomRow.coordinate.y)
             location.y += 1;
 
         rt.position = Camera.main.WorldToScreenPoint(location);

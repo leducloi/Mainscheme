@@ -214,6 +214,86 @@ public class EnemyUnit : Unit
         return inRange;
     }
 
+    //private CollisionTile scanCoverTile(Vector3 enemyPos, Vector3 playerPos)
+    //{
+    //    int xDiff = (int)(playerPos.x - enemyPos.x);
+    //    int yDiff = (int)(playerPos.y - enemyPos.y);
+    //    bool positiveX = xDiff > 0;
+    //    bool positiveY = yDiff > 0;
+    //    int xAbs = Mathf.Abs(xDiff);
+    //    int yAbs = Mathf.Abs(yDiff);
+    //    int actualI = 0, actualJ = 0;
+    //    bool thereIsCover = false;
+    //    CollisionTile currentScanTile = MapBehavior.instance.getTileAtPos(enemyPos);
+    //    if (yAbs >= xAbs)
+    //    {
+    //        //loop through rectangle with enemy and player are at opposite corner
+    //        for (int i = 0; i < xAbs; i++)
+    //        {
+    //            for (int j = 0; j < yAbs; j++)
+    //            {
+    //                if (positiveY)
+    //                    actualJ++;
+    //                else
+    //                    actualJ--;
+    //                CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
+    //                //when impassible tile is used to take cover
+    //                if (!checkingTile.passable)
+    //                {
+    //                    thereIsCover = true;
+    //                    break;
+    //                }
+    //                //When the previous tile does not have enemy, use it as the tile to move to
+    //                if(!checkingTile.hasEnemy)
+    //                    currentScanTile = checkingTile;
+    //            }
+    //            if (thereIsCover)
+    //                break;
+    //            if (positiveX)
+    //                actualI++;
+    //            else
+    //                actualI--;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < yAbs; i++)
+    //        {
+    //            for (int j = 0; j < xAbs; j++)
+    //            {
+    //                if (positiveX)
+    //                    actualI++;
+    //                else
+    //                    actualI--;
+    //                CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
+    //                //when impassible tile is used to take cover
+    //                if (checkingTile == null)
+    //                    continue;
+    //                if (!checkingTile.passable)
+    //                {
+    //                    thereIsCover = true;
+    //                    break;
+    //                }
+    //                //When the previous tile does not have enemy, use it as the tile to move to
+    //                if (!checkingTile.hasEnemy)
+    //                    currentScanTile = checkingTile;
+    //            }
+    //            if (thereIsCover)
+    //                break;
+    //            if (positiveY)
+    //                actualJ++;
+    //            else
+    //                actualJ--;
+    //        }
+    //    }
+    //    if (thereIsCover) {
+    //        return currentScanTile;
+    //    }   
+    //    else
+    //        return null;
+    //}
+
+
     private CollisionTile scanCoverTile(Vector3 enemyPos, Vector3 playerPos)
     {
         int xDiff = (int)(playerPos.x - enemyPos.x);
@@ -298,7 +378,7 @@ public class EnemyUnit : Unit
                             break;
                         }
                     }
-                    
+
                     //When the previous tile does not have enemy, use it as the tile to move to
                     //if (!checkingTile.hasEnemy)
                     //    currentScanTile = checkingTile;
@@ -312,12 +392,14 @@ public class EnemyUnit : Unit
                     actualI--;
             }
         }
-        if (thereIsCover) {
+        if (thereIsCover)
+        {
             return currentScanTile;
-        }   
+        }
         else
             return null;
     }
+
 
     IEnumerator guarding()
     {
@@ -441,6 +523,8 @@ public class EnemyUnit : Unit
         takingTurn = false;
         hasTurn = false;
         hasControl = false;
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            animator.SetTrigger("Stopped");
 
         hpTypeFlesh = true;
     }
@@ -466,6 +550,7 @@ public class EnemyUnit : Unit
         //play hit animation
 
 
+        playHitFlash();
         healthBar.takeDamage(damage);
 
         StartCoroutine(CameraBehavior.instance.cameraShake());
@@ -501,15 +586,14 @@ public class EnemyUnit : Unit
 
         yield return StartCoroutine(CameraBehavior.instance.panCameraTo(moveTo, 1));
 
+        setAttackAnimation(target.transform.position);
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * 0.5f);
+
         if (equippedWeapon.maxRange > 1)
             playShoot();
         else
             playSwing();
-
-        //Play attack animation
-        yield return new WaitForSeconds(0.25f);
-
-
+        
 
         //Calculate results
         CombatCalculator.instance.calculate(this, target);
@@ -520,8 +604,15 @@ public class EnemyUnit : Unit
         else
             UIManager.instance.attackMissed(target.transform.position);
 
+
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * 0.5f);
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            animator.SetTrigger("Stopped");
+
         while (target.healthBar.movingBar)
             yield return null;
+
+
 
         performingAction = false;
         target.hideOutline();

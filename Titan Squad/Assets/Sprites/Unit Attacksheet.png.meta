@@ -1,0 +1,1822 @@
+fileFormatVersion: 2
+guid: 52b35fd9812ba52479ded6534eb7e70c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7558646367852682958
+    second: Unit Attacksheet_0
+  - first:
+      213: 3909598429852350616
+    second: Unit Attacksheet_1
+  - first:
+      213: -2705961395363900686
+    second: Unit Attacksheet_2
+  - first:
+      213: -373566912160645302
+    second: Unit Attacksheet_3
+  - first:
+      213: 5619241372382203091
+    second: Unit Attacksheet_4
+  - first:
+      213: -74047460789588678
+    second: Unit Attacksheet_5
+  - first:
+      213: 2027845864934945313
+    second: Unit Attacksheet_6
+  - first:
+      213: -8975158367148473931
+    second: Unit Attacksheet_7
+  - first:
+      213: -6639157249139268715
+    second: Unit Attacksheet_8
+  - first:
+      213: -8430518565449269448
+    second: Unit Attacksheet_9
+  - first:
+      213: 3364974002938867170
+    second: Unit Attacksheet_10
+  - first:
+      213: -1712398717142202221
+    second: Unit Attacksheet_11
+  - first:
+      213: 645953849849541236
+    second: Unit Attacksheet_12
+  - first:
+      213: 4984005031501224344
+    second: Unit Attacksheet_13
+  - first:
+      213: -1076667262783517626
+    second: Unit Attacksheet_14
+  - first:
+      213: -4281154391079388119
+    second: Unit Attacksheet_15
+  - first:
+      213: -1042730326595804178
+    second: Unit Attacksheet_16
+  - first:
+      213: 330589517904299241
+    second: Unit Attacksheet_17
+  - first:
+      213: 7963556302255939524
+    second: Unit Attacksheet_18
+  - first:
+      213: 680640306683351409
+    second: Unit Attacksheet_19
+  - first:
+      213: 8043633336161391583
+    second: Unit Attacksheet_20
+  - first:
+      213: -3110699587904481320
+    second: Unit Attacksheet_21
+  - first:
+      213: -8425830815613609228
+    second: Unit Attacksheet_22
+  - first:
+      213: 7924011095888178145
+    second: Unit Attacksheet_23
+  - first:
+      213: -3687847304077884236
+    second: Unit Attacksheet_24
+  - first:
+      213: -7276975223892943785
+    second: Unit Attacksheet_25
+  - first:
+      213: -6980787177696520406
+    second: Unit Attacksheet_26
+  - first:
+      213: -3695821803576423068
+    second: Unit Attacksheet_27
+  - first:
+      213: -7668119657837723199
+    second: Unit Attacksheet_28
+  - first:
+      213: -2110915462173982117
+    second: Unit Attacksheet_29
+  - first:
+      213: -5931543147276796446
+    second: Unit Attacksheet_30
+  - first:
+      213: 7372397236528333418
+    second: Unit Attacksheet_31
+  - first:
+      213: -6640125748987840897
+    second: Unit Attacksheet_32
+  - first:
+      213: 6127885904723050214
+    second: Unit Attacksheet_33
+  - first:
+      213: 3271030288347361998
+    second: Unit Attacksheet_34
+  - first:
+      213: 8588667001820390541
+    second: Unit Attacksheet_35
+  - first:
+      213: -5516040225924328385
+    second: Unit Attacksheet_36
+  - first:
+      213: -8003807463627512569
+    second: Unit Attacksheet_37
+  - first:
+      213: 169254363559142761
+    second: Unit Attacksheet_38
+  - first:
+      213: 2051958139629591579
+    second: Unit Attacksheet_39
+  - first:
+      213: 7022493607695741771
+    second: Unit Attacksheet_40
+  - first:
+      213: -6298557900068314624
+    second: Unit Attacksheet_41
+  - first:
+      213: 1695375420918928913
+    second: Unit Attacksheet_42
+  - first:
+      213: -4894413058646708684
+    second: Unit Attacksheet_43
+  - first:
+      213: 1549437045909300648
+    second: Unit Attacksheet_44
+  - first:
+      213: 6937069734050483634
+    second: Unit Attacksheet_45
+  - first:
+      213: -1559517718204227861
+    second: Unit Attacksheet_46
+  - first:
+      213: 4749366564732029085
+    second: Unit Attacksheet_47
+  - first:
+      213: -8377161069240432668
+    second: Unit Attacksheet_48
+  - first:
+      213: 4968745059613827064
+    second: Unit Attacksheet_49
+  - first:
+      213: 6936166113492751162
+    second: Unit Attacksheet_50
+  - first:
+      213: -6357308712591035530
+    second: Unit Attacksheet_51
+  - first:
+      213: -6963647550161333205
+    second: Unit Attacksheet_52
+  - first:
+      213: -1489790895835518159
+    second: Unit Attacksheet_53
+  - first:
+      213: -4309413093502044849
+    second: Unit Attacksheet_54
+  - first:
+      213: -9218181434723491604
+    second: Unit Attacksheet_55
+  - first:
+      213: -2026580091800467628
+    second: Unit Attacksheet_56
+  - first:
+      213: -8653511668904336446
+    second: Unit Attacksheet_57
+  - first:
+      213: 5564371983558573428
+    second: Unit Attacksheet_58
+  - first:
+      213: -743127020467473098
+    second: Unit Attacksheet_59
+  - first:
+      213: -7936213561091844729
+    second: Unit Attacksheet_60
+  - first:
+      213: 3324849562113598811
+    second: Unit Attacksheet_61
+  - first:
+      213: 3391849004392276574
+    second: Unit Attacksheet_62
+  - first:
+      213: 327055232801538417
+    second: Unit Attacksheet_63
+  - first:
+      213: -8024486663078231206
+    second: Unit Attacksheet_64
+  - first:
+      213: -3527093871397239105
+    second: Unit Attacksheet_65
+  - first:
+      213: -310334938997737755
+    second: Unit Attacksheet_66
+  - first:
+      213: 4790866156404988156
+    second: Unit Attacksheet_67
+  - first:
+      213: -4312606700992577902
+    second: Unit Attacksheet_68
+  - first:
+      213: -5661877604219273525
+    second: Unit Attacksheet_69
+  - first:
+      213: -8104892545289062931
+    second: Unit Attacksheet_70
+  - first:
+      213: 3895569770436151929
+    second: Unit Attacksheet_71
+  - first:
+      213: -5673772316518582174
+    second: Unit Attacksheet_72
+  - first:
+      213: 182482996629686549
+    second: Unit Attacksheet_73
+  - first:
+      213: 972724870134598794
+    second: Unit Attacksheet_74
+  - first:
+      213: 3462854150870135027
+    second: Unit Attacksheet_75
+  - first:
+      213: 2527634214309373307
+    second: Unit Attacksheet_76
+  - first:
+      213: -4292983446791567877
+    second: Unit Attacksheet_77
+  - first:
+      213: 898476638520295876
+    second: Unit Attacksheet_78
+  - first:
+      213: -8828806706209961678
+    second: Unit Attacksheet_79
+  - first:
+      213: 3621373163698006792
+    second: Unit Attacksheet_80
+  - first:
+      213: -7481161263623333122
+    second: Unit Attacksheet_81
+  - first:
+      213: 7954158568832632497
+    second: Unit Attacksheet_82
+  - first:
+      213: -7651194769149229098
+    second: Unit Attacksheet_83
+  - first:
+      213: 1807831009934126287
+    second: Unit Attacksheet_84
+  - first:
+      213: -5559903228554923348
+    second: Unit Attacksheet_85
+  - first:
+      213: 8920496954857472858
+    second: Unit Attacksheet_86
+  - first:
+      213: -2113612043507517031
+    second: Unit Attacksheet_87
+  - first:
+      213: -6115560076010694899
+    second: Unit Attacksheet_88
+  - first:
+      213: -2546696602834355719
+    second: Unit Attacksheet_89
+  - first:
+      213: 1302570824620788975
+    second: Unit Attacksheet_90
+  - first:
+      213: 4800491003164023248
+    second: Unit Attacksheet_91
+  - first:
+      213: -8613676619132468598
+    second: Unit Attacksheet_92
+  - first:
+      213: 159793974194561221
+    second: Unit Attacksheet_93
+  - first:
+      213: -7201126825709214261
+    second: Unit Attacksheet_94
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 1
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 1
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 1
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 1
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Unit Attacksheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 554
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23128550d2b4a1790800000000000000
+      internalID: -7558646367852682958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_1
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 554
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89836c9de0fa14630800000000000000
+      internalID: 3909598429852350616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_2
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 554
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f21a6d927e727ad0800000000000000
+      internalID: -2705961395363900686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_3
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 554
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4f33d46fd2d0daf0800000000000000
+      internalID: -373566912160645302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_4
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 554
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dc0504914e8bfd40800000000000000
+      internalID: 5619241372382203091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_5
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 554
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3ded1b0a3ee8fef0800000000000000
+      internalID: -74047460789588678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12231b6f11b542c10800000000000000
+      internalID: 2027845864934945313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_7
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b18d3b7405d17380800000000000000
+      internalID: -8975158367148473931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_8
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 593281d58a9fcd3a0800000000000000
+      internalID: -6639157249139268715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_9
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83f7f021808c00b80800000000000000
+      internalID: -8430518565449269448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_10
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed689bf60ac2be20800000000000000
+      internalID: 3364974002938867170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_11
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39887ee70765c38e0800000000000000
+      internalID: -1712398717142202221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_12
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 472f391aa93e6f800800000000000000
+      internalID: 645953849849541236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_13
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 899d3657b2eba2540800000000000000
+      internalID: 4984005031501224344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_14
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64c0f7434d8ee01f0800000000000000
+      internalID: -1076667262783517626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_15
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 504
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92cfb1b83c84694c0800000000000000
+      internalID: -4281154391079388119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 454
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee3eab6ea4a7781f0800000000000000
+      internalID: -1042730326595804178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_17
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 454
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e4472d3a6d769400800000000000000
+      internalID: 330589517904299241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_18
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 454
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cfd9c0a34c348e60800000000000000
+      internalID: 7963556302255939524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_19
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 454
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1719ca3b0ce127900800000000000000
+      internalID: 680640306683351409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_20
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 454
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd3d369f6e9b0af60800000000000000
+      internalID: 8043633336161391583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_21
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 454
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d7dffbb43394d4d0800000000000000
+      internalID: -3110699587904481320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fa9fc1e38f611b80800000000000000
+      internalID: -8425830815613609228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_23
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1eb2ba6cb1eb7fd60800000000000000
+      internalID: 7924011095888178145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_24
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b44e8e7a6222dcc0800000000000000
+      internalID: -3687847304077884236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_25
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75cda84c69df20b90800000000000000
+      internalID: -7276975223892943785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_26
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a271cc43c034f1f90800000000000000
+      internalID: -6980787177696520406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_27
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46d0fa4a6adc5bcc0800000000000000
+      internalID: -3695821803576423068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_28
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c184637ccd559590800000000000000
+      internalID: -7668119657837723199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_29
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b528d3e329584b2e0800000000000000
+      internalID: -2110915462173982117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_30
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2edf9a82feceeada0800000000000000
+      internalID: -5931543147276796446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_31
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a62c75ad934005660800000000000000
+      internalID: 7372397236528333418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_32
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f76b7abefc889d3a0800000000000000
+      internalID: -6640125748987840897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_33
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 404
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eef32f63cf9a0550800000000000000
+      internalID: 6127885904723050214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec2fc7277b8056d20800000000000000
+      internalID: 3271030288347361998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_35
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d84af992223113770800000000000000
+      internalID: 8588667001820390541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_36
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f34d307c3a61373b0800000000000000
+      internalID: -5516040225924328385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_37
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 705acdf8483cce090800000000000000
+      internalID: -8003807463627512569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_38
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 965a0a862ff495200800000000000000
+      internalID: 169254363559142761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_39
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1cd7966e050a7c10800000000000000
+      internalID: 2051958139629591579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_40
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b43f72cbab8e47160800000000000000
+      internalID: 7022493607695741771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_41
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 354
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 002a23906f60798a0800000000000000
+      internalID: -6298557900068314624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1161dcc76fe278710800000000000000
+      internalID: 1695375420918928913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_43
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43e645f314d831cb0800000000000000
+      internalID: -4894413058646708684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_44
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a52143b8c4b08510800000000000000
+      internalID: 1549437045909300648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_45
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bd41304b2c654060800000000000000
+      internalID: 6937069734050483634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_46
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bee5281e5ea7b5ae0800000000000000
+      internalID: -1559517718204227861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_47
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9848f63ab329e140800000000000000
+      internalID: 4749366564732029085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_48
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e741b144685ebb80800000000000000
+      internalID: -8377161069240432668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_49
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ff52c16e4784f440800000000000000
+      internalID: 4968745059613827064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_50
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3356d1b456324060800000000000000
+      internalID: 6936166113492751162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_51
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 304
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 673f38a886d46c7a0800000000000000
+      internalID: -6357308712591035530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_52
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b245d97b2772c5f90800000000000000
+      internalID: -6963647550161333205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_53
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13bec10d213335be0800000000000000
+      internalID: -1489790895835518159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_54
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f45b46baf93e134c0800000000000000
+      internalID: -4309413093502044849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_55
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce0a43c33d0721080800000000000000
+      internalID: -9218181434723491604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_56
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 457ca5fc42420e3e0800000000000000
+      internalID: -2026580091800467628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_57
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c362434cfc88e780800000000000000
+      internalID: -8653511668904336446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_58
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47df42676de983d40800000000000000
+      internalID: 5564371983558573428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_59
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 635ba0289e1efa5f0800000000000000
+      internalID: -743127020467473098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_60
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7859b7560d7ecd190800000000000000
+      internalID: -7936213561091844729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_61
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b55e4699f0d342e20800000000000000
+      internalID: 3324849562113598811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_62
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e52609ed2b4421f20800000000000000
+      internalID: 3391849004392276574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_63
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 254
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 171811d500fe98400800000000000000
+      internalID: 327055232801538417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_64
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 204
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a53cc5e35eb43a090800000000000000
+      internalID: -8024486663078231206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_65
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 204
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb609e1bfce3d0fc0800000000000000
+      internalID: -3527093871397239105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Unit Attacksheet_66
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 204
+        width: 48
+        height: 46
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e6b5a7640871bbf0800000000000000
+      internalID: -310334938997737755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

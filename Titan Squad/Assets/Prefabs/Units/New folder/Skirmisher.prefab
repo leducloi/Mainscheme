@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 3591905937826820633, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
-  m_Color: {r: 1, g: 0.2679245, b: 0.3227134, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 2217794110747985596}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: e27ef61794cafed46a34a2ee49239747, type: 2}
+  m_Controller: {fileID: 22100000, guid: 905f326a29920f640965d94fa762e400, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -140,6 +140,7 @@ MonoBehaviour:
   cbDrugs: 0
   bonusDodge: 0
   cbData: {fileID: 0}
+  unitAudio: {fileID: 0}
   patrolPath: {fileID: 0}
   patrolEnemy: 0
   hasControl: 0

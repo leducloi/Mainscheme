@@ -332,6 +332,9 @@ public abstract class PlayerUnit : Unit
             }
         }
 
+        setAttackAnimation(enemy.transform.position);
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * 0.5f);
+
         if (equippedWeapon.maxRange > 1)
             playShoot();
         else
@@ -350,6 +353,9 @@ public abstract class PlayerUnit : Unit
             UIManager.instance.attackMissed(enemy.transform.position);
             attacksMissed++;
         }
+
+
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * 0.5f);
 
         while (enemy.healthBar.movingBar)
             yield return null;
@@ -419,6 +425,7 @@ public abstract class PlayerUnit : Unit
         else
         {
             healthBar.recieveHealing(-damage);
+            playHitFlash();
         }
 
 
