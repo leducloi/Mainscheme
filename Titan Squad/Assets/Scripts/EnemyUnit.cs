@@ -238,15 +238,27 @@ public class EnemyUnit : Unit
                         actualJ--;
                     CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
                     //when impassible tile is used to take cover
-                    if (!checkingTile.passable)
+                    if (checkingTile.passable && (checkingTile.lowCover || checkingTile.highCover) && !checkingTile.passableNS)
                     {
-                        thereIsCover = true;
-                        break;
+                        if (positiveY)
+                        {
+                            currentScanTile = checkingTile;
+                            thereIsCover = true;
+                            break;
+                        }
+                        else if (!positiveY)
+                        {
+                            CollisionTile northTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualJ, enemyPos.y + actualI 1f));
+                            currentScanTile = northTile;
+                            thereIsCover = true;
+                            break;
+                        }
                     }
                     //When the previous tile does not have enemy, use it as the tile to move to
-                    if(!checkingTile.hasEnemy)
-                        currentScanTile = checkingTile;
+                    //if(!checkingTile.hasEnemy)
+                    //    currentScanTile = checkingTile;
                 }
+                actualJ = 0;
                 if (thereIsCover)
                     break;
                 if (positiveX)
@@ -262,28 +274,42 @@ public class EnemyUnit : Unit
                 for (int j = 0; j < xAbs; j++)
                 {
                     if (positiveX)
-                        actualI++;
+                        actualJ++;
                     else
-                        actualI--;
-                    CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualI, enemyPos.y + actualJ));
+                        actualJ--;
+                    CollisionTile checkingTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualJ, enemyPos.y + actualI));
                     //when impassible tile is used to take cover
+                    Debug.Log(checkingTile.toString());
                     if (checkingTile == null)
                         continue;
-                    if (!checkingTile.passable)
+                    if (checkingTile.passable && (checkingTile.lowCover || checkingTile.highCover) && !checkingTile.passableEW)
                     {
-                        thereIsCover = true;
-                        break;
+                        if (!positiveX)
+                        {
+                            CollisionTile eastTile = MapBehavior.instance.getTileAtPos(new Vector3(enemyPos.x + actualJ + 1f, enemyPos.y + actualI));
+                            currentScanTile = eastTile;
+                            thereIsCover = true;
+                            break;
+                        }
+                        else if (positiveX)
+                        {
+                            currentScanTile = checkingTile;
+                            thereIsCover = true;
+                            break;
+                        }
                     }
+                    
                     //When the previous tile does not have enemy, use it as the tile to move to
-                    if (!checkingTile.hasEnemy)
-                        currentScanTile = checkingTile;
+                    //if (!checkingTile.hasEnemy)
+                    //    currentScanTile = checkingTile;
                 }
+                actualJ = 0;
                 if (thereIsCover)
                     break;
                 if (positiveY)
-                    actualJ++;
+                    actualI++;
                 else
-                    actualJ--;
+                    actualI--;
             }
         }
         if (thereIsCover) {
