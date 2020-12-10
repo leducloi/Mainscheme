@@ -33,6 +33,7 @@ public class EnemyUnit : Unit
     //detectRange, rangeEnemy, weaponRange. Temporarily use for testing purpose only, remove when they are not needed.
     public float detectRange = 10f;
     private GameObject detectedPlayerObject;
+    private Vector3 originalPos;
 
     public bool takesCover;
 
@@ -51,9 +52,9 @@ public class EnemyUnit : Unit
         else
             patrolEnemy = false;
 
-
         if (patrolEnemy)
         {
+            originalPos = transform.position;
             numberOfPatternChild = patrolPath.transform.childCount;
             allPathPatterns = patrolPath.transform;
         }
@@ -414,7 +415,7 @@ public class EnemyUnit : Unit
         if (patrolEnemy)
         {
             Vector3 start = transform.position;
-            Vector3 tempTargetPosition = allPathPatterns.GetChild(patternIndex).position;
+            Vector3 tempTargetPosition = allPathPatterns.GetChild(patternIndex).position + originalPos;
             CollisionTile[] path = MapBehavior.instance.getPathTo(transform.position, tempTargetPosition);
 
             //If the patternIndex is at the end of the list -> move backward

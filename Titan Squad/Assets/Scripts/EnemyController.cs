@@ -56,6 +56,7 @@ public class EnemyController : MonoBehaviour
             float actualDistance = Mathf.Abs(playerPosition.x - enemy.transform.position.x) + Mathf.Abs(playerPosition.y - enemy.transform.position.y);
             if (!(actualDistance <= enemy.detectRange && !playerObject.GetComponent<PlayerUnit>().isCloaked))
             {
+                enemy.giveControl();
                 enemy.endTurn();
                 continue;
             }
