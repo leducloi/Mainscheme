@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject fade = null;
 
-    public float volumeMusic = .8f;
+    public float volumeMusic = .6f;
 
     void Awake()
     {

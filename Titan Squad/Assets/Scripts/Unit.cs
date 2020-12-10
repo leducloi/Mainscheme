@@ -294,6 +294,28 @@ public abstract class Unit : MonoBehaviour
         unitAudio.Play();
     }
 
+    protected void playHitFlash()
+    {
+        StartCoroutine(shaderControl.playHitFlash());
+    }
+
+    protected void setAttackAnimation(Vector3 targetPos)
+    {
+        float difX = targetPos.x - transform.position.x;
+            animator.SetTrigger("SideAttack");
+            if (difX < 0)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+                healthBar.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, 180, 0);
+                healthBar.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+        
+    }
+
     public abstract void attack(Unit enemy);
 
     public abstract void move();

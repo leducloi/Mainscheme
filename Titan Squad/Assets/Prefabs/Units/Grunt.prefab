@@ -107,7 +107,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2386624418705598075, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
+  m_Sprite: {fileID: -6138434627669464601, guid: d820a362c045cdf4db550d90a37cfd75, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecd696d5ea8cf24fb7d7ccd65d51914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 2882052224166239772}
   movePoint: {fileID: 5681214708707759329}
   hasTurn: 0
   isCloaked: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   cbDrugs: 0
   bonusDodge: 0
   cbData: {fileID: 0}
+  unitAudio: {fileID: 0}
   patrolPath: {fileID: 0}
   patrolEnemy: 0
   hasControl: 0
