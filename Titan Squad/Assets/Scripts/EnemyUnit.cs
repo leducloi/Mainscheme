@@ -11,7 +11,7 @@ public class EnemyUnit : Unit
 
     //Set fasle if enemy does not move
     [SerializeField]
-    private bool patrolEnemy;
+    public bool patrolEnemy;
 
     //Variables to control patron patterns
     private int numberOfPatternChild;

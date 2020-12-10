@@ -54,9 +54,8 @@ public class EnemyController : MonoBehaviour
             GameObject playerObject = MapBehavior.instance.getClosestPlayerObject(enemy.transform.position);
             Vector3 playerPosition = playerObject.transform.position;
             float actualDistance = Mathf.Abs(playerPosition.x - enemy.transform.position.x) + Mathf.Abs(playerPosition.y - enemy.transform.position.y);
-            if (!(actualDistance <= enemy.detectRange && !playerObject.GetComponent<PlayerUnit>().isCloaked))
+            if (!(actualDistance <= enemy.detectRange && !playerObject.GetComponent<PlayerUnit>().isCloaked) && !enemy.patrolEnemy)
             {
-                enemy.giveControl();
                 enemy.endTurn();
                 continue;
             }
